@@ -1,7 +1,7 @@
 ### Requirements 
-Make sure Java 1.8 is installed
-On Intellij turn on Annotation Processing
-Create a MySQL database called up2date
+- Make sure Java 1.8 is installed
+- On Intellij turn on Annotation Processing
+- Create a MySQL database called up2date
 
 ### Import Project into IntelliJ
 
