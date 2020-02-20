@@ -5,24 +5,36 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Getter @Setter
-@Table
+@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
+    @Column
     private String firstName;
 
-
+    @Column
     private String lastName;
+
+    @Column
+    private String userName;
+
+    @Column
+    private String email;
+
+    @Column
+    private String password;
+
 
     public User(String firstName, String lastName){
         this.firstName=firstName;
         this.lastName=lastName;
+        this.id= UUID.randomUUID();
     }
 
 
