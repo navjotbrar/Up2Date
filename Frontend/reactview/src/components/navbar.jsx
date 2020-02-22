@@ -33,14 +33,11 @@ class CustomNavbar extends React.Component{
 
         return(
             <>
-             <Navbar bg="primary" variant="dark" fixed = "top">
+             <Navbar bg="dark" variant="dark" fixed = "top">
                 <Navbar.Brand href="/">
-                   PharmacyOnline®
+                   Up2Date®
                 </Navbar.Brand>
                 <Nav className="mr-auto">
-                    <Nav.Link>
-                        <MyLink to = "./drugs"  >Drugs</MyLink>
-                    </Nav.Link>
                     <Nav.Link>
                         <MyLink to="./about">About us</MyLink>
                     </Nav.Link>
