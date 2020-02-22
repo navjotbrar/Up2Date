@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import CustomNavbar from './components/navbar'; 
 import Main from './components/main';
 import './App.css';
+import LandingPage from './components/landingpage';
 
 function App() {
   return (
@@ -11,8 +12,8 @@ function App() {
         <CustomNavbar />
       </p>
 
-      <p>spacer</p>
-
+       <LandingPage />
+       
       <Main />
 
     </div>

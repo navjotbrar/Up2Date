@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const MyLink = styled(Link)`     
     text-decoration: none;
-    color: rgba(255,255,255,.5);
+    color: rgba(255,255,255, 0.5);
     &:hover {
         color: rgba(255,255,255,.75);
         text-decoration: none;
@@ -21,11 +21,15 @@ const SignUp = styled(Link)`
         text-decoration: none;
     }
     background-color: #e9ecef;
-    padding: 7px 10px;
+    padding: 3px 10px;
     border-radius: 3px;
     font-size: 12;
     float:right;
 }
+`
+
+const CustomNav = styled(Navbar)`
+    background-color: rgb(97, 97, 97);
 `
 class CustomNavbar extends React.Component{
 
@@ -33,9 +37,11 @@ class CustomNavbar extends React.Component{
 
         return(
             <>
-             <Navbar bg="dark" variant="dark" fixed = "top">
+             <CustomNav bg = "dark"  variant="dark" fixed = "top">
                 <Navbar.Brand href="/">
-                   Up2Date®
+                   
+                
+                   up2date®
                 </Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link>
@@ -48,7 +54,7 @@ class CustomNavbar extends React.Component{
                 <Nav.Link>
                     <SignUp to="./signup">Sign Up</SignUp>
                 </Nav.Link>
-            </Navbar>
+            </CustomNav>
         </>
         );
     }
