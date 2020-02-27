@@ -12,8 +12,8 @@ function App() {
         <CustomNavbar />
       </p>
 
-       <LandingPage />
-       
+      <p>spacer</p>
+      
       <Main />
 
     </div>
