@@ -22,9 +22,9 @@ public class UserController {
     public User loginUser(@PathVariable(name="username", required=true) String username,
                          @PathVariable(name="password", required=true) String password) {
 
-        Optional<User> myUser = userRepository.findByUserName(username);
+        Optional<User> myUser = userRepository.findByUsername(username);
 
-        return new User(username,password);
+        return null;
     }
 
 
