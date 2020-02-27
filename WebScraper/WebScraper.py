@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from PIL import Image
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import requests
 
 #Creating an instance of the Flask Class
@@ -9,12 +9,15 @@ app = Flask(__name__)
 #This default route sends back a JSON containing Title, Image, and Excerpt variables with values of 0
 @app.route('/')
 def emptyReturn():
-	return jsonify({"Title": 0}, {"Image": 0}, {"Description": 0})
+	return jsonify({"Title": 0}, {"Image": 0}, {"Excerpt": 0})
 
 #TODO: Handle '?' and '#' within the path variable
 #This route is called for API users to get information about the Title, main Image, Excerpt of a News website
 @app.route('/urlInfo/<path:link>', methods=['GET'])
 def urlAnalysis(link):
+	#Temporary solution to query parameter issue
+	if len(request.query_string) > 0:
+		return jsonify({"Title": 0}, {"Image": 0}, {"Excerpt": 0})
 	#Parse the HTML of the given URL
 	url = link
 	response = requests.get(url, timeout=10);
