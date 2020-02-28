@@ -64,13 +64,9 @@ class Login extends React.Component{
     async verify() {
         try {
 
-            let r = await fetch('/api/users',{          //JSON.stringify({username: 'rahman', password: '8002'})
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.state)
-            });
+            let r = await fetch('http://localhost:8080/user/login/'+ this.state.username + '/' + this.state.password)
+            console.log(" yuhh ");
+            console.log(r);
             let result = await r.json();
             let length = result.length;
            
