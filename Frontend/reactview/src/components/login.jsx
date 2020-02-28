@@ -66,23 +66,23 @@ class Login extends React.Component{
 
             let r = await fetch('http://localhost:8080/user/login/'+ this.state.username + '/' + this.state.password)
             console.log(" yuhh ");
-            console.log(r);
             let result = await r.json();
-            let length = result.length;
+            // let length = result.length;
+            console.log(result);
            
-            if(length == 0){
-                alert("no user found");
-                return;
-            }
+            // if(length == 0){
+            //     alert("no user found");
+            //     return;
+            // }
 
             // ActiveLogin.state.password = this.state.password;             // storing who's actively logged in
             // ActiveLogin.state.username = this.state.username;             // storing who's actively logged in
             // ActiveLogin.state.type = this.state.type;             // storing who's actively logged in
             
-            console.log(result.length);
-            let usernameResult = result[0].username;
+            // console.log(result.length);
+            // let usernameResult = result[0].username;
 
-            console.log(usernameResult);
+            // console.log(usernameResult);
             console.log(" yuhh ");
 
             // if(ActiveLogin.state.type[0] == 'Client'){
