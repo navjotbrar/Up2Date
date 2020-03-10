@@ -16,8 +16,6 @@ const SignUpJumbo = styled(Jumbotron)`
 	padding: 1rem 2rem;
 `
 
-
-
 class SignUp extends React.Component {
 
     dropListener = (e) => {

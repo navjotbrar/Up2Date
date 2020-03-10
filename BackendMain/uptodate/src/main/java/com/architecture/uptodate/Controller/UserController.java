@@ -49,6 +49,14 @@ public class UserController {
         return new ResponseEntity<User>(new User("shamin","rahman","1234","5678"),HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/user/checkIfExists/{username}")
+    @ResponseBody
+    public ResponseEntity<User> checkIfExists(@PathVariable(name="username", required = true) String username){
+
+        return new ResponseEntity<User>(new User("shamin","rahman","1234","5678"),HttpStatus.OK);
+    }
+
 
 
 }
