@@ -9,33 +9,33 @@ import java.util.UUID;
 
 @Entity
 @Getter @Setter
-@Table(name = "users")
+@Table(name = "user")
 public class User {
 
     @Id
+    @Column(name = "id")
     private UUID id;
 
-    @Column
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column
-    private String userName;
+    @Column(name = "username")
+    private String username;
 
-    @Column
+    @Column(name = "email")
     private String email;
 
-    @Column
+    @Column(name = "password")
     private String password;
 
-
-    public User(String firstName, String lastName){
-        this.firstName=firstName;
-        this.lastName=lastName;
-        this.id= UUID.randomUUID();
+    public User(String firstName, String lastName, String password, String username){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.username = username;
+        this.id = UUID.randomUUID();
     }
-
-
 }
