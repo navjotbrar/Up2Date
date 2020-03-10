@@ -26,9 +26,9 @@ public class UserController {
     public ResponseEntity<User> loginUser(@PathVariable(name="username", required=true) String username,
                                     @PathVariable(name="password", required=true) String password) {
 
-        Optional<User> myUser = userRepository.findByUsername(username);
+//        Optional<User> myUser = userRepository.findByUsername(username);
 
-        final String uri = "http://localhost:5000//urlInfo" +"/" + "https:%2F/%2F/www.bbc.com/sport/football/51673076";
+//        final String uri = "http://localhost:5000//urlInfo" +"/" + "https:%2F/%2F/www.bbc.com/sport/football/51673076";
 
         // Create the request.
 //        ClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
@@ -42,11 +42,11 @@ public class UserController {
 //        System.out.println(restTemplate.getForEntity(uri, ByteArrayResource.class));
 
 
-        RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
+//        RestTemplate restTemplate = new RestTemplate();
+//        String result = restTemplate.getForObject(uri, String.class);
 
 
-        return new ResponseEntity<User>(new User("shamin","rahman","1234","5678"),HttpStatus.BAD_GATEWAY);
+        return new ResponseEntity<User>(new User("shamin","rahman","1234","5678"),HttpStatus.OK);
     }
 
 
