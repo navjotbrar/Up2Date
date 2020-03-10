@@ -16,7 +16,40 @@ const SignUpJumbo = styled(Jumbotron)`
 	padding: 1rem 2rem;
 `
 
+
+
 class SignUp extends React.Component {
+
+    dropListener = (e) => {
+        this.setState({
+            type: [e.target.value]
+        })
+    }
+
+    action = async () => {
+        if(this.state.first_name == ''|| this.state.last_name == ''||this.state.pasword==''||this.state.username ==''||this.state.email == ''){
+            console.log(JSON.stringify(this.state.username))
+            console.log("invalid names")
+            return;
+        }
+        // const userExists = await this.checkIfUserExists();
+		// 	//console.log(userExists + " hiii ");
+		// 	if(userExists == "taken"){
+		// 		alert("that username is taken");
+		// 		return;
+		// 	}  
+    }
+
+
+    handleChange = (e) => {
+        this.setState({
+            [e.target.id]: [e.target.value]
+        })
+    }
+    handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(this.state);
+    }
 
 	state = {
 		first_name: '',
@@ -24,11 +57,12 @@ class SignUp extends React.Component {
 		password: '',
 		username:'',
 		email: '',
-	}
+    }
 	
 	render() {
 		return (
 			<FormDiv>
+                <Form onSubmit = {this.handleSubmit}>
 				<Container>
 				 <SignUpJumbo> 
 					 <h1>Enter Details</h1>
@@ -70,9 +104,10 @@ class SignUp extends React.Component {
 						</div>
 					</SignUpJumbo>
 				</Container>
+                </Form>
 			</FormDiv>
 		);
 	}
 }
-// @ts-ignore
+
 export default withRouter(SignUp);
