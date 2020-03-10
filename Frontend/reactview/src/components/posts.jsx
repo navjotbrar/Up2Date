@@ -4,6 +4,8 @@ import globe from "./img/world.png";
 import Login from "./login.jsx"
 import {Table} from "reactstrap"
 
+
+
 class App extends Component {
   state = { open: false };
 
@@ -18,12 +20,12 @@ class App extends Component {
     const transitions = ["height", "opacity", "background"];
 
     return (
-      <div onClick={this.toggle}>
+      <div>
                         <div> 
                     <Table>
                         <tr>
                             <td>
-                                <img src = {globe} width= "100" height = "100"/>
+                                <img onClick={this.toggle} style={{cursor:'pointer'}} src = {globe} width= "100" height = "100"/>
                             </td>
                             <td>
                                 <p>Drowing at the olypics</p>
