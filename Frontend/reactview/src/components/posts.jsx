@@ -9,7 +9,9 @@ import {Table} from "reactstrap"
 class App extends Component {
   state = { open: false };
 
-c
+    toggle = () => {
+    this.setState(prevState => ({ open: !prevState.open }));
+  };
 
   render() {
     const styles = {
@@ -26,7 +28,7 @@ c
                           <img onClick={this.toggle} style={{cursor:'pointer'}} src = {globe} width= "100" height = "100"/>
                       </td>
                       <td>
-                          <p>Drowing at the olypics</p>
+                          <p>Drowing at the olympics</p>
                           <p> Nope, no one has ever drowned in a swimming race at Olympics, although it was about to happen at 1948 Olympics when Greta Anderson(Denmark) nearly drowned when she fainted midway through a race but was rescued by two other swimmers from Hungary and U.S.. And she went on to win gold medal in 100m freestyle and silver in</p>
                       </td>
                   </tr>
