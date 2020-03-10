@@ -4,6 +4,9 @@ import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { withRouter } from "react-router-dom";
 
+import {connect} from 'react-redux';
+import {fetchPosts} from '../actions';
+
 const ButtonDiv = styled.div`     
     display:flex;
     justify-content: center;
@@ -24,6 +27,8 @@ const FormDiv = styled.div`
 // const DropDownDiv = styled.div`     
 //     padding-bottom: 0px;
 // `
+
+
 class Login extends React.Component{
 
     state = {
@@ -63,14 +68,15 @@ class Login extends React.Component{
     }
     async verify() {
         try {
-
-            let r = await fetch('http://localhost:8080/user/login/'+ this.state.username + '/' + this.state.password)
-            console.log(" yuhh ");
-            let result = await r.json();
-            console.log(result);
-            let length = result.length;
+            
+            this.props.fetchPosts(this.state.username,this.state.password);
+            // let r = await fetch('http://localhost:8080/user/login/'+ this.state.username + '/' + this.state.password)
+            // console.log(" yuhh ");
+            // let result = await r.json();
+            // console.log(result);
             // let length = result.length;
-            console.log(result);
+            // let length = result.length;
+            // console.log(result);
            
             // if(length == 0){
             //     alert("no user found");
@@ -148,4 +154,4 @@ class Login extends React.Component{
     }
 }
 
-export default withRouter(Login);
+export default connect(null, {fetchPosts: fetchPosts})(withRouter(Login));
