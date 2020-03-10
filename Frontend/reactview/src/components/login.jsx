@@ -67,6 +67,8 @@ class Login extends React.Component{
             let r = await fetch('http://localhost:8080/user/login/'+ this.state.username + '/' + this.state.password)
             console.log(" yuhh ");
             let result = await r.json();
+            console.log(result);
+            let length = result.length;
             // let length = result.length;
             console.log(result);
            
