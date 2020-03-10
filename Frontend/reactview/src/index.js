@@ -7,6 +7,8 @@ import 'react-bootstrap-table';
 import { Container } from "reactstrap";
 import {BrowserRouter} from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
+import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 
 ReactDOM.render(
     <BrowserRouter>
