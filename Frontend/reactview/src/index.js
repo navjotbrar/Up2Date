@@ -7,18 +7,51 @@ import 'react-bootstrap-table';
 import { Container } from "reactstrap";
 import {BrowserRouter} from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
-import {createStore, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
-
 
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-import reducers from './reducers'
+import reducers from './reducers';
 
+// const store = createStore(reducers, applyMiddleware(thunk));
 
+// const loadState = () => {
+//     try {
+//       const serializedState = localStorage.getItem('state');
+//       if(serializedState === null) {
+//         return undefined;
+//       }
+//       return JSON.parse(serializedState);
+//     } catch (e) {
+//       return undefined;
+//     }
+//   };
+  
+  const saveState = (state) => {
+    try {
+      const serializedState = JSON.stringify(state);
+      localStorage.setItem('state', serializedState);
+    } catch (e) {
+      // Ignore write errors;
+    }
+  };
+  
+//   const persistedState = loadState();
+  
+//   store.subscribe(() => {
+//     saveState(store.getState());
+//   });
+  
+//   const store = createStore(
+//     persistedState,
+//     // Others reducers...
+//   );
 
-const store = createStore(reducers, applyMiddleware(thunk));
+  const store = createStore(reducers, applyMiddleware(thunk));
+
+  store.subscribe(() => {
+    saveState(store.getState());
+  });
 
 
 ReactDOM.render(
