@@ -117,6 +117,11 @@ const mapStateToProps = (state) => {
     console.log(state)
     if(Object.keys(state.userInfo).length === 0 && state.userInfo.constructor === Object){
         console.log("in nulll");
+        if(state.persistedState == null){
+            return {
+                username: null
+            };
+        }
         state.userInfo = state.persistedState.userInfo;
     }
     console.log("nope")
