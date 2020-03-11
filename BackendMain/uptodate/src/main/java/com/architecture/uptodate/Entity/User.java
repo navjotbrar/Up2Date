@@ -38,4 +38,5 @@ public class User {
         this.username = username;
         this.id = UUID.randomUUID();
     }
+    public User(){}
 }

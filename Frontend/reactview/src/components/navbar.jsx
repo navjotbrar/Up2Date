@@ -1,7 +1,10 @@
 import * as React from 'react';
-import {Card, Navbar, Button, Nav, Jumbotron} from 'react-bootstrap';
+import {Card, Navbar, Button, Nav, Dropdown, ButtonGroup} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
+import {connect} from 'react-redux';
+import {fetchLogin, logOut} from '../actions';
 
 const MyLink = styled(Link)`     
     text-decoration: none;
@@ -27,11 +30,56 @@ const SignUp = styled(Link)`
     float:right;
 }
 `
+const GreetingDiv = styled.div`     
+    display:flex;
+    justify-content: center;
+    align-content: center;
+    color: white;
+`
 
 const CustomNav = styled(Navbar)`
     background-color: rgb(97, 97, 97);
 `
 class CustomNavbar extends React.Component{
+
+    logOutAction = () => {
+        this.props.logOut();
+        this.props.history.push('./');
+    }
+
+    goToNewPostView = () => {
+        this.props.history.push('./newpost')
+    }
+
+    navButton = () => {
+        if(this.props.loggedIn == 'false'){
+            return (
+                <>
+                    <Nav.Link>
+                        <SignUp to="./signup">Sign Up</SignUp>
+                    </Nav.Link>
+                </>
+            )
+        } else {
+            return (
+                <div> 
+                    {/* <Button variant="primary" style = {{padding: "3px 10px", margin: "7px"}} onClick = {this.action}> press to logout Mr.{this.props.username} </Button> */}
+                    <Dropdown as={ButtonGroup} style = {{padding: "0px 10px", margin: "4px"}}>
+                    <Button variant="success" onClick = {this.goToNewPostView}>+ New Post</Button>
+
+                    <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                        <Dropdown.Divider />
+                        <Dropdown.Item onClick = {this.logOutAction}>Log Out</Dropdown.Item>
+                    </Dropdown.Menu>
+                    </Dropdown>
+                </div>
+            )
+        }
+    }
 
     render(){
 
@@ -39,8 +87,6 @@ class CustomNavbar extends React.Component{
             <>
              <CustomNav bg = "dark"  variant="dark" fixed = "top">
                 <Navbar.Brand href="/">
-                   
-                
                    up2date®
                 </Navbar.Brand>
                 <Nav className="mr-auto">
@@ -48,16 +94,45 @@ class CustomNavbar extends React.Component{
                         <MyLink to="./about">About us</MyLink>
                     </Nav.Link>
                     <Nav.Link>
-                        <MyLink to="./login">Sign in</MyLink>
+                        <MyLink to="./login">Login</MyLink>
                     </Nav.Link>
+
                 </Nav>
-                <Nav.Link>
-                    <SignUp to="./signup">Sign Up</SignUp>
-                </Nav.Link>
+
+                {this.props.loggedIn == 'true'
+                    ?   <GreetingDiv> Hello {this.props.firstName} </GreetingDiv>
+                    :   <></>
+                }
+            
+                {this.navButton()}
+                
             </CustomNav>
         </>
         );
     }
 }
 
-export default CustomNavbar;
+const mapStateToProps = (state) => {
+    console.log("state in navbar:")
+    console.log(state)
+    if(Object.keys(state.userInfo).length === 0 && state.userInfo.constructor === Object){
+        console.log("in nulll");
+        state.userInfo = state.persistedState.userInfo;
+    }
+    console.log("nope")
+    if(state.userInfo.username === null){
+        return {
+            username: null
+        };
+    }
+    console.log(state.userInfo.username)
+
+    return {
+        username: state.userInfo.username,
+        firstName: state.userInfo.firstName,
+        loggedIn: 'true'
+    };
+}
+
+export default connect(mapStateToProps, {fetchLogin: fetchLogin, logOut: logOut})(withRouter(CustomNavbar));
+// export default CustomNavbar;
