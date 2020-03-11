@@ -6,8 +6,8 @@ import { Router, Switch, Route } from 'react-router-dom';
 
 const Main = () => (
     <Switch>
-        {/* <Route exact path = "/" component = {LandingPage} /> */}
-        <Route exact path = "/" component = {NewPostView} /> 
+        <Route exact path = "/" component = {LandingPage} />
+        <Route exact path = "/newpost" component = {NewPostView} /> 
         <Route exact path = "/login" component = {Login} /> 
     </Switch>
 )

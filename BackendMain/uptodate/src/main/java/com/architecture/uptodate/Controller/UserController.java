@@ -29,8 +29,6 @@ public class UserController {
 
         Optional<User> userQuery = userRepository.findByUsernameAndPassword(username, password);
 
-//        System.out.println(userQuery.get());
-        System.out.println("beforeeee");
         if(userQuery.isPresent()){
             return new ResponseEntity<User>(userQuery.get(), HttpStatus.OK);
         } else {
