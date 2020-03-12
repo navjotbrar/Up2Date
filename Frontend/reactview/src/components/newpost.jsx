@@ -87,7 +87,7 @@ class NewPost extends React.Component {
 
 const mapStateToProps = (state) => {
 	if(Object.keys(state.userInfo).length === 0 && state.userInfo.constructor === Object){
-        console.log("in nulll");
+        console.log("in null 2");
         if(state.persistedState == null){
             return {
                 username: null

@@ -30,6 +30,9 @@ public class Posts {
     @Column(name= "author")
     private String author;
 
+    @Column(name= "link")
+    private String link;
+
     public Posts(){}
 
     public Posts(String title, String body, String link, String username, Date currentDate){
@@ -37,5 +40,6 @@ public class Posts {
         this.author = username;
         this.title = title;
         this.body = body;
+        this.link = link;
     }
 }
