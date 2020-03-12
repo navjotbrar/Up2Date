@@ -29,8 +29,6 @@ public class Receiver {
     public void fetchCommentsFromPost(int postId) throws JSONException, IOException {
         System.out.println("Value of the post ID is" + postId);
 
-
-
     }
 
 

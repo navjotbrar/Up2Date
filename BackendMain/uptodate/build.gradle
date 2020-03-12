@@ -28,10 +28,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.session:spring-session-core'
-    compileOnly 'org.projectlombok:lombok'
 
-    // Flyaway
-    compileOnly('org.flywaydb:flyway-core')s
+    compileOnly 'org.projectlombok:lombok'
+    compileOnly('org.flywaydb:flyway-core')
+    compileOnly('org.modelmapper:modelmapper:2.3.0')
+
+    // for JMS
+    compileOnly("org.springframework.boot:spring-boot-starter-activemq")
+    compileOnly("org.apache.activemq:activemq-broker")
+    compileOnly("com.fasterxml.jackson.core:jackson-databind")
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'

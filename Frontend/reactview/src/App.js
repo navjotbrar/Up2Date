@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <p>
-        <CustomNavbar />
+        <CustomNavbar loggedIn = {'false'}/>
       </p>
 
       <p>spacer</p>

@@ -10,4 +10,6 @@ public interface PostsRepository extends CrudRepository<Posts,UUID>{
 
     Optional<Posts> findByAuthor(String author);
 
+    @Override
+    Posts save(Posts entity);
 }
