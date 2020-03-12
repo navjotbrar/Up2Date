@@ -26,6 +26,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.flywaydb:flyway-core'
     compileOnly 'org.projectlombok:lombok'
+
+    // for JMS
+    compileOnly("org.springframework.boot:spring-boot-starter-activemq")
+    compileOnly("org.apache.activemq:activemq-broker")
+    compileOnly("com.fasterxml.jackson.core:jackson-databind")
+
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
