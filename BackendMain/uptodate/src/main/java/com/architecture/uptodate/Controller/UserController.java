@@ -7,6 +7,7 @@ import com.architecture.uptodate.Service.UserService;
 import com.architecture.uptodate.Service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -14,7 +15,6 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.Optional;
 
 
@@ -35,27 +35,18 @@ public class UserController {
         public ResponseEntity<User> loginUser(@PathVariable(name="username", required=true) String username,
                 @PathVariable(name="password", required=true) String password) {
 
-//        Optional<User> myUser = userRepository.findByUsername(username);
 
-//        final String uri = "http://localhost:5000//urlInfo" +"/" + "https:%2F/%2F/www.bbc.com/sport/football/51673076";
+        Optional<User> userQuery = userRepository.findByUsernameAndPassword(username, password);
 
-        // Create the request.
-//        ClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-//        RestTemplate restTemplate = new RestTemplate(requestFactory);
-//
-//
-//
-//
-//        // Execute the request.
-//
-//        System.out.println(restTemplate.getForEntity(uri, ByteArrayResource.class));
+        if(userQuery.isPresent()){
+            return new ResponseEntity<User>(userQuery.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<User>(null,null, HttpStatus.OK);
+        }
 
 
-//        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.getForObject(uri, String.class);
+//        return new ResponseEntity<User>(new User("shamin","rahman","1234","5678"),HttpStatus.OK);
 
-
-        return new ResponseEntity<User>(new User("shamin","rahman","1234","5678","henlo"),HttpStatus.OK);
     }
 
 

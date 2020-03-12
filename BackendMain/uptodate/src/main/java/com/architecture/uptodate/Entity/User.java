@@ -49,6 +49,7 @@ public class User {
         this.id = UUID.randomUUID();
     }
 
+
     public String getUsername() {
         return username;
     }
@@ -74,4 +75,5 @@ public class User {
 //
 //        return user;
 //    }
+
 }
