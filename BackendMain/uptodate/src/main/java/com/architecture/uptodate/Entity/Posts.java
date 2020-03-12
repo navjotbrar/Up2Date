@@ -25,7 +25,7 @@ public class Posts {
     private String body;
 
     @Column(name = "createdate")
-    private Date createdate;
+    private Date createDate;
 
     @Column(name= "author")
     private String author;
@@ -33,13 +33,25 @@ public class Posts {
     @Column(name= "link")
     private String link;
 
+    @Column(name= "articledescription")
+    private String articleDescription;
+
+    @Column(name= "imageurl")
+    private String imageURL;
+
+    @Column(name = "articletitle")
+    private String articleTitle;
+
     public Posts(){}
 
-    public Posts(String title, String body, String link, String username, Date currentDate){
-        this.createdate = currentDate;
+    public Posts(String title, String body, String link, String username, Date currentDate, String articleTitle, String imageURL, String articleDescription){
+        this.createDate = currentDate;
         this.author = username;
         this.title = title;
         this.body = body;
         this.link = link;
+        this.articleDescription = articleDescription;
+        this.imageURL = imageURL;
+        this.articleTitle = articleTitle;
     }
 }
