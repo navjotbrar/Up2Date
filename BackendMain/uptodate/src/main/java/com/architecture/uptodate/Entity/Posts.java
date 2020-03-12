@@ -24,13 +24,18 @@ public class Posts {
     @Column(name = "body")
     private String body;
 
-    @Column(name = "createDate")
+    @Column(name = "createdate")
     private Date createdate;
-
-    @Column(name = "imageid")
-    private int imageId;
 
     @Column(name= "author")
     private String author;
 
+    public Posts(){}
+
+    public Posts(String title, String body, String link, String username){
+        author = username;
+        this.title = title;
+        this.body = body;
+//        this.postId = 5;
+    }
 }
