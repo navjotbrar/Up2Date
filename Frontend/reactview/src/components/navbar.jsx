@@ -94,7 +94,10 @@ class CustomNavbar extends React.Component{
                         <MyLink to="./about">About Us</MyLink>
                     </Nav.Link>
                     <Nav.Link>
-                        <MyLink to="./login">Login</MyLink>
+                        {this.props.loggedIn == 'false'
+                            ?   <MyLink to="./login">Login</MyLink>
+                            :   <></>
+                        }
                     </Nav.Link>
 
                 </Nav>

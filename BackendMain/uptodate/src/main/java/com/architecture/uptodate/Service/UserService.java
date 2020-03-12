@@ -1,10 +1,12 @@
 package com.architecture.uptodate.Service;
 
 import com.architecture.uptodate.DTO.UserDTO;
+import org.springframework.stereotype.Service;
+
 
 public interface UserService {
-    UserDTO signup(UserDTO userDto);
-    UserDTO findbyEmail (String email);
-    UserDTO updateProfile(UserDTO userDTO);
-    UserDTO changePassword(UserDTO userDTO, String newPassword);
+    public UserDTO signup(UserDTO userDto);
+    public UserDTO findbyEmail (String email);
+    public UserDTO updateProfile(UserDTO userDTO);
+    public UserDTO changePassword(UserDTO userDTO, String newPassword);
 }
