@@ -69,7 +69,7 @@ public class PostsController {
         return new ResponseEntity<String>("response from server", HttpStatus.OK);
     }
 
-//    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/posts/fetch")
     @ResponseBody
     public ResponseEntity<Object> getAll() {
