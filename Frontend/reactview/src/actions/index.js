@@ -1,6 +1,6 @@
 
 // Function to login a user and update the state if a user is returned 
-import fetch from 'isomorphic-fetch';
+
 
 export const fetchLogin = (username, password) => async dispatch => {
     console.log("In action creator2")
