@@ -3,6 +3,7 @@ package com.architecture.uptodate.Controller;
 import com.architecture.uptodate.Entity.Posts;
 import com.architecture.uptodate.Entity.User;
 import com.architecture.uptodate.Repository.PostsRepository;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
@@ -17,6 +18,8 @@ import org.springframework.web.client.RestTemplate;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -67,4 +70,28 @@ public class PostsController {
 
         return new ResponseEntity<String>("response from server", HttpStatus.OK);
     }
+
+//    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/posts/fetch")
+    @ResponseBody
+    public ResponseEntity<Object> getAll() {
+
+        Iterable<Posts> entityList = postsRepository.findAll();
+        List<JSONObject> entities = new ArrayList<JSONObject>();
+
+        for (Posts n : entityList) {
+            JSONObject entity = new JSONObject();
+            entity.put("postid", n.getPostId());
+            entity.put("title", n.getTitle());
+            entity.put("body", n.getBody());
+            entity.put("author", n.getAuthor());
+            entity.put("desc", n.getArticleDescription());
+            entity.put("imageurl", n.getImageURL());
+            entity.put("articleTitle", n.getArticleTitle());
+            entities.add(entity);
+        }
+
+        return new ResponseEntity<Object>(entities, HttpStatus.OK);
+    }
+
 }
