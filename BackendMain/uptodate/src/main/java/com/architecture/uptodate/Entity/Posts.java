@@ -44,7 +44,7 @@ public class Posts {
 
     public Posts(){}
 
-    public Posts(String title, String body, String link, String username, Date currentDate, String articleTitle, String imageURL, String articleDescription){
+    public Posts(String title, String link, String body, String username, Date currentDate, String articleTitle, String imageURL, String articleDescription){
         this.createDate = currentDate;
         this.author = username;
         this.title = title;
