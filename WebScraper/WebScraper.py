@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from PIL import Image
 from flask import Flask, jsonify, request
 import requests
+import urllib.parse
 
 #Creating an instance of the Flask Class
 app = Flask(__name__)
@@ -19,7 +20,7 @@ def urlAnalysis(link):
 	if len(request.query_string) > 0:
 		return jsonify({"Title": 0}, {"Image": 0}, {"Excerpt": 0})
 	#Parse the HTML of the given URL
-	url = link
+	url = urllib.parse.unquote(link)
 	response = requests.get(url, timeout=10);
 	content = BeautifulSoup(response.content, "html.parser")
 	#Get the article title
@@ -39,7 +40,7 @@ def urlAnalysis(link):
 	    if len(excerpt.text) > 80:
 	        break
 	#Return a JSON containing Title, Image, and Excerpt variables with values scraped from the HTML of the website
-	return jsonify({"Title": title}, {"Image": imageURL.attrs['src']}, {"Excerpt": excerpt.text})
+	return jsonify({"Title": title, "Image": imageURL.attrs['src'], "Excerpt": excerpt.text})
 
 #TODO: Remove this fuction when application is fully tested
 #Test function that prints out variable information
