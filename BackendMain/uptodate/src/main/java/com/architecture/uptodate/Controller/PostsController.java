@@ -48,8 +48,6 @@ public class PostsController {
 
         String articleLink = URLEncoder.encode(jsonArgs[1], "UTF-8");
 
-        //JSONARGS[1] is link
-        //TODO: Adjust order of arguments
         final String uri = "http://localhost:5000//urlInfo" + "/" + articleLink;
         Map<String, Object> articleMap = springParser.parseMap(restTemplate.getForObject(uri, String.class));
 
@@ -60,7 +58,7 @@ public class PostsController {
             i++;
         }
 
-        Posts newPost = new Posts(jsonArgs[0], jsonArgs[2], jsonArgs[1], jsonArgs[3], sqlDate, articleArgs[0], articleArgs[1], articleArgs[2]);
+        Posts newPost = new Posts(jsonArgs[0], jsonArgs[1], jsonArgs[2], jsonArgs[3], sqlDate, articleArgs[0], articleArgs[1], articleArgs[2]);
         postsRepository.save(newPost);
 
         System.out.println("after adding new post");
