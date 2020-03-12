@@ -28,8 +28,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.session:spring-session-core'
+
     compileOnly 'org.projectlombok:lombok'
     compileOnly('org.flywaydb:flyway-core')
+    compileOnly('org.modelmapper:modelmapper:2.3.0')
+
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'

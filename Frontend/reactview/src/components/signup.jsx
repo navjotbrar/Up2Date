@@ -6,6 +6,10 @@ import "./signup"
 import { withRouter } from "react-router-dom";
 import { resolve } from "url";
 
+import {connect} from 'react-redux';
+import {addUser} from '../actions';
+import {addnewuser} from '../actions';
+
 const FormDiv = styled.div`
 	display: flex;
 	justify-content: center;
@@ -18,18 +22,21 @@ const SignUpJumbo = styled(Jumbotron)`
 
 class SignUp extends React.Component {
 
-    dropListener = (e) => {
-        this.setState({
-            type: [e.target.value]
-        })
-    }
+    // dropListener = (e) => {
+    //     this.setState({
+    //         type: [e.target.value]
+    //     })
+    // }
 
     action = async () => {
         if(this.state.first_name == ''|| this.state.last_name == ''||this.state.pasword==''||this.state.username ==''||this.state.email == ''){
             console.log(JSON.stringify(this.state.username))
             console.log("invalid names")
             return;
-        }
+		}
+		
+		this.props.addnewuser(this.state);
+		// this.props.addUser(this.state.username,this.state.password,this.state.first_name,this.state.last_name,this.state.email);
         // const userExists = await this.checkIfUserExists();
 		// 	//console.log(userExists + " hiii ");
 		// 	if(userExists == "taken"){
@@ -41,7 +48,7 @@ class SignUp extends React.Component {
 
     handleChange = (e) => {
         this.setState({
-            [e.target.id]: [e.target.value]
+            [e.target.id]: e.target.value
         })
     }
     handleSubmit = (e) => {
@@ -108,4 +115,4 @@ class SignUp extends React.Component {
 	}
 }
 
-export default withRouter(SignUp);
+export default connect(null, {addnewuser: addnewuser})(withRouter(SignUp));
