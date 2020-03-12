@@ -52,6 +52,24 @@ export const newPost = (title, link, body, username) => async dispatch => {
 
 };
 
+export const fetchPosts = () => async dispatch => {
+    console.log("in fetch Posts >>>   <<<< ");
+    const response = await fetch('http://localhost:8080/posts/fetch');
+
+    console.log(response);
+
+    console.log("after response       >>");
+
+    const result = await response.json();
+
+    console.log(result);
+    
+    console.log("after res          <<");
+
+    dispatch({ type: "FETCH_POSTS",payload: result})
+    
+};  
+
 //function to check if a user exists 
 export const addUser = (username,password,first_name,last_name,email) => async dispatch => {
     console.log(username,password,first_name,last_name,email);
@@ -82,20 +100,3 @@ export const addnewuser = (data) => async dispatch => {
         alert("user created, you can try logging in");
     }
 };
-
-// export const addnewuser = (state) => async dispatch =>{
-//     const settings = {
-//         method: 'POST',
-//         headers: {
-//             Accept: 'application/json',
-//             'Content-Type': 'application/json',
-//         }
-//     };
-//     try {
-//     const response = await fetch('http://localhost:8080/user/addnewuser/' + state);
-//     let result = await response.json();
-//     console.log(result);
-//     }catch (e){
-//         return e;
-//     }
-// };
