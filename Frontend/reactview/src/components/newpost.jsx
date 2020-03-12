@@ -30,9 +30,6 @@ class NewPost extends React.Component {
 
 	action = async () => {
         
-        // console.log("  << in action >>  ");
-        // console.log(this.state);
-	 
 		if(this.state.title[0].length < 1 || this.state.body[0].length < 1 || this.state.link[0].length < 1){
 			alert("Please enter valid content");
 			return;
@@ -44,26 +41,8 @@ class NewPost extends React.Component {
 		}
 
 		this.props.newPost(this.state.title[0], this.state.link[0], this.state.body[0], this.props.username);
-
 	}
 
-	async submit () {
-		console.log(this.state.docId);
-		try{
-			let r = await fetch ('/api/signup',{
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				
-				body: JSON.stringify(this.state)
-			});
-			console.log("user added");
-		} catch(error){
-			console.log(error);
-		}
-	}
-	
 	handleChange = (e) => {
 		this.setState({
 			[e.target.id]: [e.target.value]
@@ -81,11 +60,11 @@ class NewPost extends React.Component {
 					<Form>
 						<Form.Group controlId="exampleForm.ControlInput1">
 							<Form.Label>Title</Form.Label>
-							<Form.Control type="email" placeholder="Enter a meaningful title" id = "title" onChange = {this.handleChange}/>
+							<Form.Control type="text" placeholder="Enter a meaningful title" id = "title" onChange = {this.handleChange}/>
 						</Form.Group>
 						<Form.Group controlId="exampleForm.ControlInput2">
 							<Form.Label>Link</Form.Label>
-							<Form.Control type="email" placeholder="Link (Required)" id = "link" onChange = {this.handleChange}/>
+							<Form.Control type="text" placeholder="Link (Required)" id = "link" onChange = {this.handleChange}/>
 						</Form.Group>
 						<Form.Group controlId="exampleForm.ControlTextarea1">
 							<Form.Label>Description</Form.Label>

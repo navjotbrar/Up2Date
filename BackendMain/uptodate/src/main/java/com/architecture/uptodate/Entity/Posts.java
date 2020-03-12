@@ -32,10 +32,10 @@ public class Posts {
 
     public Posts(){}
 
-    public Posts(String title, String body, String link, String username){
-        author = username;
+    public Posts(String title, String body, String link, String username, Date currentDate){
+        this.createdate = currentDate;
+        this.author = username;
         this.title = title;
         this.body = body;
-//        this.postId = 5;
     }
 }

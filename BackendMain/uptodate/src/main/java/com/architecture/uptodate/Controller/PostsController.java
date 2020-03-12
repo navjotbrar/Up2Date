@@ -29,29 +29,22 @@ public class PostsController {
         JsonParser springParser = JsonParserFactory.getJsonParser();
         Map<String, Object> map = springParser.parseMap(arg);
 
-        String arr[] = new String[4];
+        String[] jsonArgs = new String[4];
 
         int i = 0;
         for (Map.Entry<String, Object> entry : map.entrySet()) {
 //            System.out.println(entry.getKey() + " = " + entry.getValue());
-            arr[i] = (String)entry.getValue();
+            jsonArgs[i] = (String)entry.getValue();
             i++;
         }
 
-//        Date nowDate = new Date();
-//        Object postDate = new java.sql.Timestamp(nowDate.getTime());
-        System.out.println(arr[3]);
-        Posts newPost = new Posts(arr[0], arr[2], arr[1], arr[3]);
+        java.sql.Date sqlDate = new java.sql.Date(System.currentTimeMillis());
+
+        Posts newPost = new Posts(jsonArgs[0], jsonArgs[2], jsonArgs[1], jsonArgs[3], sqlDate);
         postsRepository.save(newPost);
-//        System.out.println("before");
-//        System.out.println(arg);
 
-        System.out.println("after");
-
+        System.out.println("after adding new post");
 
         return new ResponseEntity<String>("response from server", HttpStatus.OK);
     }
-
-
-
 }
