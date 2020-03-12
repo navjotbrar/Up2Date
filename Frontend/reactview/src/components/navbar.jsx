@@ -91,7 +91,7 @@ class CustomNavbar extends React.Component{
                 </Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link>
-                        <MyLink to="./about">About us</MyLink>
+                        <MyLink to="./about">About Us</MyLink>
                     </Nav.Link>
                     <Nav.Link>
                         <MyLink to="./login">Login</MyLink>
