@@ -70,6 +70,42 @@ public class PostsController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping(path = "/post/getJustPreview", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<Object> getJustPreview(@RequestBody String arg) throws UnsupportedEncodingException {
+
+        JsonParser springParser = JsonParserFactory.getJsonParser();
+        Map<String, Object> map = springParser.parseMap(arg);
+
+        String link = "";
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            link = (String)entry.getValue();
+        }
+
+        ClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
+        String articleLink = URLEncoder.encode(link, "UTF-8");
+
+        final String uri = "http://localhost:5000//urlInfo" + "/" + articleLink;
+        Map<String, Object> articleMap = springParser.parseMap(restTemplate.getForObject(uri, String.class));
+
+        String[] articleArgs = new String[3];
+        int i = 0;
+        for (Map.Entry<String, Object> entry : articleMap.entrySet()) {
+            articleArgs[i] = (String)entry.getValue();
+            i++;
+        }
+
+        JSONObject entity = new JSONObject();
+        entity.put("articletitle", articleArgs[0]);
+        entity.put("imageurl", articleArgs[1]);
+        entity.put("articledesc", articleArgs[2]);
+
+        System.out.println("at end of getJustPreview");
+        return new ResponseEntity<Object>(entity, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/posts/fetch")
     @ResponseBody
     public ResponseEntity<Object> getAll() {
@@ -86,6 +122,7 @@ public class PostsController {
             entity.put("desc", n.getArticleDescription());
             entity.put("imageurl", n.getImageURL());
             entity.put("articleTitle", n.getArticleTitle());
+            entity.put("createDate",n.getCreateDate());
             entities.add(entity);
         }
 

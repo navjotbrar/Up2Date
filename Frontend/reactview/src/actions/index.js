@@ -31,10 +31,10 @@ export const logOut = () => async dispatch =>{
 
 export const newPost = (title, link, body, username) => async dispatch => {
     console.log("in new post action");
-    console.log(title);
-    console.log(link);
-    console.log(body);
-    console.log(username);
+    // console.log(title);
+    // console.log(link);
+    // console.log(body);
+    // console.log(username);
 
     console.log("In action newPost");
 
