@@ -1,0 +1,45 @@
+.postRow{
+    padding-left: 5%;
+    padding-right:5%;
+}
+
+.article{
+    float:left;
+    text-align: left;
+}
+
+.postIMG{
+    height:100%;
+    max-height:150px;
+    height: auto;
+}
+
+.expandDiv{
+    float:left;
+}
+
+.outside-container {
+    padding-left: 10%;
+    padding-right: 10%;
+    cursor: pointer;
+}
+.pic{
+    width: 150px;
+    height:auto;
+    border-radius: 10%;
+}
+
+.pictureDiv{
+    cursor: pointer;
+}
+
+.expandPic{
+    width: 400px;
+    height:auto;
+    border-radius: 10%;
+    text-align: left;
+}
+.author{
+    float: right;
+    padding-right:10%;
+}

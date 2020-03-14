@@ -86,6 +86,7 @@ public class PostsController {
             entity.put("desc", n.getArticleDescription());
             entity.put("imageurl", n.getImageURL());
             entity.put("articleTitle", n.getArticleTitle());
+            entity.put("createDate",n.getCreateDate());
             entities.add(entity);
         }
 
