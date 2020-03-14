@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import CustomNavbar from "./navbar";
 import reader from "./img/reader.png";
-import {Table} from "reactstrap"
+import { Table } from "reactstrap";
 import Posts from "./posts.jsx";
-
+import "./landingpage.css";
 import globe from "./img/world.png";
 import news from "./img/news.png";
 import mySvg from "./img/newspaper.png";
+import { fetchPosts } from "../actions";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 const BoxDiv = styled.div`
   display: flex;
@@ -32,7 +35,6 @@ const ImgDiv = styled.div`
 `;
 
 class LandingPage extends React.Component {
-    
   constructor(props) {
     super(props);
     this.state = {
@@ -40,23 +42,38 @@ class LandingPage extends React.Component {
     };
   }
 
-   getNews(){
-       console.log("getting news")
-       let  feed = []
-       const currentPost = <Posts/>
+  oldFunction() {
+    console.log("getting news");
+    let feed = [];
+    const currentPost = <Posts />;
 
-       feed.push(currentPost)
-       feed.push(currentPost)
-       feed.push(currentPost)
-       feed.push(currentPost)
-       
-        this.setState({posts:feed})
-   } 
+    feed.push(currentPost);
+    feed.push(currentPost);
+    feed.push(currentPost);
+    feed.push(currentPost);
 
+    this.setState({ posts: feed });
+  }
+
+  getNews(input) {
+    const articles = input;
+    let articleRows = [];
+
+    articles.forEach(article => {
+      const currentArticle = <Posts info={article} />;
+      articleRows.push(currentArticle);
+    });
+    this.setState({ posts: articleRows });
+  }
 
   componentDidMount() {
-      this.getNews();
+this.props.fetchPosts();
+
   }
+
+  test = () => {
+    this.getNews(this.props.feed);
+  };
 
   render() {
     return (
@@ -71,7 +88,7 @@ class LandingPage extends React.Component {
                 <Image src={news} width="100" height="100" />
               </p>
 
-              <h1>up2date</h1>
+              <h1 onClick={this.test}>up2date</h1>
               <p>The only way to stay up to date</p>
               <ButtonDiv>
                 <Link to="./signup">
@@ -83,12 +100,16 @@ class LandingPage extends React.Component {
             </Jumbotron>
           </Container>
         </BoxDiv>
-
-        <h1>Trending News</h1>
         {this.state.posts}
       </div>
     );
   }
 }
-
-export default LandingPage;
+const mapStateToProps = state => {
+  return {
+    feed: state.posts.postList
+  };
+};
+export default connect(mapStateToProps, { fetchPosts: fetchPosts })(
+  withRouter(LandingPage)
+);
