@@ -116,8 +116,6 @@ class CustomNavbar extends React.Component{
 }
 
 const mapStateToProps = (state) => {
-    console.log("state in navbar:")
-    console.log(state)
     if(Object.keys(state.userInfo).length === 0 && state.userInfo.constructor === Object){
         console.log("in nulll");
         if(state.persistedState == null){
@@ -127,7 +125,6 @@ const mapStateToProps = (state) => {
         }
         state.userInfo = state.persistedState.userInfo;
     }
-    console.log("nope")
     if(state.userInfo.username === null){
         return {
             username: null
