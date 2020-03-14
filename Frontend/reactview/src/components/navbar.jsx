@@ -63,7 +63,6 @@ class CustomNavbar extends React.Component{
         } else {
             return (
                 <div> 
-                    {/* <Button variant="primary" style = {{padding: "3px 10px", margin: "7px"}} onClick = {this.action}> press to logout Mr.{this.props.username} </Button> */}
                     <Dropdown as={ButtonGroup} style = {{padding: "0px 10px", margin: "4px"}}>
                     <Button variant="success" onClick = {this.goToNewPostView}>+ New Post</Button>
 
@@ -86,7 +85,7 @@ class CustomNavbar extends React.Component{
         return(
             <>
              <CustomNav bg = "dark"  variant="dark" fixed = "top">
-                <Navbar.Brand href="/">
+                <Navbar.Brand href="/" style = {{paddingTop: "0.6125rem"}}>
                    up2date®
                 </Navbar.Brand>
                 <Nav className="mr-auto">
