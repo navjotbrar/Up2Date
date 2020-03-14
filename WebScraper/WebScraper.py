@@ -17,7 +17,7 @@ def emptyReturn():
 @app.route('/urlInfo/<path:link>', methods=['GET'])
 def urlAnalysis(link):
 	#Temporary solution to query parameter issue
-	stockImage = 'https://banner2.cleanpng.com/20180326/qpe/kisspng-magnifying-glass-clip-art-magnifying-glass-5ab8dc4b1091e8.2295178815220644590679.jpg'
+	stockImage = 'https://cdn.onlinewebfonts.com/svg/img_148071.png'
 	if len(request.query_string) > 0:
 		return jsonify({"Title": "Could not decode website", "Image": stockImage, "Excerpt": "Click on the link to view the article"})
 	#Parse the HTML of the given URL
