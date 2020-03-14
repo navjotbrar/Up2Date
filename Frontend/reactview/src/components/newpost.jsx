@@ -78,12 +78,17 @@ class NewPost extends React.Component {
 			body: JSON.stringify({link: this.state.link[0]})
 		});	
 		
-		const result = await response.json();
+		let result = await response.json();
 		
 		console.log("result is: \n");
 		console.log(result.articledesc);
 		console.log(result.articletitle);
 		console.log(result.imageurl);
+
+		if(result.articledesc == 'Could not decode website'){
+			result.articledesc = 'No description available';
+			result.articletitle = '';
+		}
 
 		this.setState({
 			preview: {
