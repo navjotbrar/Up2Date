@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { withRouter } from "react-router-dom";
 import {connect} from 'react-redux';
-import {fetchLogin} from '../actions';
+import {fetchLogin, fetchPosts} from '../actions';
 
 const ButtonDiv = styled.div`     
     display:flex;
@@ -46,6 +46,7 @@ class Login extends React.Component{
             console.log(this.state.type);
             this.verify();
         }
+        this.props.fetchPosts();
     }
     handleChange = (e) => {
         this.setState({
@@ -95,4 +96,4 @@ class Login extends React.Component{
     }
 }
 
-export default connect(null, {fetchLogin: fetchLogin})(withRouter(Login));
+export default connect(null, {fetchLogin: fetchLogin, fetchPosts: fetchPosts})(withRouter(Login));
