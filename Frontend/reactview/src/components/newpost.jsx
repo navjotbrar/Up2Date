@@ -87,6 +87,7 @@ class NewPost extends React.Component {
 
 		if(result.articledesc == 'Could not decode website'){
 			result.articledesc = 'No description available';
+			result.articletitle = '';
 		}
 
 		this.setState({
