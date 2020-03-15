@@ -65,7 +65,7 @@ class LandingPage extends React.Component {
             </Jumbotron>
           </Container>
         </BoxDiv>
-        <PostList amount = '3' title = "Most Recent Posts"/>
+        <PostList amount = '5' title = "Most Recent Posts"/>
       </div>
     );
   }

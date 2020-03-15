@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { withRouter } from "react-router-dom";
 import {connect} from 'react-redux';
 import {fetchLogin, fetchPosts} from '../actions';
+import HomePage from './homepage';
 
 const ButtonDiv = styled.div`     
     display:flex;
@@ -43,9 +44,11 @@ class Login extends React.Component{
             return;
         } 
         else{
-            console.log(this.state.type);
+            console.log(this.state.type + " 909090");
             this.verify();
+            
         }
+        window.location = HomePage;
         this.props.fetchPosts();
     }
     handleChange = (e) => {
@@ -60,6 +63,7 @@ class Login extends React.Component{
     async verify() {
         try {
             this.props.fetchLogin(this.state.username,this.state.password);
+            this.props.history.push(HomePage);
             console.log(" yuhh ");
         } catch (error) {
             console.log(error);
@@ -96,4 +100,4 @@ class Login extends React.Component{
     }
 }
 
-export default connect(null, {fetchLogin: fetchLogin, fetchPosts: fetchPosts})(withRouter(Login));
+export default connect(null, {fetchLogin: fetchLogin, fetchPosts: fetchPosts})(withRouter(Login,HomePage));

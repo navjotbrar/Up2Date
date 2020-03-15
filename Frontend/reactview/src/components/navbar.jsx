@@ -69,7 +69,7 @@ class CustomNavbar extends React.Component{
                     <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
 
                     <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                        <Dropdown.Item href="./homepage">Go to Homepage</Dropdown.Item>
                         <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item onClick = {this.logOutAction}>Log Out</Dropdown.Item>
@@ -102,7 +102,10 @@ class CustomNavbar extends React.Component{
                 </Nav>
 
                 {this.props.loggedIn == 'true'
-                    ?   <GreetingDiv> Hello {this.props.firstName} </GreetingDiv>
+                    // ? <GreetingDiv> Hello {this.props.firstName} </GreetingDiv>
+                   ? <Nav.Link>
+                        <MyLink to="./homepage">Hello {this.props.firstName} </MyLink>
+                    </Nav.Link> 
                     :   <></>
                 }
             
