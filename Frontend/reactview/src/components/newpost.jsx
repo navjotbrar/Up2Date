@@ -58,13 +58,18 @@ class NewPost extends React.Component {
 		return true;
 	}
 	action = async () => {
-		
-		// console.log('in action');
-		// console.log(this.state);
 		if(!this.errorCheck()){		//if false then error
 			return;
 		}
-		this.props.newPost(this.state.title[0], this.state.link[0], this.state.body[0], this.props.username);
+		
+		const result = await this.props.newPost(this.state.title[0], this.state.link[0], this.state.body[0], this.props.username);
+		
+		if(!result){
+			alert("Something went wrong, please try again");
+		} else {
+			alert("Your Post: " + this.state.title[0] + " Has Been Posted!");
+			this.props.history.push('./homepage');
+		}
 	}
 	preview = async () => {
 		if(!this.errorCheck()){		//if false then error

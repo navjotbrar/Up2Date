@@ -102,10 +102,9 @@ class CustomNavbar extends React.Component{
                 </Nav>
 
                 {this.props.loggedIn == 'true'
-                    // ? <GreetingDiv> Hello {this.props.firstName} </GreetingDiv>
-                   ? <Nav.Link>
-                        <MyLink to="./homepage">Hello {this.props.firstName} </MyLink>
-                    </Nav.Link> 
+                    ?   <Nav.Link>
+                            <MyLink to="./homepage" style = {{color: "white"}}> Hello {this.props.firstName} </MyLink>
+                        </Nav.Link> 
                     :   <></>
                 }
             

@@ -48,9 +48,8 @@ const MySec = styled.section`
 
 class HomePage extends React.Component{
     
-
     handleOnClick = (event) => {
-        window.scrollBy(0, 500);
+        window.scrollBy(0, 555);
     }
     goToNewPostView = () => {
         this.props.history.push('./newpost')
@@ -61,8 +60,14 @@ class HomePage extends React.Component{
         this.state = {
           posts: []
         };
-      }
- 
+    }
+
+    componentDidMount(){
+        if(this.props.username == null){
+            // this.props.history.push('./');
+            window.location.href = './';
+        }
+    }
 
     render(){
         return(
@@ -70,47 +75,37 @@ class HomePage extends React.Component{
             <Container>  
                 <Jumbotron>
                 <Image src={reader} width="100" height="100" />
-                                        {this.props.loggedIn == 'true'
-                                            ?   <h1>Hello {this.props.firstName}  </h1>
-                                            :   <></>
-                                        }
+                    {this.props.loggedIn == 'true'
+                        ?   <h1>Hello {this.props.firstName}  </h1>
+                        :   <></>
+                    }
                 </Jumbotron>
             </Container>
             
-                <Container>
-                    <Row>
-                        <Col xs>
-                        
-                                <ProfileDiv>
-                                    <Image src={view} width="100" height="100" />
-                                    <Button variant="light" onClick = {this.handleOnClick}><h2>View my posts</h2></Button>
-                                    </ProfileDiv>  
-                        
-                        </Col>
-                        <Col xs>
-                       
-                                <ProfileDiv>
-                                    <Image src={write} width="100" height="100" />
-                                    <Button variant="light" onClick = {this.goToNewPostView}><h2>Add new posts</h2></Button>
-                                    </ProfileDiv>  
-                        
-                        </Col>
-                        <Col xs>
-                         
-                                <ProfileDiv>
-                                    <Image src={remove} width="100" height="100" />
-                                    <Button variant="light"><h2>Delete account</h2></Button>
-                                    </ProfileDiv>  
-                           
-                        </Col>
-                    </Row>
-                </Container>
-                
-            {/* <BoxDiv>    
-                    {this.state.posts}
-            </BoxDiv> */}
+            <Container style = {{marginBottom: "-90px"}}>
+                <Row>
+                    <Col xs>
+                        <ProfileDiv>
+                            <Image src={view} width="100" height="100" />
+                            <Button variant="light" onClick = {this.handleOnClick}><h2>View my posts</h2></Button>
+                        </ProfileDiv>  
+                    </Col>
+                    <Col xs>
+                        <ProfileDiv>
+                            <Image src={write} width="100" height="100" />
+                            <Button variant="light" onClick = {this.goToNewPostView}><h2>Add new posts</h2></Button>
+                        </ProfileDiv>  
+                    </Col>
+                    <Col xs>
+                        <ProfileDiv>
+                            <Image src={remove} width="100" height="100" />
+                            <Button variant="light"><h2>Delete account</h2></Button>
+                        </ProfileDiv>  
+                    </Col>
+                </Row>
+            </Container>
 
-            <PostList amount = '10' author = {this.props.username} title = "My Posts"/>
+            <PostList author = {this.props.username} title = "My Posts"/>
             
             </MyDiv>
         )
@@ -129,9 +124,10 @@ const mapStateToProps = (state) => {
         state.userInfo = state.persistedState.userInfo;
     }
     
-    console.log("nope")
-    if(state.userInfo.username === null){
-        window.location.href = './login';
+    console.log("nope in homepage")
+    if(state.userInfo.username == null){
+        console.log("in null user homepage");
+        // window.location.href = './login';
         return {
             username: null
         };
