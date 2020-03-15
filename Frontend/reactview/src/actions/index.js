@@ -12,6 +12,7 @@ export const fetchLogin = (username, password) => async dispatch => {
         result = await response.json();
     } catch (error) {                               // to catch null responses, like for wrong user/pass
         alert("invalid username or password, please try again");
+        window.location.href = './login';
         return;
     }
 
@@ -68,7 +69,7 @@ export const fetchPosts = () => async dispatch => {
 
     dispatch({ type: "FETCH_POSTS",payload: result})
     
-};  
+};
 
 //function to check if a user exists 
 export const addUser = (username,password,first_name,last_name,email) => async dispatch => {

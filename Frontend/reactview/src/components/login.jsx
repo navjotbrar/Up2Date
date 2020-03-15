@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { withRouter } from "react-router-dom";
 import {connect} from 'react-redux';
 import {fetchLogin, fetchPosts} from '../actions';
+import HomePage from './homepage';
 
 const ButtonDiv = styled.div`     
     display:flex;
@@ -24,6 +25,7 @@ const FormDiv = styled.div`
     padding-top: 40px;
 `
 
+
 class Login extends React.Component{
 
     state = {
@@ -36,7 +38,7 @@ class Login extends React.Component{
             type: [e.target.value]
         })
     }
-
+   
     action = () => {
         if(this.state.username === '' || this.state.password === ''){
             alert("Please enter valid credentials");
@@ -46,8 +48,11 @@ class Login extends React.Component{
             console.log(this.state.type);
             this.verify();
         }
-        this.props.fetchPosts();
+        window.location.href = './homepage';
+        
     }
+
+
     handleChange = (e) => {
         this.setState({
             [e.target.id]: [e.target.value]
@@ -60,8 +65,11 @@ class Login extends React.Component{
     async verify() {
         try {
             this.props.fetchLogin(this.state.username,this.state.password);
+            // this.props.history.push(HomePage);
             console.log(" yuhh ");
+            
         } catch (error) {
+            
             console.log(error);
         }
     }
