@@ -71,24 +71,6 @@ export const fetchPosts = () => async dispatch => {
     
 };
 
-export const fetchUserPosts = (username) => async dispatch => {
-    console.log("in fetch Posts >>>   <<<< ");
-    const response = await fetch('http://localhost:8080/posts/fetchUserPosts/' + username);
-
-    console.log(response);
-
-    console.log("after response       >>");
-
-    const result = await response.json();
-
-    console.log(result);
-    
-    console.log("after res          <<");
-
-    dispatch({ type: "FETCH_USER_POSTS",payload: result})
-    
-};
-
 //function to check if a user exists 
 export const addUser = (username,password,first_name,last_name,email) => async dispatch => {
     console.log(username,password,first_name,last_name,email);
