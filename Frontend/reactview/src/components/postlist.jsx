@@ -34,14 +34,15 @@ class PostList extends React.Component {
         posts: []
     };
 
-    componentDidMount(){
-        this.test();
-        console.log("in postList didMount")
+    async componentDidMount(){
+        await this.test();
+        // console.log("in postList didMount")
     }
 
     test = async () => {
         await this.props.fetchPosts();
-        this.getNews(this.props.feed);
+        
+        this.getNews(await this.props.feed);
     }
     getNews(input) {
         const articles = input;     //articles = posts.postList

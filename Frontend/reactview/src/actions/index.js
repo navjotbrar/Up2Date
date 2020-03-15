@@ -12,8 +12,8 @@ export const fetchLogin = (username, password) => async dispatch => {
         result = await response.json();
     } catch (error) {                               // to catch null responses, like for wrong user/pass
         alert("invalid username or password, please try again");
-        window.location.href = './login';
-        return;
+        // window.location.href = './login';
+        return false;
     }
 
     console.log(result)
@@ -23,6 +23,7 @@ export const fetchLogin = (username, password) => async dispatch => {
     console.log("In action creator")
     console.log(result)
     dispatch({ type: "LOGIN_USER",payload: result});
+    return true;
 };
 
 export const logOut = () => async dispatch =>{
@@ -32,12 +33,6 @@ export const logOut = () => async dispatch =>{
 
 export const newPost = (title, link, body, username) => async dispatch => {
     console.log("in new post action");
-    // console.log(title);
-    // console.log(link);
-    // console.log(body);
-    // console.log(username);
-
-    console.log("In action newPost");
 
     const response = await fetch('http://localhost:8080/post/add/',{
         method: 'POST',
@@ -49,8 +44,9 @@ export const newPost = (title, link, body, username) => async dispatch => {
 
     if(response.status != 200){
         alert("error occured in add new post action");
+        return false;
     }
-
+    return true;
 };
 
 export const fetchPosts = () => async dispatch => {
@@ -95,9 +91,12 @@ export const addnewuser = (data) => async dispatch => {
     let result = await response.json();
     console.log(result);
     if(result.first_name == null){
-        alert("user not created");
+        alert("user not created, username already exists");
+        return false;
     }   
     else{
         alert("user created, you can try logging in");
+        return true;
     }
+    return false;
 };
