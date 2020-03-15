@@ -62,24 +62,7 @@ class HomePage extends React.Component{
           posts: []
         };
       }
-    
-       getNews(){
-           console.log("getting news")
-           let  feed = []
-           const currentPost = <Posts/>
-    
-           feed.push(currentPost)
-           feed.push(currentPost)
-           feed.push(currentPost)
-           feed.push(currentPost)
-           
-            this.setState({posts:feed})
-       } 
-    
-    
-      componentDidMount() {
-          this.getNews();
-      }
+ 
 
     render(){
         return(
@@ -91,7 +74,6 @@ class HomePage extends React.Component{
                                             ?   <h1>Hello {this.props.firstName}  </h1>
                                             :   <></>
                                         }
-
                 </Jumbotron>
             </Container>
             
@@ -149,6 +131,7 @@ const mapStateToProps = (state) => {
     
     console.log("nope")
     if(state.userInfo.username === null){
+        window.location.href = './login';
         return {
             username: null
         };
