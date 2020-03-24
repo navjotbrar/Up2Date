@@ -10,6 +10,8 @@ public class CommentDTO {
 
     private int commentId;
 
+    private int parentCommentId;
+
     private String content;
 
     private int postId;
@@ -23,9 +25,21 @@ public class CommentDTO {
         this.content=content;
         this.postId=postId;
 
+
+        this.createdDate = new Date();
+        this.lastModifiedByDate = new Date();
+    }
+
+    public CommentDTO(int commentId, int parentCommentId ,String content,int postId, Date createdDate, Date lastModifiedByDate){
+        this.commentId=commentId;
+        this.content=content;
+        this.postId=postId;
+
         this.createdDate = new Date();
         this.lastModifiedByDate = new Date();
 
     }
+
+
 
 }
