@@ -35,7 +35,10 @@ class SignUp extends React.Component {
             return;
 		}
 		
-		this.props.addnewuser(this.state);
+		const result = await this.props.addnewuser(this.state);
+		if(result){
+			this.props.history.push('./login');
+		}
 		// this.props.addUser(this.state.username,this.state.password,this.state.first_name,this.state.last_name,this.state.email);
         // const userExists = await this.checkIfUserExists();
 		// 	//console.log(userExists + " hiii ");

@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { withRouter } from "react-router-dom";
 import {connect} from 'react-redux';
-import {fetchLogin} from '../actions';
+import {fetchLogin, fetchPosts} from '../actions';
 
 const ButtonDiv = styled.div`     
     display:flex;
@@ -24,6 +24,7 @@ const FormDiv = styled.div`
     padding-top: 40px;
 `
 
+
 class Login extends React.Component{
 
     state = {
@@ -36,7 +37,7 @@ class Login extends React.Component{
             type: [e.target.value]
         })
     }
-
+   
     action = () => {
         if(this.state.username === '' || this.state.password === ''){
             alert("Please enter valid credentials");
@@ -46,6 +47,7 @@ class Login extends React.Component{
             console.log(this.state.type);
             this.verify();
         }
+        // window.location.href = './homepage';
     }
     handleChange = (e) => {
         this.setState({
@@ -58,8 +60,13 @@ class Login extends React.Component{
     }
     async verify() {
         try {
-            this.props.fetchLogin(this.state.username,this.state.password);
-            console.log(" yuhh ");
+            const result = await this.props.fetchLogin(this.state.username,this.state.password);
+            console.log(" ******************* result: " + result);
+            if(!result){
+                return;
+            }
+            this.props.history.push('./homepage');
+            // console.log(" yuhh ");
         } catch (error) {
             console.log(error);
         }
@@ -95,4 +102,4 @@ class Login extends React.Component{
     }
 }
 
-export default connect(null, {fetchLogin: fetchLogin})(withRouter(Login));
+export default connect(null, {fetchLogin: fetchLogin, fetchPosts: fetchPosts})(withRouter(Login));
