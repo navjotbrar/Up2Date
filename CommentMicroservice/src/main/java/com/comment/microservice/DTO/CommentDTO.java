@@ -9,6 +9,8 @@ public class CommentDTO {
 
     private int commentId;
 
+    private int parentCommentId;
+
     private String content;
 
     private int postId;

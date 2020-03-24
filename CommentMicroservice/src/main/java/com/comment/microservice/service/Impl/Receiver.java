@@ -1,4 +1,4 @@
-package com.comment.microservice.service;
+package com.comment.microservice.service.Impl;
 
 import com.comment.microservice.DTO.CommentDTO;
 import com.comment.microservice.entity.Comment;
