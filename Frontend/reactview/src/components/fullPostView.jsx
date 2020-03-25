@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Media } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
@@ -45,24 +45,64 @@ const SecondCol = styled.div`
     overflow-x:hidden;
     position: relative;
 `
-const ButtonDiv = styled.div`     
-    display:flex;
-    justify-content: center;
-    align-content: center;
-    padding-top: 10px;
-    // padding-bottom: 20px;
-`
 //props.id: post id
 class FullPostView extends React.Component {
 
     state = {
         comments: [],
+        fullCommentList: [],
         loaded: false,
         postinfo: {},
         commentCount: '',
         newComment: ''
     }
+    milToStandard = (value) => {
+        if (value !== null && value !== undefined){ //If value is passed in
+          if(value.indexOf('AM') > -1 || value.indexOf('PM') > -1){ //If time is already in standard time then don't format.
+            return value;
+          }
+          else {
+            if(value.length == 8){ //If value is the expected length for military time then process to standard time.
+              var hour = value.substring ( 0,2 ); //Extract hour
+              var minutes = value.substring ( 3,5 ); //Extract minutes
+              var identifier = 'AM'; //Initialize AM PM identifier
+       
+              if(hour == 12){ //If hour is 12 then should set AM PM identifier to PM
+                identifier = 'PM';
+              }
+              if(hour == 0){ //If hour is 0 then set to 12 for standard time 12 AM
+                hour=12;
+              }
+              if(hour > 12){ //If hour is greater than 12 then convert to standard 12 hour format and set the AM PM identifier to PM
+                hour = hour - 12;
+                identifier='PM';
+              }
+              return hour + ':' + minutes + ' ' + identifier; //Return the constructed standard time
+            }
+            else { //If value is not the expected length than just return the value as is
+              return value;
+            }
+          }
+        }
+    };
+    getDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.toString().substring(0, 10);
 
+    let hour = date.getHours().toString(); 
+    hour.length == 1 ? hour = '0' + hour : hour = hour;
+    
+    let minute = date.getMinutes().toString(); 
+    minute.length == 1 ? minute = '0' + minute : minute = minute;
+    
+    let second = date.getSeconds().toString(); 
+    second.length == 1 ? second = '0' + second : second = second;
+
+    const militaryTime = hour + ':' + minute + ':' + second;
+
+    const regTime = this.milToStandard(militaryTime);
+    return day + ', ' +regTime;
+    } 
     async componentDidMount(){
 
         const postinfo = this.props.location.state.postinfo;
@@ -76,7 +116,7 @@ class FullPostView extends React.Component {
 
             console.log(result);
 
-            this.setState({postinfo: postinfo, commentCount: result.length});
+            this.setState({fullCommentList: result, postinfo: postinfo, commentCount: result.length});
 
             this.showComments(result);
 
@@ -86,13 +126,36 @@ class FullPostView extends React.Component {
         }
     }
 
-    showComments = (comments) => {
+    showComments = (input) => {
+        let comments = input;
         if(this.state.commentCount == 0) return;
         let commentArr = [];
 
         comments.forEach(comment => {
-            const tempComment = <div> {comment.content} </div>;
-            commentArr.push(tempComment);
+            if(comment.parentCommentId == -1){
+                let nestedComments = [];
+                
+                comments.forEach(c => {
+                    if(c.parentCommentId == comment.commentId){
+                        nestedComments.push(c);
+                        c.parentCommentId = -2;
+                    }
+                })
+
+                console.log("yuh in comments");
+                console.log(nestedComments);
+
+                const tempComment = <Media style ={{ border: "2px solid lightgray", margin: "3px", borderRadius: "5px", padding: "3px"}}>
+                                        <Media.Body>
+                                            <p>{comment.content}</p>
+                                            <small>{this.getDate(comment.createdDate)}</small>
+                                            {this.makeNestedComment(nestedComments)}
+                                        </Media.Body>
+                                    </Media>
+                ;
+
+                commentArr.push(tempComment);
+            }
         })
 
         for(let i = 0; i < 100; i++){
@@ -103,6 +166,35 @@ class FullPostView extends React.Component {
             comments: commentArr,
             loaded: true
         })
+    }
+
+    makeNestedComment = (nesteds) => {
+        let comments = this.state.fullCommentList;
+        let result = [];
+
+        nesteds.forEach(nested => {
+
+            let nestedComments = [];
+                
+
+            comments.forEach(c => {
+                if(c.parentCommentId == nested.commentId){
+                    nestedComments.push(c);
+                    c.parentCommentId = -2;
+                }
+            })
+
+            const tempComment = <Media style ={{ border: "2px solid lightgray", margin: "3px", borderRadius: "5px", padding: "3px"}}>
+                                    <Media.Body>
+                                        <p>{nested.content}</p>
+                                        <small>{this.getDate(nested.createdDate)}</small>
+                                        {this.makeNestedComment(nestedComments)}
+                                    </Media.Body>
+                                </Media>
+            ;
+            result.push(tempComment);
+        })
+        return result;
     }
 
     handleSubmit = (e) => {
@@ -147,7 +239,7 @@ class FullPostView extends React.Component {
                             {this.state.commentCount} Comments 
                         </Title>
 
-                        <div style = {{textAlign: "left", fontSize: "16px", overflowY: "auto", maxHeight: "20rem"}}>
+                        <div style = {{textAlign: "left", fontSize: "16px", overflowY: "auto", maxHeight: "30rem"}}>
                             {this.state.comments}
                         </div>
 
