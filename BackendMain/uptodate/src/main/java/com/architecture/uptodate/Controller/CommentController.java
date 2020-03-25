@@ -40,10 +40,17 @@ public class CommentController {
 
         // Frontend dummy data testing
 
+        System.out.println(postId + " <<<     here      >>>>");
+
         List<Comment> comments = commentRepository.getByPostId(postId);
         List<CommentDTO> commentDTOS = new ArrayList<>();
-        for(Comment comment:comments){
-            commentDTOS.add(new CommentDTO(comment.getCommentId(),comment.getParentCommentId(),comment.getContent(),comment.getPostId(),comment.getCreatedDate(),comment.getLastModifiedByDate()));
+        for(Comment comment: comments){
+            try {
+                commentDTOS.add(new CommentDTO(comment.getCommentId(),comment.getParentCommentId(),comment.getContent(),comment.getPostId(),comment.getCreatedDate(),comment.getLastModifiedByDate()));
+            } catch(NullPointerException e){
+                commentDTOS.add(new CommentDTO(comment.getCommentId(),comment.getContent(),comment.getPostId(),comment.getCreatedDate(),comment.getLastModifiedByDate()));
+            }
+            System.out.println(comment.getContent());
         }
 
 //            Comment microservice testing
