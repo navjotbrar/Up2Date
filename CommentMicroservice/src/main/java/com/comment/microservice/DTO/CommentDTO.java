@@ -18,4 +18,38 @@ public class CommentDTO {
     private Date createdDate;
 
     private Date lastModifiedByDate;
+
+    public CommentDTO(int commentId,int parentCommentId,String content,int postId){
+        this.commentId=commentId;
+        this.content=content;
+        this.postId=postId;
+        this.parentCommentId=parentCommentId;
+        this.createdDate = new Date();
+        this.lastModifiedByDate = new Date();
+    }
+
+    public CommentDTO(int parentCommentId,String content,int postId){
+        this.content=content;
+        this.postId=postId;
+        this.parentCommentId=parentCommentId;
+        this.createdDate = new Date();
+        this.lastModifiedByDate = new Date();
+    }
+
+    public CommentDTO(int commentId, int parentCommentId,String content,int postId,Date createdDate, Date lastModifiedByDate){
+        this.commentId=commentId;
+        this.content=content;
+        this.postId=postId;
+        this.parentCommentId=parentCommentId;
+        this.createdDate = createdDate;
+        this.lastModifiedByDate = lastModifiedByDate;
+    }
+    public CommentDTO(int commentId,String content,int postId,Date createdDate, Date lastModifiedByDate){
+        this.commentId=commentId;
+        this.content=content;
+        this.postId=postId;
+        this.createdDate = createdDate;
+        this.lastModifiedByDate = lastModifiedByDate;
+    }
+
 }

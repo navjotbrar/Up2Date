@@ -30,5 +30,4 @@ public class Comment {
     @Column(name = "lastmodifiedbydate")
     private Date lastModifiedByDate;
 
-
 }

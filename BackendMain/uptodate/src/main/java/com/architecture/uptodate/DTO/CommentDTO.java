@@ -30,6 +30,15 @@ public class CommentDTO {
         this.lastModifiedByDate = new Date();
     }
 
+    public CommentDTO(int commentId,int parentCommentId,String content,int postId){
+        this.commentId=commentId;
+        this.content=content;
+        this.postId=postId;
+        this.parentCommentId=parentCommentId;
+        this.createdDate = new Date();
+        this.lastModifiedByDate = new Date();
+    }
+
     public CommentDTO(int commentId, int parentCommentId ,String content,int postId, Date createdDate, Date lastModifiedByDate){
         this.commentId=commentId;
         this.content=content;

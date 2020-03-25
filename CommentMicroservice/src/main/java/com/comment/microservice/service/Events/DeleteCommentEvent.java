@@ -1,4 +1,10 @@
 package com.comment.microservice.service.Events;
 
-public class DeleteCommentEvent {
+import com.comment.microservice.service.Commands.DeleteCommentCommand;
+
+public class DeleteCommentEvent extends BaseEvent<Integer> {
+
+    public DeleteCommentEvent(DeleteCommentCommand deleteCommentCommand){
+        super(deleteCommentCommand.id);
+    }
 }

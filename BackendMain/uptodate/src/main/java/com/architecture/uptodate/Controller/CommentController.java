@@ -40,15 +40,15 @@ public class CommentController {
 
         // Frontend dummy data testing
 
-        List<Comment> comments = commentRepository.getByPostId(postId);
+//        List<Comment> comments = commentRepository.getByPostId(postId);
         List<CommentDTO> commentDTOS = new ArrayList<>();
-        for(Comment comment:comments){
-            commentDTOS.add(new CommentDTO(comment.getCommentId(),comment.getParentCommentId(),comment.getContent(),comment.getPostId(),comment.getCreatedDate(),comment.getLastModifiedByDate()));
-        }
+//        for(Comment comment:comments){
+//            commentDTOS.add(new CommentDTO(comment.getCommentId(),comment.getParentCommentId(),comment.getContent(),comment.getPostId(),comment.getCreatedDate(),comment.getLastModifiedByDate()));
+//        }
 
 //            Comment microservice testing
-        //commentService.sendComment(null);
-        //commentService.recieveComments(postId);
+        commentService.sendComment(null);
+//        commentService.recieveComments(postId);
 
         // Attempt to get all comments using pub sub
         return new ResponseEntity<List<CommentDTO>>(commentDTOS, HttpStatus.OK);

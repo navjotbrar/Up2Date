@@ -3,6 +3,7 @@ package com.comment.microservice.service.Impl;
 import com.comment.microservice.DTO.CommentDTO;
 import com.comment.microservice.entity.Comment;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
@@ -15,23 +16,22 @@ public class Receiver {
 
     private final String insertCommentQueue="insertCommentQueue";
 
-    private final String fetchCommentQueue="fetchCommentQueue";
+    private final String deleteCommentQueue="deleteCommentQueue";
+
+    @Autowired
+    CommentCommandServiceImpl commentCommandService;
 
     // Listener used to recieve comments
-    @JmsListener(destination = "insertCommentQueue", containerFactory = "myFactory")
+    @JmsListener(destination = insertCommentQueue, containerFactory = "myFactory")
     public void receiveComment(String commentDtoString) throws JSONException, IOException {
         CommentDTO commentImpl = new ObjectMapper().readValue(commentDtoString, CommentDTO.class);
-        // Would save to a database?
+        commentCommandService.createComment(commentImpl);
     }
 
 
-    @JmsListener(destination = "fetchCommentQueue", containerFactory = "myFactory")
-    public void fetchCommentsFromPost(int postId) throws JSONException, IOException {
-        System.out.println("Value of the post ID is" + postId);
-
+    @JmsListener(destination = deleteCommentQueue, containerFactory = "myFactory")
+    public void fetchCommentsFromPost(int commentId) throws JSONException, IOException {
+        System.out.println("Value of the comment ID I would like to delete is" + commentId);
     }
-
-
-
 
 }

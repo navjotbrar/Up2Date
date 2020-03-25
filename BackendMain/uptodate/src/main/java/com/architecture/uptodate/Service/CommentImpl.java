@@ -30,7 +30,7 @@ public class CommentImpl implements CommentService{
         //Check if post is in DB, need to ensure all the comments we send acc make sense!
 
         // Test for now
-        CommentDTO testDTO = new CommentDTO(0,"hi",3);
+        CommentDTO testDTO = new CommentDTO( 5,5,"hi",3);
         String message = null;
         try {
             message = new ObjectMapper().writeValueAsString(testDTO);
@@ -43,7 +43,8 @@ public class CommentImpl implements CommentService{
 
     @Override
     public List<CommentDTO> recieveComments(int postId){
-        // Send the message to the queue about what comments I need and from what post;
+        // Hit a endpoint on comment microservice to recieve the comments of a post
+
 
         template.convertAndSend(fetchCommentQueue,postId);
 

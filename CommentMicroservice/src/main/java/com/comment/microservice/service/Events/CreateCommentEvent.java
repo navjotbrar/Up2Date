@@ -18,24 +18,22 @@ public class CreateCommentEvent extends BaseEvent<Integer> {
 
     public Date lastModifiedByDate;
 
-    public String status;
 
-    public CreateCommentEvent(int id, int parentCommentId, String content, Date createdDate, Date lastModifiedByDate, String status){
+    public CreateCommentEvent(int id, int parentCommentId, String content, Date createdDate, Date lastModifiedByDates){
         super(Integer.valueOf(id));
         this.parentCommentId= parentCommentId;
         this.content= content;
         this.createdDate = createdDate;
-        this. lastModifiedByDate = lastModifiedByDate;
-        this.status =status;
+        this.lastModifiedByDate = lastModifiedByDates;
     }
 
 
     public CreateCommentEvent(CreateCommentCommand createCommentCommand) {
         super(createCommentCommand.id);
         this.parentCommentId= createCommentCommand.parentCommentId;
+        this.postId=createCommentCommand.postId;
         this.content= createCommentCommand.content;
         this.createdDate = createCommentCommand.createdDate;
         this. lastModifiedByDate = createCommentCommand.lastModifiedByDate;
-        this.status = createCommentCommand.status;
     }
 }
