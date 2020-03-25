@@ -123,6 +123,7 @@ public class PostsController {
             entity.put("imageurl", n.getImageURL());
             entity.put("articleTitle", n.getArticleTitle());
             entity.put("createDate",n.getCreateDate());
+            entity.put("link",n.getLink());
             entities.add(entity);
         }
 
