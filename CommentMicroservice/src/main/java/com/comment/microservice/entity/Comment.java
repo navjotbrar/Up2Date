@@ -8,19 +8,52 @@ import java.util.Date;
 
 @Entity
 @Getter @Setter
-@Table(name="comment")
+@Table(name="comments")
 public class Comment {
+
     @Id
-    @Column(name = "commentId")
-    private int commentId;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "commentid")
+    private Integer commentId;
 
-    private int parentCommentId;
+    @Column(name = "parentcommentid")
+    private Integer parentCommentId;
 
+    @Column(name="content")
     private String content;
 
+    @Column(name = "postid")
     private int postId;
 
+    @Column(name = "createddate")
     private Date createdDate;
 
+    @Column(name = "lastmodifiedbydate")
     private Date lastModifiedByDate;
+
+    @Column(name = "author")
+    private String author;
+
+    public Comment(){
+
+    }
+
+    public Comment(int commentId, int parentCommentId, String content, int postId, Date createdDate, Date lastModifiedByDate,String author){
+        this.commentId = Integer.valueOf(commentId);
+        this.parentCommentId= Integer.valueOf(parentCommentId);
+        this.content= content;
+        this.postId = postId;
+        this.createdDate= createdDate;
+        this.lastModifiedByDate = lastModifiedByDate;
+        this.author=author;
+    }
+    public Comment(int parentCommentId, String content, int postId, Date createdDate, Date lastModifiedByDate,String author){
+        this.parentCommentId = Integer.valueOf(parentCommentId);
+        this.content= content;
+        this.postId = postId;
+        this.createdDate= createdDate;
+        this.lastModifiedByDate = lastModifiedByDate;
+        this.author=author;
+    }
+
 }

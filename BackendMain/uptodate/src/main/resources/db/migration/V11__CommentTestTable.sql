@@ -5,5 +5,7 @@ CREATE TABLE IF NOT EXISTS comments (
                     postId int(10) NOT NULL,
                     createdDate datetime NOT NULL,
                     lastModifiedByDate datetime NOT NULL,
-                    FOREIGN KEY (postId) REFERENCES posts(postId)
+                    author VARCHAR(36) NOT NULL,
+                    FOREIGN KEY (postId) REFERENCES posts(postId),
+                    FOREIGN KEY (author) REFERENCES user(username)
 )   ENGINE=InnoDB DEFAULT CHARSET=utf8;

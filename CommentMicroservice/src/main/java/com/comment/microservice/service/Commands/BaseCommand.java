@@ -2,7 +2,7 @@ package com.comment.microservice.service.Commands;
 
 //Base class for Axon commands, all specific commands will extend from here
 
-import org.axonframework.commandhandling.TargetAggregateIdentifier;
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 public class BaseCommand<T> {
 
