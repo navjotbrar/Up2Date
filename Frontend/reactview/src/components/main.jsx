@@ -15,7 +15,7 @@ const Main = () => (
         <Route exact path = "/signup" component = {Signup} />
         <Route exact path = "/posts"  render={(props) => <PostList {...props} />} />
         <Route exact path = "/newpost" component = {NewPostView} /> 
-        <Route exact path = "/fullpost" component = {FullPostView} /> 
+        <Route exact path = "/fullpost" render={(props) => <FullPostView {...props} loggedIn={false} />} /> 
 
     </Switch>
 )

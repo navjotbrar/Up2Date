@@ -54,7 +54,8 @@ class FullPostView extends React.Component {
         loaded: false,
         postinfo: {},
         commentCount: '',
-        newComment: ''
+        newComment: '',
+        selected: ''
     }
     milToStandard = (value) => {
         if (value !== null && value !== undefined){ //If value is passed in
@@ -125,7 +126,12 @@ class FullPostView extends React.Component {
             console.log(error);
         }
     }
-
+    commentClick = () => {
+        alert("clicked");
+    }
+    nestClick = () => {
+        alert("clicked1");
+    }
     showComments = (input) => {
         let comments = input;
         if(this.state.commentCount == 0) return;
@@ -146,8 +152,8 @@ class FullPostView extends React.Component {
                 console.log(nestedComments);
 
                 const tempComment = <Media style ={{ border: "2px solid lightgray", margin: "3px", borderRadius: "5px", padding: "3px"}}>
-                                        <Media.Body>
-                                            <p>{comment.content}</p>
+                                        <Media.Body id = {comment.commentId} onClick = {this.commentClick}>
+                                            <p> {comment.content} </p>
                                             <small>{this.getDate(comment.createdDate)}</small>
                                             {this.makeNestedComment(nestedComments)}
                                         </Media.Body>
@@ -176,7 +182,6 @@ class FullPostView extends React.Component {
 
             let nestedComments = [];
                 
-
             comments.forEach(c => {
                 if(c.parentCommentId == nested.commentId){
                     nestedComments.push(c);
@@ -185,7 +190,7 @@ class FullPostView extends React.Component {
             })
 
             const tempComment = <Media style ={{ border: "2px solid lightgray", margin: "3px", borderRadius: "5px", padding: "3px"}}>
-                                    <Media.Body>
+                                    <Media.Body id = {nested.commentId} onClick = {this.nestClick}>
                                         <p>{nested.content}</p>
                                         <small>{this.getDate(nested.createdDate)}</small>
                                         {this.makeNestedComment(nestedComments)}
@@ -204,6 +209,7 @@ class FullPostView extends React.Component {
 
     action = () => {
         console.log("action pressed");
+        console.log(this.props.username);
     }
 
     handleChange = (e) => {
@@ -263,7 +269,27 @@ class FullPostView extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    if(Object.keys(state.userInfo).length === 0 && state.userInfo.constructor === Object){
+        console.log("in nulll");
+        if(state.persistedState == null){
+            return {
+                username: null
+            };
+        }
+        state.userInfo = state.persistedState.userInfo;
+    }
+    if(state.userInfo.username === null){
+        return {
+            username: null
+        };
+    }
+    console.log(state.userInfo.username)
 
+    return {
+        username: state.userInfo.username,
+        firstName: state.userInfo.firstName,
+        loggedIn: 'true'
+    };
 }
 
 export default connect(mapStateToProps, {fetchLogin: fetchLogin, logOut: logOut})(withRouter(FullPostView));
