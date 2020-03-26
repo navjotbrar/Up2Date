@@ -2,14 +2,22 @@ package com.architecture.uptodate.Controller;
 
 import com.architecture.uptodate.DTO.CommentDTO;
 import com.architecture.uptodate.Entity.Comment;
+import com.architecture.uptodate.Entity.CommentList;
 import com.architecture.uptodate.Repository.CommentRepository;
 import com.architecture.uptodate.Service.CommentImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,46 +30,39 @@ public class CommentController {
     @Autowired
     CommentRepository commentRepository;
 
+    private final String getCommentsUrl="http://localhost:8081/comment/posts/";
+
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(path = "/comment/post/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<List<CommentDTO>> saveCommentOnPost(@RequestBody CommentDTO commentDTO) {
+    public ResponseEntity saveCommentOnPost(@RequestBody CommentDTO commentDTO) {
 
+        try{
         commentService.sendComment(commentDTO);
         // Attempt to get all comments using pub sub
         return new ResponseEntity<List<CommentDTO>>(new ArrayList<CommentDTO>(), HttpStatus.OK);
+        } catch(Exception e){
+            return new ResponseEntity<String>("Comment Service is currently down", HttpStatus.FORBIDDEN);
+        }
 
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/comment/post/{postId}")
     @ResponseBody
-    public ResponseEntity<List<CommentDTO>> fetchCommentsForPost(@PathVariable(name="postId", required=true) int postId) {
+    public ResponseEntity fetchCommentsForPost(@PathVariable(name="postId", required=true) int postId) {
+        ClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
 
-        // Frontend dummy data testing
+        final String uri= getCommentsUrl + postId;
+        ResponseEntity<List<CommentDTO>> responseWanted = null;
+        try{
+            responseWanted = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<CommentDTO>>(){});
+            return responseWanted;
 
-        System.out.println(postId + " <<<     here      >>>>");
-
-        List<Comment> comments = commentRepository.getByPostId(postId);
-        List<CommentDTO> commentDTOS = new ArrayList<>();
-        for(Comment comment: comments){
-            try {
-                commentDTOS.add(new CommentDTO(comment.getCommentId(),comment.getParentCommentId(),comment.getContent(),comment.getPostId(),comment.getCreatedDate(),comment.getLastModifiedByDate()));
-            } catch(NullPointerException e){
-                commentDTOS.add(new CommentDTO(comment.getCommentId(),comment.getContent(),comment.getPostId(),comment.getCreatedDate(),comment.getLastModifiedByDate()));
-            }
-            System.out.println(comment.getContent());
+        }catch (ResourceAccessException e){
+            return new ResponseEntity<String>("Comment service is currently down", HttpStatus.OK);
         }
-
-//            Comment microservice testing
-        //commentService.sendComment(null);
-        //commentService.recieveComments(postId);
-
-        // Attempt to get all comments using pub sub
-        return new ResponseEntity<List<CommentDTO>>(commentDTOS, HttpStatus.OK);
-
     }
-
-
 
 }

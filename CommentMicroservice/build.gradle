@@ -33,7 +33,10 @@ dependencies {
     compileOnly("com.fasterxml.jackson.core:jackson-databind")
 
     // for Event Sourcing
-    compileOnly("org.axonframework:axon-spring-boot-starter:3.2")
+    compileOnly("org.axonframework:axon-spring-boot-starter:4.1.2")
+    compileOnly("org.axonframework:axon-test:4.1.2")
+//    compileOnly("com.h2database:h2")
+
 
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

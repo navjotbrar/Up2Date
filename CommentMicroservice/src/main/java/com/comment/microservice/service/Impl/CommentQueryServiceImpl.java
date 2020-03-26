@@ -1,11 +1,12 @@
 package com.comment.microservice.service.Impl;
 
 import com.comment.microservice.service.CommentQueryService;
-import org.axonframework.commandhandling.model.AggregateMember;
 import org.axonframework.eventsourcing.eventstore.EventStore;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CommentQueryServiceImpl implements CommentQueryService {
     private final EventStore eventStore;
 
