@@ -29,11 +29,9 @@ public class CommentImpl implements CommentService{
     public void sendComment(CommentDTO commentDTO){
         //Check if post is in DB, need to ensure all the comments we send acc make sense!
 
-        // Test for now
-        CommentDTO testDTO = new CommentDTO( 5,5,"hi",3);
         String message = null;
         try {
-            message = new ObjectMapper().writeValueAsString(testDTO);
+            message = new ObjectMapper().writeValueAsString(commentDTO);
             template.convertAndSend(sendCommentQueue, message);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

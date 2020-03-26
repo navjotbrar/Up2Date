@@ -34,7 +34,7 @@ public class CommentController {
         //commentService.recieveComments(postId);
 
 
-        commentCommandService.createComment(new CommentDTO(2,"hi",1));
+        commentCommandService.createComment(new CommentDTO(2,"hi",1,"qasim"));
         // Attempt to get all comments using pub sub
         return new ResponseEntity<List<CommentDTO>>(new ArrayList<CommentDTO>(), HttpStatus.OK);
 
@@ -52,12 +52,12 @@ public class CommentController {
     }
 
     private CommentDTO EntityToDto(Comment comment){
-        if(comment.getParentCommentId()==0){
+        if(comment.getParentCommentId()==null){
             return new CommentDTO(comment.getCommentId()
-                    ,comment.getContent(),comment.getPostId(),comment.getCreatedDate(),comment.getLastModifiedByDate());
+                    ,comment.getContent(),comment.getPostId(),comment.getCreatedDate(),comment.getLastModifiedByDate(),comment.getAuthor());
         } else{
             return new CommentDTO(comment.getCommentId(),comment.getParentCommentId()
-                    ,comment.getContent(),comment.getPostId(),comment.getCreatedDate(),comment.getLastModifiedByDate());
+                    ,comment.getContent(),comment.getPostId(),comment.getCreatedDate(),comment.getLastModifiedByDate(),comment.getAuthor());
         }
     }
 

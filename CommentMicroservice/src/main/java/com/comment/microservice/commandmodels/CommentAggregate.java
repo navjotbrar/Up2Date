@@ -31,6 +31,8 @@ public class CommentAggregate {
 
     private Date lastModifiedByDate;
 
+    private String author;
+
     private String status;
 
     // Command and handler for creation of comments
@@ -47,6 +49,7 @@ public class CommentAggregate {
         this.content= createCommentEvent.content;
         this.createdDate = createCommentEvent.createdDate;
         this.lastModifiedByDate = createCommentEvent.lastModifiedByDate;
+        this.author=createCommentEvent.author;
         this.status="ACTIVE";
 
     }

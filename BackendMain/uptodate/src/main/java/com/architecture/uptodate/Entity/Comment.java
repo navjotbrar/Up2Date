@@ -30,4 +30,7 @@ public class Comment {
     @Column(name = "lastmodifiedbydate")
     private Date lastModifiedByDate;
 
+    @Column(name ="author")
+    private String author;
+
 }

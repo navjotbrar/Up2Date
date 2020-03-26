@@ -32,7 +32,7 @@ public class CommentCommandServiceImpl implements CommentCommandService {
             Comment savedComment = commentRepository.save(DtoToEntity(commentDTO));
 
             toReturn = commandGateway.send(new CreateCommentCommand(savedComment.getCommentId(),savedComment.getParentCommentId(),savedComment.getPostId()
-                    ,savedComment.getContent(),savedComment.getCreatedDate(),savedComment.getLastModifiedByDate()));
+                    ,savedComment.getContent(),savedComment.getCreatedDate(),savedComment.getLastModifiedByDate(),commentDTO.getAuthor()));
         } else{
             // Update comment- get from db, update and save, then send command
             //
@@ -47,10 +47,10 @@ public class CommentCommandServiceImpl implements CommentCommandService {
     private Comment DtoToEntity(CommentDTO commentDTO){
         if(commentDTO.getParentCommentId()==0){
             return new Comment(commentDTO.getCommentId()
-                    ,commentDTO.getContent(),commentDTO.getPostId(),commentDTO.getCreatedDate(),commentDTO.getLastModifiedByDate());
+                    ,commentDTO.getContent(),commentDTO.getPostId(),commentDTO.getCreatedDate(),commentDTO.getLastModifiedByDate(),commentDTO.getAuthor());
         } else{
             return new Comment(commentDTO.getCommentId(),commentDTO.getParentCommentId()
-                    ,commentDTO.getContent(),commentDTO.getPostId(),commentDTO.getCreatedDate(),commentDTO.getLastModifiedByDate());
+                    ,commentDTO.getContent(),commentDTO.getPostId(),commentDTO.getCreatedDate(),commentDTO.getLastModifiedByDate(),commentDTO.getAuthor());
         }
     }
 

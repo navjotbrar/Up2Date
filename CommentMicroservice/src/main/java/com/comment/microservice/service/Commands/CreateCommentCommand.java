@@ -18,14 +18,17 @@ public class CreateCommentCommand extends BaseCommand<Integer> {
 
     public Date lastModifiedByDate;
 
+    public String author;
 
-    public CreateCommentCommand(int id, int parentCommentId, int postId,String content, Date createdDate, Date lastModifiedByDate){
+
+    public CreateCommentCommand(int id, int parentCommentId, int postId,String content, Date createdDate, Date lastModifiedByDate, String author){
         super(Integer.valueOf(id));
         this.parentCommentId= parentCommentId;
         this.postId=postId;
         this.content= content;
         this.createdDate = createdDate;
         this. lastModifiedByDate = lastModifiedByDate;
+        this.author= author;
     }
 
 
