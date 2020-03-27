@@ -9,7 +9,6 @@ import { ReactTinyLink } from 'react-tiny-link'
 import "./landingpage.css";
 import reply from "./img/reply-solid.svg"; 
 import replyWhite from "./img/reply-white.svg"; 
-import "./img/reply.css"; 
 
 const Title = styled.h1`
     font-size: 28px;
@@ -61,7 +60,8 @@ class FullPostView extends React.Component {
         newComment: '',
         selected: {},
         modalVisibility: false,
-        newComment: ''
+        newComment: '',
+        newReply: ''
     }
     milToStandard = (value) => {
         if (value !== null && value !== undefined){ //If value is passed in
@@ -117,9 +117,23 @@ class FullPostView extends React.Component {
     } 
     async componentDidMount(){
 
-        const postinfo = this.props.location.state.postinfo;
+        let postinfo = {};
+        if(typeof this.props.location.state == 'undefined'){
+            const localStore = JSON.parse(window.localStorage.getItem('post'));
+            console.log(localStore);
+            console.log("in undefined");
+            if(localStore == null){
+                this.props.history.push('/');
+                return null;
+            }
+            postinfo = localStore;
+        } else {
+            postinfo = this.props.location.state.postinfo;
+            window.localStorage.setItem('post', JSON.stringify(this.props.location.state.postinfo));
+        }
         console.log(postinfo);
         console.log(" in here !! ");
+
 
         try {
 
@@ -191,10 +205,6 @@ class FullPostView extends React.Component {
                 commentArr.push(tempComment);
             }
         })
-
-        for(let i = 0; i < 100; i++){
-            commentArr.push(<div> {i}</div>);
-        }
         
         this.setState({
             comments: commentArr,
@@ -251,10 +261,29 @@ class FullPostView extends React.Component {
             return;
         }
 
-        await this.postComment();
+        await this.postComment(0, this.state.newComment);
     }
+    replyAction = async () => {
+        console.log("replyAction pressed");
+        console.log(this.props.username);
+        console.log(this.state.newComment);
 
-    postComment = async () => {
+        if(this.props.username == null){
+            alert("Please login to post a comment");
+            return;
+        }
+
+        if(this.state.newReply.length < 1){
+            alert("Please write a reply");
+            return;
+        }
+
+        await this.postComment(this.state.selected.commentId, this.state.newReply);
+
+        this.setState({modalVisibility: false});
+        this.forceUpdate();
+    }
+    postComment = async (parentId, content) => {
 
         const date = new Date(Date.now()); 
         //"yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -277,13 +306,13 @@ class FullPostView extends React.Component {
 
         const dateString = date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second;
         console.log(dateString);
-
+        
         const response = await fetch('http://localhost:8080/comment/post/',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({author: this.props.username, parentCommentId: 0, content: this.state.newComment, postId: this.state.postinfo.postid, createdDate: dateString, lastModifiedByDate: dateString})
+            body: JSON.stringify({author: this.props.username, parentCommentId: +parentId, content: content, postId: this.state.postinfo.postid, createdDate: dateString, lastModifiedByDate: dateString})
         });
 
         console.log("response: ");
@@ -300,6 +329,11 @@ class FullPostView extends React.Component {
     handleChange = (e) => {
         this.setState({
             newComment: e.target.value
+        })
+    }
+    handleChangeReply = (e) => {
+        this.setState({
+            newReply: e.target.value
         })
     }
     closeModal = () => {
@@ -352,7 +386,7 @@ class FullPostView extends React.Component {
 
                 <Modal show = {this.state.modalVisibility} onHide = {this.closeModal}>
                     <Modal.Header closeButton>
-                        <Modal.Title> Replying to {this.state.selected.author}</Modal.Title>
+                        <Modal.Title> Replying to {this.state.selected.author}'s comment </Modal.Title>
                     </Modal.Header>
                     
                     <Modal.Body style = {{marginBottom: "20px"}}>
@@ -369,8 +403,8 @@ class FullPostView extends React.Component {
                         <div style = {{position: "absolute", bottom: "0", width: "90%"}}>
                             <Form onSubmit = {this.handleSubmit}>
                                 <Form.Group controlId="formGroupEmail" style = {{display: "grid"}}>
-                                    <Form.Control type="username" placeholder="Reply to comment..." id = "replyComment" onChange = {this.handleChange} style = {{gridRow: "2"}}/>
-                                    <Button variant="primary" onClick = {this.action} style = {{gridRow: "2"}}> 
+                                    <Form.Control type="username" placeholder="Reply to comment..." id = "replyComment" onChange = {this.handleChangeReply} style = {{gridRow: "2"}}/>
+                                    <Button variant="primary" onClick = {this.replyAction} style = {{gridRow: "2"}}> 
                                         <Image src = {replyWhite} width = "20px" style = {{marginBottom: "3px"}}></Image>
                                     </Button>
                                 </Form.Group>
