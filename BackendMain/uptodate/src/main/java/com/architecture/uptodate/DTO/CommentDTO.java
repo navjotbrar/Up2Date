@@ -67,6 +67,7 @@ public class CommentDTO {
         this.commentId=commentId;
         this.content=content;
         this.postId=postId;
+        this.parentCommentId = -1;
         this.createdDate = createdDate;
         this.lastModifiedByDate = lastModifiedByDate;
         this.author = author;

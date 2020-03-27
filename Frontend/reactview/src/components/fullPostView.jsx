@@ -1,11 +1,15 @@
 import * as React from 'react';
-import { Form, Button, Media } from 'react-bootstrap';
+import { Form, Button, Media, Image, Modal } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
 import {connect} from 'react-redux';
 import {fetchLogin, logOut} from '../actions';
 import { ReactTinyLink } from 'react-tiny-link'
+import "./landingpage.css";
+import reply from "./img/reply-solid.svg"; 
+import replyWhite from "./img/reply-white.svg"; 
+import "./img/reply.css"; 
 
 const Title = styled.h1`
     font-size: 28px;
@@ -55,7 +59,9 @@ class FullPostView extends React.Component {
         postinfo: {},
         commentCount: '',
         newComment: '',
-        selected: ''
+        selected: {},
+        modalVisibility: false,
+        newComment: ''
     }
     milToStandard = (value) => {
         if (value !== null && value !== undefined){ //If value is passed in
@@ -87,22 +93,27 @@ class FullPostView extends React.Component {
         }
     };
     getDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.toString().substring(0, 10);
+        if(typeof dateString == 'undefined') return "";
 
-    let hour = date.getHours().toString(); 
-    hour.length == 1 ? hour = '0' + hour : hour = hour;
-    
-    let minute = date.getMinutes().toString(); 
-    minute.length == 1 ? minute = '0' + minute : minute = minute;
-    
-    let second = date.getSeconds().toString(); 
-    second.length == 1 ? second = '0' + second : second = second;
+        dateString = dateString.substring(0, dateString.length - 5) + '-0600';
 
-    const militaryTime = hour + ':' + minute + ':' + second;
+        const date = new Date(dateString);
 
-    const regTime = this.milToStandard(militaryTime);
-    return day + ', ' +regTime;
+        const day = date.toString().substring(0, 10);
+
+        let hour = date.getHours().toString(); 
+        hour.length == 1 ? hour = '0' + hour : hour = hour;
+        
+        let minute = date.getMinutes().toString(); 
+        minute.length == 1 ? minute = '0' + minute : minute = minute;
+        
+        let second = date.getSeconds().toString(); 
+        second.length == 1 ? second = '0' + second : second = second;
+
+        const militaryTime = hour + ':' + minute + ':' + second;
+
+        const regTime = this.milToStandard(militaryTime);
+        return day + ', ' +regTime;
     } 
     async componentDidMount(){
 
@@ -113,6 +124,13 @@ class FullPostView extends React.Component {
         try {
 
             let r = await fetch('http://localhost:8080/comment/post/' + postinfo.postid);
+
+            console.log(r.status);
+            if(r.status == 403){
+                alert("Comments are currently unavailable");
+                return;
+            }
+
             let result = await r.json();
 
             console.log(result);
@@ -126,19 +144,30 @@ class FullPostView extends React.Component {
             console.log(error);
         }
     }
-    commentClick = () => {
-        alert("clicked");
+    commentClick = (e) => {
+        console.log("clicked, id: " + e.commentId);
+        if(this.props.username == null){
+            alert("Please login to comment");
+            return;
+        }
+        this.setState({
+            modalVisibility: true,
+            selected: e
+        });
     }
     nestClick = () => {
         alert("clicked1");
     }
     showComments = (input) => {
         let comments = input;
-        if(this.state.commentCount == 0) return;
+        if(this.state.commentCount == '0') {
+            this.setState({loaded: true});
+            return null;
+        }
         let commentArr = [];
 
         comments.forEach(comment => {
-            if(comment.parentCommentId == -1){
+            if(comment.parentCommentId == 0){
                 let nestedComments = [];
                 
                 comments.forEach(c => {
@@ -148,13 +177,12 @@ class FullPostView extends React.Component {
                     }
                 })
 
-                console.log("yuh in comments");
-                console.log(nestedComments);
-
-                const tempComment = <Media style ={{ border: "2px solid lightgray", margin: "3px", borderRadius: "5px", padding: "3px"}}>
-                                        <Media.Body id = {comment.commentId} onClick = {this.commentClick}>
+                const tempComment = <Media style ={{ borderLeft: "2px solid lightgray", margin: "3px", padding: "3px"}}>
+                                        <Media.Body id = {comment.commentId}  style = {{marginLeft: "10px"}}>
                                             <p> {comment.content} </p>
+                                            <small style = {{fontStyle: "italic"}}>-{comment.author} | </small> 
                                             <small>{this.getDate(comment.createdDate)}</small>
+                                            <Image src = {reply} width = "20px"  style = {{position: "relative", left: "10px"}} onClick = {() => this.commentClick(comment)}/>
                                             {this.makeNestedComment(nestedComments)}
                                         </Media.Body>
                                     </Media>
@@ -173,7 +201,6 @@ class FullPostView extends React.Component {
             loaded: true
         })
     }
-
     makeNestedComment = (nesteds) => {
         let comments = this.state.fullCommentList;
         let result = [];
@@ -189,10 +216,12 @@ class FullPostView extends React.Component {
                 }
             })
 
-            const tempComment = <Media style ={{ border: "2px solid lightgray", margin: "3px", borderRadius: "5px", padding: "3px"}}>
-                                    <Media.Body id = {nested.commentId} onClick = {this.nestClick}>
+            const tempComment = <Media style ={{ borderLeft: "2px solid lightgray", margin: "3px", padding: "3px"}}>
+                                    <Media.Body id = {nested.commentId} style = {{marginLeft: "10px"}}>
                                         <p>{nested.content}</p>
+                                        <small style = {{fontStyle: "italic"}}>-{nested.author} | </small>
                                         <small>{this.getDate(nested.createdDate)}</small>
+                                        <Image src = {reply} width = "20px" style = {{position: "relative", left: "10px"}} onClick = {() => this.commentClick(nested)}/>
                                         {this.makeNestedComment(nestedComments)}
                                     </Media.Body>
                                 </Media>
@@ -207,15 +236,75 @@ class FullPostView extends React.Component {
         console.log("pressed submit");
     }
 
-    action = () => {
+    action = async () => {
         console.log("action pressed");
         console.log(this.props.username);
+        console.log(this.state.newComment);
+
+        if(this.props.username == null){
+            alert("Please login to post a comment");
+            return;
+        }
+
+        if(this.state.newComment.length < 1){
+            alert("Please write a comment");
+            return;
+        }
+
+        await this.postComment();
+    }
+
+    postComment = async () => {
+
+        const date = new Date(Date.now()); 
+        //"yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+
+        let month = (date.getMonth() + 1).toString(); 
+        month.length == 1 ? month = '0' + month : month = month; 
+        // console.log('month: ' + month);
+        let day = date.getDate().toString(); 
+        day.length == 1 ? day = '0' + day : day = day;
+        
+        let hour = date.getHours().toString(); 
+        hour.length == 1 ? hour = '0' + hour : hour = hour;
+        
+        let minute = date.getMinutes().toString(); 
+        minute.length == 1 ? minute = '0' + minute : minute = minute;
+        
+        let second = date.getSeconds().toString(); 
+        second.length == 1 ? second = '0' + second : second = second;
+        
+
+        const dateString = date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second;
+        console.log(dateString);
+
+        const response = await fetch('http://localhost:8080/comment/post/',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({author: this.props.username, parentCommentId: 0, content: this.state.newComment, postId: this.state.postinfo.postid, createdDate: dateString, lastModifiedByDate: dateString})
+        });
+
+        console.log("response: ");
+        // const t = await response.text();
+        console.log(response.status);
+
+        if(response.status != 200){
+            alert("Unable to post comment, server down");
+            return;
+        }
+        this.componentDidMount();
     }
 
     handleChange = (e) => {
         this.setState({
-            [e.target.id]: [e.target.value]
+            newComment: e.target.value
         })
+    }
+    closeModal = () => {
+        this.state.modalVisibility = false;
+        this.forceUpdate();
     }
 
     render(){
@@ -260,6 +349,35 @@ class FullPostView extends React.Component {
                     </SecondCol>
 
                 </GridContainer>
+
+                <Modal show = {this.state.modalVisibility} onHide = {this.closeModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title> Replying to {this.state.selected.author}</Modal.Title>
+                    </Modal.Header>
+                    
+                    <Modal.Body style = {{marginBottom: "20px"}}>
+                        <Media style ={{ borderLeft: "2px solid lightgray", margin: "3px", padding: "3px"}}>
+                            <Media.Body id = {this.state.selected.commentId}  style = {{marginLeft: "10px"}}>
+                                <p> {this.state.selected.content} </p>
+                                <small style = {{fontStyle: "italic"}}>-{this.state.selected.author} | </small> 
+                                <small>{this.getDate(this.state.selected.createdDate)}</small>
+                            </Media.Body>
+                        </Media>
+                    </Modal.Body>
+
+                    <Modal.Body>
+                        <div style = {{position: "absolute", bottom: "0", width: "90%"}}>
+                            <Form onSubmit = {this.handleSubmit}>
+                                <Form.Group controlId="formGroupEmail" style = {{display: "grid"}}>
+                                    <Form.Control type="username" placeholder="Reply to comment..." id = "replyComment" onChange = {this.handleChange} style = {{gridRow: "2"}}/>
+                                    <Button variant="primary" onClick = {this.action} style = {{gridRow: "2"}}> 
+                                        <Image src = {replyWhite} width = "20px" style = {{marginBottom: "3px"}}></Image>
+                                    </Button>
+                                </Form.Group>
+                            </Form>
+                        </div>
+                    </Modal.Body>
+			    </Modal>
                 </>
             );
         else
