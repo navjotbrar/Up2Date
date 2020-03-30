@@ -12,4 +12,7 @@ public interface PostsRepository extends CrudRepository<Posts,UUID>{
 
     @Override
     Posts save(Posts entity);
+
+    @Override
+    Iterable<Posts> findAll();
 }

@@ -1,17 +1,55 @@
 import React, { Component, Fragment } from "react";
 import Expand from "react-expand-animated";
 import globe from "./img/world.png";
-import Login from "./login.jsx"
-import {Table} from "reactstrap"
+import Login from "./login.jsx";
+import ExpandView from "./expandView.jsx"
+import { Table } from "reactstrap";
+import "bulma/css/bulma.css";
+import "./posts.css";
 
-
-
-class App extends Component {
+class Posts extends Component {
   state = { open: false };
 
-    toggle = () => {
+  toggle = () => {
     this.setState(prevState => ({ open: !prevState.open }));
   };
+   milToStandard = (value) => {
+    if (value !== null && value !== undefined){ //If value is passed in
+      if(value.indexOf('AM') > -1 || value.indexOf('PM') > -1){ //If time is already in standard time then don't format.
+        return value;
+      }
+      else {
+        if(value.length == 8){ //If value is the expected length for military time then process to standard time.
+          var hour = value.substring ( 0,2 ); //Extract hour
+          var minutes = value.substring ( 3,5 ); //Extract minutes
+          var identifier = 'AM'; //Initialize AM PM identifier
+   
+          if(hour == 12){ //If hour is 12 then should set AM PM identifier to PM
+            identifier = 'PM';
+          }
+          if(hour == 0){ //If hour is 0 then set to 12 for standard time 12 AM
+            hour=12;
+          }
+          if(hour > 12){ //If hour is greater than 12 then convert to standard 12 hour format and set the AM PM identifier to PM
+            hour = hour - 12;
+            identifier='PM';
+          }
+          return hour + ':' + minutes + ' ' + identifier; //Return the constructed standard time
+        }
+        else { //If value is not the expected length than just return the value as is
+          return value;
+        }
+      }
+    }
+  };
+  getDate = (dateString) => {
+    const date = new Date(dateString);
+    // console.log(date);
+    const day = date.toString().substring(0, 10);
+    const militaryTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    const regTime = this.milToStandard(militaryTime);
+    return day + ', ' +regTime;
+  } 
 
   render() {
     const styles = {
@@ -20,30 +58,34 @@ class App extends Component {
     const transitions = ["height", "opacity", "background"];
 
     return (
-      <div>
-          <div> 
-              <Table>
-                  <tr>
-                      <td>
-                          <img onClick={this.toggle} style={{cursor:'pointer'}} src = {globe} width= "100" height = "100"/>
-                      </td>
-                      <td>
-                          <p>Drowing at the olympics</p>
-                          <p> Nope, no one has ever drowned in a swimming race at Olympics, although it was about to happen at 1948 Olympics when Greta Anderson(Denmark) nearly drowned when she fainted midway through a race but was rescued by two other swimmers from Hungary and U.S.. And she went on to win gold medal in 100m freestyle and silver in</p>
-                      </td>
-                  </tr>
-              </Table>
-          </div>
-          <Expand
-            open={this.state.open}
-            duration={400}
-            styles={styles}
-          >
-            <img src={globe}/>
-          </Expand>
+      <div onClick={this.toggle}  class = "outside-container">
+        <div class="box">
+          <article class="media">
+            <div className = "picture-div">
+              <div class="media-left">
+                <img className="pic" src={this.props.info.imageurl} />
+              </div>
+            </div>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong>{this.props.info.title}</strong> <small>{this.getDate(this.props.info.createDate)}</small>
+                  <br />
+                  {this.props.info.body}
+                </p>
+                <div className="author">
+                  <p>- {this.props.info.author}</p>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+        <Expand open={this.state.open} duration={400} styles={styles}>
+          <ExpandView info = {this.props.info}/>
+        </Expand>
       </div>
     );
   }
 }
 
-export default App;
+export default Posts;

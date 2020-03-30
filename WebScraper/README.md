@@ -9,3 +9,5 @@ To have the Python Web Scraping Service work on your device follow these steps.
         - source tutorial-env/bin/activate (Mac)
 4. Install the BeautifulSoup, Request, and Pillow Libraries into your virtual environment by running these commands
     - pip install -r requirements.txt
+
+Run by using "python WebScraper.py"

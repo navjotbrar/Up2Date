@@ -63,14 +63,13 @@ class CustomNavbar extends React.Component{
         } else {
             return (
                 <div> 
-                    {/* <Button variant="primary" style = {{padding: "3px 10px", margin: "7px"}} onClick = {this.action}> press to logout Mr.{this.props.username} </Button> */}
                     <Dropdown as={ButtonGroup} style = {{padding: "0px 10px", margin: "4px"}}>
                     <Button variant="success" onClick = {this.goToNewPostView}>+ New Post</Button>
 
                     <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
 
                     <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                        <Dropdown.Item href="./homepage">Go to Homepage</Dropdown.Item>
                         <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item onClick = {this.logOutAction}>Log Out</Dropdown.Item>
@@ -86,7 +85,7 @@ class CustomNavbar extends React.Component{
         return(
             <>
              <CustomNav bg = "dark"  variant="dark" fixed = "top">
-                <Navbar.Brand href="/">
+                <Navbar.Brand href="/" style = {{paddingTop: "0.6125rem"}}>
                    up2date®
                 </Navbar.Brand>
                 <Nav className="mr-auto">
@@ -103,7 +102,9 @@ class CustomNavbar extends React.Component{
                 </Nav>
 
                 {this.props.loggedIn == 'true'
-                    ?   <GreetingDiv> Hello {this.props.firstName} </GreetingDiv>
+                    ?   <Nav.Link>
+                            <MyLink to="./homepage" style = {{color: "white"}}> Hello {this.props.firstName} </MyLink>
+                        </Nav.Link> 
                     :   <></>
                 }
             
@@ -116,8 +117,6 @@ class CustomNavbar extends React.Component{
 }
 
 const mapStateToProps = (state) => {
-    console.log("state in navbar:")
-    console.log(state)
     if(Object.keys(state.userInfo).length === 0 && state.userInfo.constructor === Object){
         console.log("in nulll");
         if(state.persistedState == null){
@@ -127,7 +126,6 @@ const mapStateToProps = (state) => {
         }
         state.userInfo = state.persistedState.userInfo;
     }
-    console.log("nope")
     if(state.userInfo.username === null){
         return {
             username: null
