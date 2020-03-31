@@ -13,7 +13,10 @@ class Posts extends Component {
   toggle = () => {
     this.setState(prevState => ({ open: !prevState.open }));
   };
-   milToStandard = (value) => {
+  goToPost = () => {
+    console.log("hi")
+  }
+  milToStandard = (value) => {
     if (value !== null && value !== undefined){ //If value is passed in
       if(value.indexOf('AM') > -1 || value.indexOf('PM') > -1){ //If time is already in standard time then don't format.
         return value;
@@ -44,9 +47,19 @@ class Posts extends Component {
   };
   getDate = (dateString) => {
     const date = new Date(dateString);
-    // console.log(date);
     const day = date.toString().substring(0, 10);
-    const militaryTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+
+    let hour = date.getHours().toString(); 
+    hour.length == 1 ? hour = '0' + hour : hour = hour;
+    
+    let minute = date.getMinutes().toString(); 
+    minute.length == 1 ? minute = '0' + minute : minute = minute;
+    
+    let second = date.getSeconds().toString(); 
+    second.length == 1 ? second = '0' + second : second = second;
+
+    const militaryTime = hour + ':' + minute + ':' + second;
+
     const regTime = this.milToStandard(militaryTime);
     return day + ', ' +regTime;
   } 
@@ -58,8 +71,8 @@ class Posts extends Component {
     const transitions = ["height", "opacity", "background"];
 
     return (
-      <div onClick={this.toggle}  class = "outside-container">
-        <div class="box">
+      <div class = "outside-container">
+        <div class="box" onClick={this.toggle}>
           <article class="media">
             <div className = "picture-div">
               <div class="media-left">
@@ -80,8 +93,8 @@ class Posts extends Component {
             </div>
           </article>
         </div>
-        <Expand open={this.state.open} duration={400} styles={styles}>
-          <ExpandView info = {this.props.info}/>
+        <Expand open={this.state.open} duration={400} styles={styles} >
+          <ExpandView info = {this.props.info} id = {this.props.info.postid}/>   
         </Expand>
       </div>
     );

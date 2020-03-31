@@ -58,4 +58,5 @@ public class CommentDTO {
         this.author = author;
     }
 
+    public CommentDTO(){}
 }
