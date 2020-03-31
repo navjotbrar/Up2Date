@@ -3,6 +3,7 @@ package com.comment.microservice.service.Impl;
 import com.comment.microservice.DTO.CommentDTO;
 import com.comment.microservice.entity.Comment;
 import com.comment.microservice.service.Commands.CreateCommentCommand;
+import com.comment.microservice.service.Commands.DeleteCommentCommand;
 import com.comment.microservice.service.Commands.EditCommentCommand;
 import com.comment.microservice.service.CommentCommandService;
 import com.comment.microservice.service.repository.CommentRepository;
@@ -52,6 +53,19 @@ public class CommentCommandServiceImpl implements CommentCommandService {
 
         return toReturn;
     }
+
+
+    // This function is used to delete a comment
+    @Override
+    public void deleteComment(int commentId){
+        Comment commentToDelete= commentRepository.findByCommentId(commentId).get();
+        commentToDelete.setContent("[DELETED]");
+        commentToDelete.setAuthor("[DELETED]");
+        commentToDelete.setLastModifiedByDate(new Date());
+        commentRepository.save(commentToDelete);
+        commandGateway.send(new DeleteCommentCommand(commentId));
+    }
+
 
 
     private Comment DtoToEntity(CommentDTO commentDTO){
