@@ -81,6 +81,9 @@ public class CommentController {
     @DeleteMapping("/comment/{commentId}")
     @ResponseBody
     public ResponseEntity deleteComment(@PathVariable(name="commentId", required=true) int commentId) {
+
+        System.out.println(" in delete: ");
+        System.out.println(commentId);
         try{
             commentService.deleteComment(commentId);
             // Attempt to delete comment using pub sub

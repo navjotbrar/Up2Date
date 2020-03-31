@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, Button, Media, Image, Modal } from 'react-bootstrap';
+import { Form, Button, Media, Image, Modal, Alert } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
@@ -60,8 +60,13 @@ class FullPostView extends React.Component {
         newComment: '',
         selected: {},
         modalVisibility: false,
+        editModal: false,
         newComment: '',
-        newReply: ''
+        newReply: '',
+        editing: {},
+        editText: '',
+        alertMessage: false,
+        deleteId: ''
     }
     milToStandard = (value) => {
         if (value !== null && value !== undefined){ //If value is passed in
@@ -91,11 +96,34 @@ class FullPostView extends React.Component {
             }
           }
         }
-    };
+    }
     getDate = (dateString) => {
         if(typeof dateString == 'undefined') return "";
 
         dateString = dateString.substring(0, dateString.length - 5) + '-0600';
+
+        const date = new Date(dateString);
+
+        const day = date.toString().substring(0, 10);
+
+        let hour = date.getHours().toString(); 
+        hour.length == 1 ? hour = '0' + hour : hour = hour;
+        
+        let minute = date.getMinutes().toString(); 
+        minute.length == 1 ? minute = '0' + minute : minute = minute;
+        
+        let second = date.getSeconds().toString(); 
+        second.length == 1 ? second = '0' + second : second = second;
+
+        const militaryTime = hour + ':' + minute + ':' + second;
+
+        const regTime = this.milToStandard(militaryTime);
+        return day + ', ' +regTime;
+    } 
+    getDateModified = (dateString) => {
+        if(typeof dateString == 'undefined') return "";
+
+        // dateString = dateString.substring(0, dateString.length - 5) + '-0600';
 
         const date = new Date(dateString);
 
@@ -169,9 +197,69 @@ class FullPostView extends React.Component {
             selected: e
         });
     }
-    editComment = () => {
-        alert("edit");
+    editComment = async (commentInfo) => {
+        console.log("editing: ");
+        console.log(commentInfo.commentId);
+
+        // this.setState({editing: commentInfo});
+
+        const dateString = this.currentDate();
+
+        console.log(" edit date: " + dateString);
+
+        const response = await fetch('http://localhost:8080/comment/post/',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({author: commentInfo.author, commentId: commentInfo.commentId, parentCommentId: +commentInfo.parentId, content: this.state.editText, postId: commentInfo.postId, createdDate: dateString, lastModifiedByDate: dateString})
+        });
+
+        console.log("response: ");
+        // const t = await response.text();
+        console.log(response.status);
+
+        if(response.status != 200){
+            alert("Unable to edit comment, server down");
+            return;
+        }
+        this.componentDidMount();
     }
+    editCommentClick = async (commentInfo) => {
+        console.log("edit click: ");
+        console.log(commentInfo.commentId);
+
+        this.setState({editing: commentInfo, editModal: true});
+    }
+
+    deleteCommentClick = async (commentInfo) => {
+        console.log("Pressed delete: " + commentInfo.commentId);
+        this.setState({alertMessage: true, deleteId: commentInfo.commentId});
+        // await this.deleteComment(commentInfo);
+        // window.location.reload();
+    }
+    deleteComment = async (commentId) => {
+        console.log(" in delete: " + commentId);
+
+        const response = await fetch('http://localhost:8080/comment/' + commentId,{
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        console.log("response: ");
+        // const t = await response.text();
+        console.log(response.status);
+
+        if(response.status != 200){
+            alert("Unable to delete comment, server down");
+            return;
+        }
+
+        window.location.reload();
+    }
+
     showComments = (input) => {
         let comments = input;
         if(this.state.commentCount == '0') {
@@ -195,12 +283,21 @@ class FullPostView extends React.Component {
                                         <Media.Body id = {comment.commentId}  style = {{marginLeft: "10px"}}>
                                             <p> {comment.content} </p>
                                             <small style = {{fontStyle: "italic"}}>-{comment.author} | </small> 
-                                            <small>{this.getDate(comment.createdDate)}</small>
+                                            {   comment.lastModifiedByDate != comment.createdDate
+                                                ? <>
+                                                    <small>{this.getDateModified(comment.lastModifiedByDate)}</small>
+                                                    <small> (edited) </small>
+                                                  </>
+                                                : <small>{this.getDate(comment.createdDate)}</small>
+                                            }
                                             <Button variant="outline-success" style = {{position: "relative", left: "10px", padding: "0px", border: "0px"}}>
                                                 <Image src = {reply} width = "20px"  style = {{}} onClick = {() => this.commentClick(comment)}/>
                                             </Button>
                                             { this.props.username == comment.author
-                                                ? <Button variant = "outline-secondary" onClick = {this.editComment} style = {{position: "relative", left: "10px", padding: "0px", border: "0px", fontSize: "0.8rem", paddingLeft: "10px", paddingRight: "10px", marginLeft: "10px"}}> Edit </Button>
+                                                ? <>
+                                                    <Button variant = "outline-secondary" onClick = {() => this.editCommentClick(comment)} style = {{position: "relative", left: "10px", padding: "0px", border: "0px", fontSize: "0.8rem", paddingLeft: "10px", paddingRight: "10px", marginLeft: "10px"}}> Edit </Button>
+                                                    <Button variant = "outline-danger" onClick = {() => this.deleteCommentClick(comment)} style = {{position: "relative", left: "10px", padding: "0px", border: "0px", fontSize: "0.8rem", paddingLeft: "10px", paddingRight: "10px", marginLeft: "10px"}}> Delete </Button>
+                                                  </>
                                                 : <></>
                                             }
                                             {this.makeNestedComment(nestedComments)}
@@ -236,8 +333,23 @@ class FullPostView extends React.Component {
                                     <Media.Body id = {nested.commentId} style = {{marginLeft: "10px"}}>
                                         <p>{nested.content}</p>
                                         <small style = {{fontStyle: "italic"}}>-{nested.author} | </small>
-                                        <small>{this.getDate(nested.createdDate)}</small>
-                                        <Image src = {reply} width = "20px" style = {{position: "relative", left: "10px"}} onClick = {() => this.commentClick(nested)}/>
+                                        {   nested.lastModifiedByDate != nested.createdDate
+                                            ? <>
+                                                <small>{this.getDateModified(nested.lastModifiedByDate)}</small>
+                                                <small> (edited) </small>
+                                                </>
+                                            : <small>{this.getDate(nested.createdDate)}</small>
+                                        }
+                                        <Button variant="outline-success" style = {{position: "relative", left: "10px", padding: "0px", border: "0px"}}>
+                                            <Image src = {reply} width = "20px"  style = {{}} onClick = {() => this.commentClick(nested)}/>
+                                        </Button>
+                                        { this.props.username == nested.author
+                                            ? <>
+                                                <Button variant = "outline-secondary" onClick = {() => this.editCommentClick(nested)} style = {{position: "relative", left: "10px", padding: "0px", border: "0px", fontSize: "0.8rem", paddingLeft: "10px", paddingRight: "10px", marginLeft: "10px"}}> Edit </Button>
+                                                <Button variant = "outline-danger" onClick = {() => this.deleteCommentClick(nested)} style = {{position: "relative", left: "10px", padding: "0px", border: "0px", fontSize: "0.8rem", paddingLeft: "10px", paddingRight: "10px", marginLeft: "10px"}}> Delete </Button>
+                                              </>
+                                            : <></>
+                                        }
                                         {this.makeNestedComment(nestedComments)}
                                     </Media.Body>
                                 </Media>
@@ -268,6 +380,7 @@ class FullPostView extends React.Component {
         }
 
         await this.postComment(0, this.state.newComment);
+        window.location.reload();
     }
     replyAction = async () => {
         console.log("replyAction pressed");
@@ -288,6 +401,53 @@ class FullPostView extends React.Component {
 
         this.setState({modalVisibility: false});
         this.forceUpdate();
+        window.location.reload();
+    }
+    editAction = async () => {
+        console.log("editAction pressed");
+        console.log(this.props.username);
+        console.log(this.state.editText);
+
+        if(this.props.username == null){
+            alert("Please login to edit a comment");
+            return;
+        }
+
+        if(this.state.editText.length < 1){
+            alert("Please write an edit");
+            return;
+        }
+
+        await this.editComment(this.state.editing);
+
+        this.setState({editModal: false});
+        this.forceUpdate();
+        window.location.reload();
+    }
+    currentDate = () => {
+        let date = new Date(Date.now()); 
+        //"yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        date.setHours(date.getHours());
+
+        let month = (date.getMonth() + 1).toString(); 
+        month.length == 1 ? month = '0' + month : month = month; 
+        // console.log('month: ' + month);
+        let day = date.getDate().toString(); 
+        day.length == 1 ? day = '0' + day : day = day;
+        
+        let hour = date.getHours().toString(); 
+        hour.length == 1 ? hour = '0' + hour : hour = hour;
+        
+        let minute = date.getMinutes().toString(); 
+        minute.length == 1 ? minute = '0' + minute : minute = minute;
+        
+        let second = date.getSeconds().toString(); 
+        second.length == 1 ? second = '0' + second : second = second;
+        
+
+        const dateString = date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second;
+        console.log(dateString);
+        return dateString;
     }
     postComment = async (parentId, content) => {
 
@@ -311,7 +471,7 @@ class FullPostView extends React.Component {
         
 
         const dateString = date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second;
-        console.log(dateString);
+        console.log(" new comment date: " + dateString);
         
         const response = await fetch('http://localhost:8080/comment/post/',{
             method: 'POST',
@@ -342,8 +502,14 @@ class FullPostView extends React.Component {
             newReply: e.target.value
         })
     }
+    handleChangeEdit = (e) => {
+        this.setState({
+            editText: e.target.value
+        })
+    }
     closeModal = () => {
         this.state.modalVisibility = false;
+        this.state.editModal = false;
         this.forceUpdate();
     }
 
@@ -351,6 +517,19 @@ class FullPostView extends React.Component {
         if(this.state.loaded)
             return(
                 <>
+                <Alert show={this.state.alertMessage} variant = "danger" style = {{marginTop: "30px"}}>
+                    <Alert.Heading>Are you sure you want to delete the comment?</Alert.Heading>
+                    <hr />
+                    <div className="d-flex justify-content-end">
+                        <Button onClick={() => this.setState({alertMessage: false})} variant="outline-danger">
+                            No
+                        </Button>
+                        <Button onClick={() => this.deleteComment(this.state.deleteId)} variant="outline-success" style = {{marginLeft: "10px"}}>
+                            Yes
+                        </Button>
+                    </div>
+                </Alert>
+
                 <GridContainer>
                     <FirstCol>
                         <Title> {this.state.postinfo.title} </Title>
@@ -404,7 +583,13 @@ class FullPostView extends React.Component {
                             <Media.Body id = {this.state.selected.commentId}  style = {{marginLeft: "10px"}}>
                                 <p> {this.state.selected.content} </p>
                                 <small style = {{fontStyle: "italic"}}>-{this.state.selected.author} | </small> 
-                                <small>{this.getDate(this.state.selected.createdDate)}</small>
+                                {   this.state.selected.lastModifiedByDate != this.state.selected.createdDate
+                                    ? <>
+                                        <small>{this.getDateModified(this.state.selected.lastModifiedByDate)}</small>
+                                        <small> (edited) </small>
+                                        </>
+                                    : <small>{this.getDate(this.state.selected.createdDate)}</small>
+                                }
                             </Media.Body>
                         </Media>
                     </Modal.Body>
@@ -422,6 +607,43 @@ class FullPostView extends React.Component {
                         </div>
                     </Modal.Body>
 			    </Modal>
+
+                <Modal show = {this.state.editModal} onHide = {this.closeModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title> Editing comment: </Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body style = {{marginBottom: "20px"}}>
+                        <Media style ={{ borderLeft: "2px solid lightgray", margin: "3px", padding: "3px"}}>
+                            <Media.Body id = {this.state.editing.commentId}  style = {{marginLeft: "10px"}}>
+                                <p> {this.state.editing.content} </p>
+                                <small style = {{fontStyle: "italic"}}>-{this.state.editing.author} | </small> 
+                                {   this.state.editing.lastModifiedByDate != this.state.editing.createdDate
+                                    ? <>
+                                        <small>{this.getDateModified(this.state.editing.lastModifiedByDate)}</small>
+                                        <small> (edited) </small>
+                                        </>
+                                    : <small>{this.getDate(this.state.editing.createdDate)}</small>
+                                }
+                            </Media.Body>
+                        </Media>
+                    </Modal.Body>
+
+                    <Modal.Body>
+                        <div style = {{position: "absolute", bottom: "0", width: "90%"}}>
+                            <Form onSubmit = {this.handleSubmit}>
+                                <Form.Group controlId="formGroupEmail" style = {{display: "grid"}}>
+                                    <Form.Control type="username" placeholder="Edit comment..." id = "editComment" onChange = {this.handleChangeEdit} style = {{gridRow: "2"}}/>
+                                    <Button variant="primary" onClick = {this.editAction} style = {{gridRow: "2"}}> 
+                                        Edit
+                                    </Button>
+                                </Form.Group>
+                            </Form>
+                        </div>
+                    </Modal.Body>
+                    
+			    </Modal>
+                
                 </>
             );
         else

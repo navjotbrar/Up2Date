@@ -36,18 +36,18 @@ public class UserController {
                 @PathVariable(name="password", required=true) String password) {
 
 
-        Optional<User> userQuery = userRepository.findByUsernameAndPassword(username, password);
+            Optional<User> userQuery = userRepository.findByUsernameAndPassword(username, password);
 
-        if(userQuery.isPresent()){
-            return new ResponseEntity<User>(userQuery.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<User>(null,null, HttpStatus.OK);
+            if(userQuery.isPresent()){
+                return new ResponseEntity<User>(userQuery.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<User>(null,null, HttpStatus.OK);
+            }
+
+
+    //        return new ResponseEntity<User>(new User("shamin","rahman","1234","5678"),HttpStatus.OK);
+
         }
-
-
-//        return new ResponseEntity<User>(new User("shamin","rahman","1234","5678"),HttpStatus.OK);
-
-    }
 
 
    // @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
