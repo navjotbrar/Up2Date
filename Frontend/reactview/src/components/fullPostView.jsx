@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, Button, Media, Image, Modal } from 'react-bootstrap';
+import { Form, Button, Media, Image, Modal, Alert } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
@@ -64,7 +64,9 @@ class FullPostView extends React.Component {
         newComment: '',
         newReply: '',
         editing: {},
-        editText: ''
+        editText: '',
+        alertMessage: false,
+        deleteId: ''
     }
     milToStandard = (value) => {
         if (value !== null && value !== undefined){ //If value is passed in
@@ -229,6 +231,35 @@ class FullPostView extends React.Component {
 
         this.setState({editing: commentInfo, editModal: true});
     }
+
+    deleteCommentClick = async (commentInfo) => {
+        console.log("Pressed delete: " + commentInfo.commentId);
+        this.setState({alertMessage: true, deleteId: commentInfo.commentId});
+        // await this.deleteComment(commentInfo);
+        // window.location.reload();
+    }
+    deleteComment = async (commentId) => {
+        console.log(" in delete: " + commentId);
+
+        const response = await fetch('http://localhost:8080/comment/' + commentId,{
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        console.log("response: ");
+        // const t = await response.text();
+        console.log(response.status);
+
+        if(response.status != 200){
+            alert("Unable to delete comment, server down");
+            return;
+        }
+
+        window.location.reload();
+    }
+
     showComments = (input) => {
         let comments = input;
         if(this.state.commentCount == '0') {
@@ -263,7 +294,10 @@ class FullPostView extends React.Component {
                                                 <Image src = {reply} width = "20px"  style = {{}} onClick = {() => this.commentClick(comment)}/>
                                             </Button>
                                             { this.props.username == comment.author
-                                                ? <Button variant = "outline-secondary" onClick = {() => this.editCommentClick(comment)} style = {{position: "relative", left: "10px", padding: "0px", border: "0px", fontSize: "0.8rem", paddingLeft: "10px", paddingRight: "10px", marginLeft: "10px"}}> Edit </Button>
+                                                ? <>
+                                                    <Button variant = "outline-secondary" onClick = {() => this.editCommentClick(comment)} style = {{position: "relative", left: "10px", padding: "0px", border: "0px", fontSize: "0.8rem", paddingLeft: "10px", paddingRight: "10px", marginLeft: "10px"}}> Edit </Button>
+                                                    <Button variant = "outline-danger" onClick = {() => this.deleteCommentClick(comment)} style = {{position: "relative", left: "10px", padding: "0px", border: "0px", fontSize: "0.8rem", paddingLeft: "10px", paddingRight: "10px", marginLeft: "10px"}}> Delete </Button>
+                                                  </>
                                                 : <></>
                                             }
                                             {this.makeNestedComment(nestedComments)}
@@ -310,7 +344,10 @@ class FullPostView extends React.Component {
                                             <Image src = {reply} width = "20px"  style = {{}} onClick = {() => this.commentClick(nested)}/>
                                         </Button>
                                         { this.props.username == nested.author
-                                            ? <Button variant = "outline-secondary" onClick = {() => this.editCommentClick(nested)} style = {{position: "relative", left: "10px", padding: "0px", border: "0px", fontSize: "0.8rem", paddingLeft: "10px", paddingRight: "10px", marginLeft: "10px"}}> Edit </Button>
+                                            ? <>
+                                                <Button variant = "outline-secondary" onClick = {() => this.editCommentClick(nested)} style = {{position: "relative", left: "10px", padding: "0px", border: "0px", fontSize: "0.8rem", paddingLeft: "10px", paddingRight: "10px", marginLeft: "10px"}}> Edit </Button>
+                                                <Button variant = "outline-danger" onClick = {() => this.deleteCommentClick(nested)} style = {{position: "relative", left: "10px", padding: "0px", border: "0px", fontSize: "0.8rem", paddingLeft: "10px", paddingRight: "10px", marginLeft: "10px"}}> Delete </Button>
+                                              </>
                                             : <></>
                                         }
                                         {this.makeNestedComment(nestedComments)}
@@ -480,6 +517,19 @@ class FullPostView extends React.Component {
         if(this.state.loaded)
             return(
                 <>
+                <Alert show={this.state.alertMessage} variant = "danger" style = {{marginTop: "30px"}}>
+                    <Alert.Heading>Are you sure you want to delete the comment?</Alert.Heading>
+                    <hr />
+                    <div className="d-flex justify-content-end">
+                        <Button onClick={() => this.setState({alertMessage: false})} variant="outline-danger">
+                            No
+                        </Button>
+                        <Button onClick={() => this.deleteComment(this.state.deleteId)} variant="outline-success" style = {{marginLeft: "10px"}}>
+                            Yes
+                        </Button>
+                    </div>
+                </Alert>
+
                 <GridContainer>
                     <FirstCol>
                         <Title> {this.state.postinfo.title} </Title>
@@ -593,6 +643,7 @@ class FullPostView extends React.Component {
                     </Modal.Body>
                     
 			    </Modal>
+                
                 </>
             );
         else
