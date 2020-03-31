@@ -169,8 +169,8 @@ class FullPostView extends React.Component {
             selected: e
         });
     }
-    nestClick = () => {
-        alert("clicked1");
+    editComment = () => {
+        alert("edit");
     }
     showComments = (input) => {
         let comments = input;
@@ -196,7 +196,13 @@ class FullPostView extends React.Component {
                                             <p> {comment.content} </p>
                                             <small style = {{fontStyle: "italic"}}>-{comment.author} | </small> 
                                             <small>{this.getDate(comment.createdDate)}</small>
-                                            <Image src = {reply} width = "20px"  style = {{position: "relative", left: "10px"}} onClick = {() => this.commentClick(comment)}/>
+                                            <Button variant="outline-success" style = {{position: "relative", left: "10px", padding: "0px", border: "0px"}}>
+                                                <Image src = {reply} width = "20px"  style = {{}} onClick = {() => this.commentClick(comment)}/>
+                                            </Button>
+                                            { this.props.username == comment.author
+                                                ? <Button variant = "outline-secondary" onClick = {this.editComment} style = {{position: "relative", left: "10px", padding: "0px", border: "0px", fontSize: "0.8rem", paddingLeft: "10px", paddingRight: "10px", marginLeft: "10px"}}> Edit </Button>
+                                                : <></>
+                                            }
                                             {this.makeNestedComment(nestedComments)}
                                         </Media.Body>
                                     </Media>
@@ -348,6 +354,10 @@ class FullPostView extends React.Component {
                 <GridContainer>
                     <FirstCol>
                         <Title> {this.state.postinfo.title} </Title>
+                        <div style = {{display: "flex", justifyContent: "left", marginBottom: "20px"}}>
+                            <small style = {{fontStyle: "italic", marginRight: "3px"}}>-{this.state.postinfo.author} | </small>
+                            <small> {this.getDate(this.state.postinfo.createDate)}</small>
+                        </div>
                         <div style = {{justifyContent: "left", paddingBottom: "15px"}}>
                             <ReactTinyLink
                                 cardSize = "large"
@@ -368,7 +378,7 @@ class FullPostView extends React.Component {
                             {this.state.commentCount} Comments 
                         </Title>
 
-                        <div style = {{textAlign: "left", fontSize: "16px", overflowY: "auto", maxHeight: "30rem"}}>
+                        <div style = {{textAlign: "left", fontSize: "16px", overflowY: "auto", maxHeight: "30rem", marginBottom: "30px"}}>
                             {this.state.comments}
                         </div>
 
