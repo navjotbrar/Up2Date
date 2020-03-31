@@ -65,4 +65,17 @@ public class CommentController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @DeleteMapping("/comment/{commentId}")
+    @ResponseBody
+    public ResponseEntity deleteComment(@PathVariable(name="postId", required=true) int commentId) {
+        try{
+            commentService.deleteComment(commentId);
+            // Attempt to get all comments using pub sub
+            return new ResponseEntity<List<CommentDTO>>(new ArrayList<CommentDTO>(), HttpStatus.OK);
+        } catch(Exception e){
+            return new ResponseEntity<String>("Comment Service is currently down", HttpStatus.FORBIDDEN);
+        }
+    }
+
 }
