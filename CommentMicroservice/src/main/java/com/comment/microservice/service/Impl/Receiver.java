@@ -32,6 +32,7 @@ public class Receiver {
     @JmsListener(destination = deleteCommentQueue, containerFactory = "myFactory")
     public void fetchCommentsFromPost(int commentId) throws JSONException, IOException {
         System.out.println("Value of the comment ID I would like to delete is" + commentId);
+        commentCommandService.deleteComment(commentId);
     }
 
 }
