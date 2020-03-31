@@ -75,6 +75,8 @@ public class CommentAggregate {
 
     @EventSourcingHandler
     public void on(DeleteCommentEvent deleteCommentEvent){
+        this.author="DELETED";
+        this.content="DELETED";
         this.status="DELETED";
     }
 
@@ -84,6 +86,5 @@ public class CommentAggregate {
     }
 
     // Deleting a comment
-    // TODO: If a parent is deleted, must delete all of the children as well!
 
 }

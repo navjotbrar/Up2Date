@@ -50,4 +50,10 @@ public class CommentImpl implements CommentService{
     }
 
 
+    @Override
+    public void deleteComment(int commentId){
+
+    }
+
+
 }

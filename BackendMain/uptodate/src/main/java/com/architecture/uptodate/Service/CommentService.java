@@ -12,4 +12,5 @@ public interface CommentService {
      List<CommentDTO> recieveComments(int postId);
 
 
+    void deleteComment(int commentId);
 }
