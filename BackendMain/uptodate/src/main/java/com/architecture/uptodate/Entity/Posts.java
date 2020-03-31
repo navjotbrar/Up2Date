@@ -54,4 +54,40 @@ public class Posts {
         this.imageURL = imageURL;
         this.articleTitle = articleTitle;
     }
+
+    public int getPostId() {
+        return postId;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getArticleTitle() {
+        return articleTitle;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public String getArticleDescription() {
+        return articleDescription;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
 }

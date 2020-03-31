@@ -1,8 +1,11 @@
 package com.architecture.uptodate.Controller;
 
+import com.architecture.uptodate.DTO.PostsDTO;
+import com.architecture.uptodate.DTO.UserDTO;
 import com.architecture.uptodate.Entity.Posts;
 import com.architecture.uptodate.Entity.User;
 import com.architecture.uptodate.Repository.PostsRepository;
+import com.architecture.uptodate.Service.UserServiceImpl;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParser;
@@ -24,10 +27,13 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
+@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 public class PostsController {
 
     @Autowired
     private PostsRepository postsRepository;
+    @Autowired
+
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(path = "/post/add", consumes = "application/json", produces = "application/json")
@@ -43,7 +49,7 @@ public class PostsController {
         String[] jsonArgs = new String[4];
         int i = 0;
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            jsonArgs[i] = (String)entry.getValue();
+            jsonArgs[i] = (String) entry.getValue();
             i++;
         }
 
@@ -57,7 +63,7 @@ public class PostsController {
         String[] articleArgs = new String[3];
         i = 0;
         for (Map.Entry<String, Object> entry : articleMap.entrySet()) {
-            articleArgs[i] = (String)entry.getValue();
+            articleArgs[i] = (String) entry.getValue();
             i++;
         }
 
@@ -79,7 +85,7 @@ public class PostsController {
 
         String link = "";
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            link = (String)entry.getValue();
+            link = (String) entry.getValue();
         }
 
         ClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
@@ -92,7 +98,7 @@ public class PostsController {
         String[] articleArgs = new String[3];
         int i = 0;
         for (Map.Entry<String, Object> entry : articleMap.entrySet()) {
-            articleArgs[i] = (String)entry.getValue();
+            articleArgs[i] = (String) entry.getValue();
             i++;
         }
 
@@ -122,8 +128,8 @@ public class PostsController {
             entity.put("desc", n.getArticleDescription());
             entity.put("imageurl", n.getImageURL());
             entity.put("articleTitle", n.getArticleTitle());
-            entity.put("createDate",n.getCreateDate());
-            entity.put("link",n.getLink());
+            entity.put("createDate", n.getCreateDate());
+            entity.put("link", n.getLink());
             entities.add(entity);
         }
 

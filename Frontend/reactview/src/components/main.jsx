@@ -7,6 +7,7 @@ import { Router, Switch, Route } from 'react-router-dom';
 import Signup from './signup';
 import HomePage from './homepage';
 import FullPostView from './fullPostView';
+import SearchView from './searchView';
 const Main = () => (
     <Switch>
         <Route exact path = "/" component = {LandingPage} />
@@ -15,6 +16,7 @@ const Main = () => (
         <Route exact path = "/signup" component = {Signup} />
         <Route exact path = "/posts"  render={(props) => <PostList {...props} />} />
         <Route exact path = "/newpost" component = {NewPostView} /> 
+        <Route exact path = "/searchview" component = {SearchView} /> 
         <Route exact path = "/fullpost" render={(props) => <FullPostView {...props} loggedIn={false} />} /> 
 
     </Switch>

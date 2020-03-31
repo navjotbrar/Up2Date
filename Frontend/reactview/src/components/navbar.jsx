@@ -1,10 +1,12 @@
 import * as React from 'react';
-import {Card, Navbar, Button, Nav, Dropdown, ButtonGroup} from 'react-bootstrap';
+import {Card, Navbar, Button, Nav, Dropdown, ButtonGroup, Form, FormLabel,FormControl } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
 import {connect} from 'react-redux';
-import {fetchLogin, logOut} from '../actions';
+import {fetchLogin, logOut, updateSearch} from '../actions';
+
+import search from "./img/search.png";
 
 const MyLink = styled(Link)`     
     text-decoration: none;
@@ -40,8 +42,15 @@ const GreetingDiv = styled.div`
 const CustomNav = styled(Navbar)`
     background-color: rgb(97, 97, 97);
 `
-class CustomNavbar extends React.Component{
 
+const Searchbar = styled.div`
+    align-content: center;
+    width: 1000px;
+`
+class CustomNavbar extends React.Component{
+    state = {
+        search:''
+    }
     logOutAction = () => {
         this.props.logOut();
         this.props.history.push('./');
@@ -50,6 +59,18 @@ class CustomNavbar extends React.Component{
     goToNewPostView = () => {
         this.props.history.push('./newpost')
     }
+
+    handleOnClick = async () => {
+        console.log(this.state.search);
+        const result = await this.props.updateSearch(this.state);
+        this.props.history.push('./searchview')
+    }
+
+    handleChange = (e) => {
+		this.setState({
+			[e.target.id]: [e.target.value][0]
+        })
+	} 
 
     navButton = () => {
         if(this.props.loggedIn == 'false'){
@@ -98,9 +119,14 @@ class CustomNavbar extends React.Component{
                             :   <></>
                         }
                     </Nav.Link>
-
                 </Nav>
-
+                <Searchbar> 
+                    <Form inline>
+                        <FormControl type="text" placeholder="Search" id = "search" onChange = {this.handleChange} />
+                        <Button onClick = {this.handleOnClick}>Submit</Button>
+                    </Form>
+                </Searchbar>
+                
                 {this.props.loggedIn == 'true'
                     ?   <Nav.Link>
                             <MyLink to="./homepage" style = {{color: "white"}}> Hello {this.props.firstName} </MyLink>
@@ -117,6 +143,7 @@ class CustomNavbar extends React.Component{
 }
 
 const mapStateToProps = (state) => {
+
     if(Object.keys(state.userInfo).length === 0 && state.userInfo.constructor === Object){
         console.log("in nulll");
         if(state.persistedState == null){
@@ -140,5 +167,5 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps, {fetchLogin: fetchLogin, logOut: logOut})(withRouter(CustomNavbar));
+export default connect(mapStateToProps, {fetchLogin: fetchLogin, logOut: logOut, updateSearch: updateSearch})(withRouter(CustomNavbar));
 // export default CustomNavbar;
