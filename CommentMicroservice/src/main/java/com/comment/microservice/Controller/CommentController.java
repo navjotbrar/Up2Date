@@ -32,7 +32,7 @@ public class CommentController {
     public ResponseEntity<List<CommentDTO>>fetchCommentsForPost(@PathVariable(name="postId", required=true) int postId) {
 
         //commentService.recieveComments(postId);
-
+        System.out.println(" ------------- in heres ------------");
 
         commentCommandService.createComment(new CommentDTO(2,"hi",1,"qasim"));
         // Attempt to get all comments using pub sub

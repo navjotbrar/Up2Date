@@ -36,12 +36,22 @@ public class CommentController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(path = "/comment/post/", consumes = "application/json", produces = "application/json")
     public ResponseEntity saveCommentOnPost(@RequestBody CommentDTO commentDTO) {
+        System.out.println(" ---- adding new comment -----");
+        System.out.println(commentDTO.getContent());
+        System.out.println(commentDTO.getAuthor());
+        System.out.println(commentDTO.getCreatedDate());
+        System.out.println(commentDTO.getLastModifiedByDate());
+        System.out.println(commentDTO.getCommentId());
+        System.out.println(commentDTO.getContent());
 
         try{
-        commentService.sendComment(commentDTO);
-        // Attempt to get all comments using pub sub
-        return new ResponseEntity<List<CommentDTO>>(new ArrayList<CommentDTO>(), HttpStatus.OK);
+            commentService.sendComment(commentDTO);
+            // Attempt to get all comments using pub sub
+            System.out.println("we good!");
+//            return new ResponseEntity<List<CommentDTO>>(new ArrayList<CommentDTO>(), HttpStatus.OK);
+            return new ResponseEntity<String>("comment Posted!", HttpStatus.OK);
         } catch(Exception e){
+            System.out.println("caught exception");
             return new ResponseEntity<String>("Comment Service is currently down", HttpStatus.FORBIDDEN);
         }
 
@@ -51,6 +61,8 @@ public class CommentController {
     @GetMapping("/comment/post/{postId}")
     @ResponseBody
     public ResponseEntity fetchCommentsForPost(@PathVariable(name="postId", required=true) int postId) {
+        System.out.println(postId + " <<<     here      >>>>");
+
         ClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 
@@ -61,7 +73,7 @@ public class CommentController {
             return responseWanted;
 
         }catch (ResourceAccessException e){
-            return new ResponseEntity<String>("Comment service is currently down", HttpStatus.OK);
+            return new ResponseEntity<String>("Comment service is currently down", HttpStatus.FORBIDDEN);
         }
     }
 
