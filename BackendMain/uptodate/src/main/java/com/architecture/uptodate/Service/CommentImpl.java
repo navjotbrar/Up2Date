@@ -18,6 +18,9 @@ public class CommentImpl implements CommentService{
 
     private final String fetchCommentQueue="fetchCommentQueue";
 
+    private final String deleteCommentQueue="deleteCommentQueue";
+
+
 
     @Autowired
     private JmsTemplate template;
@@ -52,7 +55,7 @@ public class CommentImpl implements CommentService{
 
     @Override
     public void deleteComment(int commentId){
-
+            template.convertAndSend(deleteCommentQueue, commentId);
     }
 
 

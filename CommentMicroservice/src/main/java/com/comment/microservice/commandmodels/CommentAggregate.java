@@ -78,6 +78,7 @@ public class CommentAggregate {
         this.author="DELETED";
         this.content="DELETED";
         this.status="DELETED";
+        this.lastModifiedByDate=new Date();
     }
 
 
@@ -85,6 +86,5 @@ public class CommentAggregate {
 
     }
 
-    // Deleting a comment
 
 }
