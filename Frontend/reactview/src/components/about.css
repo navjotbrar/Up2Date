@@ -1,0 +1,152 @@
+.box {
+  padding-top: 3%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.title{
+    font-size: 1px;
+}
+.upper {
+  background: url("http://getwallpapers.com/wallpaper/full/8/f/8/788382-silicon-valley-wallpapers-1920x1200-high-resolution.jpg");
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.break {
+  flex-basis: 100%;
+}
+
+.lower {
+  background-color: #fafafa;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.socials {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.icon {
+  margin-left: 80px;
+  margin-right: 80px;
+}
+
+.awesome {
+  cursor: pointer;
+  font-size: 41px;
+  transition: 0.1s;
+}
+
+.awesome:hover {
+  font-size: 43px;
+}
+
+.iconText {
+  margin: 0px;
+}
+
+.name {
+  color: #fff;
+  font-size: 60px;
+  margin: 5px;
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  display: inline-block;
+  padding: 8px 30px;
+}
+
+.small {
+  font-size: 18px;
+  margin: 10px auto;
+  color: #fff;
+  margin: 10px;
+}
+
+.btn {
+  font-weight: 900;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 10px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 20px 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn:hover {
+  background-color: white;
+  color: black;
+}
+
+/* .crop {
+  width: 270px;
+  height: 270px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.image {
+  display: inline;
+  margin-left: -25%;
+  height: 100%;
+  width: auto;
+} */
+.image {
+  display: inline-block;
+  position: relative;
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.image img {
+  width: auto;
+  height: 100%;
+  margin-left: -50px;
+}
+
+.about {
+  font-size: 24px;
+  text-transform: capitalize;
+  margin: 0px;
+}
+
+.aboutMeHeader {
+  margin: 0px;
+}
+
+.aboutText {
+  margin: 0px;
+  font-family: "Poppins", sans-serif;
+  color: #232323;
+  line-height: 32px;
+}
+
+.aboutMe {
+  position: relative;
+  border-bottom: 0.5px solid #232323;
+  margin-left: 80px;
+  width: 60%;
+  padding-bottom: 30px;
+  top: -4%;
+}
