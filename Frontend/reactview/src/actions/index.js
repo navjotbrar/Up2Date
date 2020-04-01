@@ -100,3 +100,27 @@ export const addnewuser = (data) => async dispatch => {
     }
     return false;
 };
+
+export const updateSearch = (data) => async dispatch => {
+    dispatch({ type: "SEARCH",payload: data})
+    return true;
+}
+
+export const fetchSearchResults = (data) => async dispatch => {
+    console.log(data);
+    const response = await fetch('http://localhost:8080/post/returnSearchResults', {
+        method: 'GET',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    
+    let result = await response.json();
+
+
+    console.log(result)
+
+    dispatch({ type: "FETCH_SEARCH_RESULTS",payload: result})
+
+}

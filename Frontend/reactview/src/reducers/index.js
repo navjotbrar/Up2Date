@@ -3,7 +3,7 @@ import {combineReducers} from 'redux';
 import userInfoReducers from './userInfoReducers';
 import loadState from './loadState';
 import fetchPostReducer from './fetchPostReducer';
-
+import searchInfoReducer from './searchInfoReducers';
 
   
 // const persistedState = loadState();
@@ -11,5 +11,6 @@ import fetchPostReducer from './fetchPostReducer';
 export default combineReducers({
     userInfo: userInfoReducers,
     posts: fetchPostReducer,
-    persistedState: loadState
+    persistedState: loadState,
+    searchInfo: searchInfoReducer
 });

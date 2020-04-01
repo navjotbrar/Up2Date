@@ -1,11 +1,14 @@
 import * as React from 'react';
-import {Card, Navbar, Button, Nav, Dropdown, ButtonGroup} from 'react-bootstrap';
+import {Card, Navbar, Button, Nav, Dropdown, ButtonGroup, Form, FormLabel,FormControl } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
 import {connect} from 'react-redux';
-import {fetchLogin, logOut} from '../actions';
+import {fetchLogin, logOut, updateSearch} from '../actions';
 
+import search from "./img/search.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faSearch } from '@fortawesome/free-solid-svg-icons'
 const MyLink = styled(Link)`     
     text-decoration: none;
     color: rgba(255,255,255, 0.5);
@@ -40,8 +43,24 @@ const GreetingDiv = styled.div`
 const CustomNav = styled(Navbar)`
     background-color: rgb(97, 97, 97);
 `
-class CustomNavbar extends React.Component{
 
+const Searchbar = styled.div`
+    align-content: center;
+    width: 1000px;
+`
+const Searchform = styled(Form)`
+    align-content: center;
+    width: 50%;
+`
+const MyIcon = styled.div`
+align-content: center;
+margin-right: 15%;
+margin-left: 5px;
+`
+class CustomNavbar extends React.Component{
+    state = {
+        search:''
+    }
     logOutAction = () => {
         this.props.logOut();
         this.props.history.push('./');
@@ -50,6 +69,22 @@ class CustomNavbar extends React.Component{
     goToNewPostView = () => {
         this.props.history.push('./newpost')
     }
+
+    handleOnClick = async () => {
+        console.log(this.state.search);
+        const result = await this.props.updateSearch(this.state);
+        this.props.history.push('./searchview');
+    }
+    handleOnSubmit = () => {
+        console.log(this.state.search + "90909090");
+        this.handleOnClick();
+    }
+
+    handleChange = (e) => {
+		this.setState({
+			[e.target.id]: [e.target.value][0]
+        })
+	} 
 
     navButton = () => {
         if(this.props.loggedIn == 'false'){
@@ -98,9 +133,23 @@ class CustomNavbar extends React.Component{
                             :   <></>
                         }
                     </Nav.Link>
-
                 </Nav>
+               
+                    <Searchform onSubmit = {this.handleOnSubmit}>
+                        
+                            <FormControl className="ml-10 mr-3 w-400" type="text" placeholder="Search" id = "search" onChange = {this.handleChange} />
 
+                    </Searchform> 
+                    <MyIcon>
+                        <Button variant = "secondary" onClick = {this.handleOnClick}>
+                        <FontAwesomeIcon icon={faSearch} size="lg" color ="white" mr-3  /> 
+                        </Button >
+                        
+                    </MyIcon>
+                    
+                    
+            
+                
                 {this.props.loggedIn == 'true'
                     ?   <Nav.Link>
                             <MyLink to="./homepage" style = {{color: "white"}}> Hello {this.props.firstName} </MyLink>
@@ -117,6 +166,7 @@ class CustomNavbar extends React.Component{
 }
 
 const mapStateToProps = (state) => {
+
     if(Object.keys(state.userInfo).length === 0 && state.userInfo.constructor === Object){
         console.log("in nulll");
         if(state.persistedState == null){
@@ -140,5 +190,5 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps, {fetchLogin: fetchLogin, logOut: logOut})(withRouter(CustomNavbar));
+export default connect(mapStateToProps, {fetchLogin: fetchLogin, logOut: logOut, updateSearch: updateSearch})(withRouter(CustomNavbar));
 // export default CustomNavbar;
