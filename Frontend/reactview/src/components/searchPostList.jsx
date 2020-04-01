@@ -52,11 +52,11 @@ class SearchPostList extends React.Component {
                 return;
             
             if(typeof this.props.search != 'undefined'){
-                if(article.author == this.props.search){
+                if(article.author.toUpperCase() == this.props.search.toUpperCase()){
                     const currentArticle = <Posts info={article} />;
                     articleRows.push(currentArticle);
                 }
-                else if(article.title == this.props.search){
+                else if(article.title.toUpperCase() == this.props.search.toUpperCase()){
                     const currentArticle = <Posts info={article} />;
                     articleRows.push(currentArticle);
                 }

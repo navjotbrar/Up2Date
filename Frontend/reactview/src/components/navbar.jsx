@@ -7,7 +7,8 @@ import {connect} from 'react-redux';
 import {fetchLogin, logOut, updateSearch} from '../actions';
 
 import search from "./img/search.png";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faSearch } from '@fortawesome/free-solid-svg-icons'
 const MyLink = styled(Link)`     
     text-decoration: none;
     color: rgba(255,255,255, 0.5);
@@ -47,6 +48,15 @@ const Searchbar = styled.div`
     align-content: center;
     width: 1000px;
 `
+const Searchform = styled(Form)`
+    align-content: center;
+    width: 50%;
+`
+const MyIcon = styled.div`
+align-content: center;
+margin-right: 15%;
+margin-left: 5px;
+`
 class CustomNavbar extends React.Component{
     state = {
         search:''
@@ -63,7 +73,11 @@ class CustomNavbar extends React.Component{
     handleOnClick = async () => {
         console.log(this.state.search);
         const result = await this.props.updateSearch(this.state);
-        this.props.history.push('./searchview')
+        this.props.history.push('./searchview');
+    }
+    handleOnSubmit = () => {
+        console.log(this.state.search + "90909090");
+        this.handleOnClick();
     }
 
     handleChange = (e) => {
@@ -120,12 +134,21 @@ class CustomNavbar extends React.Component{
                         }
                     </Nav.Link>
                 </Nav>
-                <Searchbar> 
-                    <Form inline>
-                        <FormControl type="text" placeholder="Search" id = "search" onChange = {this.handleChange} />
-                        <Button onClick = {this.handleOnClick}>Submit</Button>
-                    </Form>
-                </Searchbar>
+               
+                    <Searchform onSubmit = {this.handleOnSubmit}>
+                        
+                            <FormControl className="ml-10 mr-3 w-400" type="text" placeholder="Search" id = "search" onChange = {this.handleChange} />
+
+                    </Searchform> 
+                    <MyIcon>
+                        <Button variant = "secondary" onClick = {this.handleOnClick}>
+                        <FontAwesomeIcon icon={faSearch} size="lg" color ="white" mr-3  /> 
+                        </Button >
+                        
+                    </MyIcon>
+                    
+                    
+            
                 
                 {this.props.loggedIn == 'true'
                     ?   <Nav.Link>
