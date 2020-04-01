@@ -32,7 +32,6 @@ public class PostsController {
 
     @Autowired
     private PostsRepository postsRepository;
-    @Autowired
 
 
     @CrossOrigin(origins = "http://localhost:3000")

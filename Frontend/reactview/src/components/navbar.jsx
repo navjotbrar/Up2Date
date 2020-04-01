@@ -5,10 +5,9 @@ import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
 import {connect} from 'react-redux';
 import {fetchLogin, logOut, updateSearch} from '../actions';
-
-import search from "./img/search.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faSearch } from '@fortawesome/free-solid-svg-icons'
+
 const MyLink = styled(Link)`     
     text-decoration: none;
     color: rgba(255,255,255, 0.5);
@@ -53,9 +52,9 @@ const Searchform = styled(Form)`
     width: 50%;
 `
 const MyIcon = styled.div`
-align-content: center;
-margin-right: 15%;
-margin-left: 5px;
+    align-content: center;
+    margin-right: 15%;
+    margin-left: 5px;
 `
 class CustomNavbar extends React.Component{
     state = {
@@ -105,7 +104,6 @@ class CustomNavbar extends React.Component{
 
                     <Dropdown.Menu>
                         <Dropdown.Item href="./homepage">Go to Homepage</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item onClick = {this.logOutAction}>Log Out</Dropdown.Item>
                     </Dropdown.Menu>
