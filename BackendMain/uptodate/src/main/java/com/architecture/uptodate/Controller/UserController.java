@@ -63,12 +63,16 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping(value = "/user/deleteuser", consumes ="application/json")
     public ResponseEntity deleteUser(@RequestBody UserDTO userDTO) {
-            userService.deleteUser(userDTO);
 
+            try {
+                userService.deleteUser(userDTO);
+                return new ResponseEntity<String>("Successfully deleted user.", HttpStatus.OK);
+            } catch (Exception e){
+                e.printStackTrace();
+                return new ResponseEntity<String>("Error deleting user, something went wrong.", HttpStatus.FORBIDDEN);
 
-
-            return new ResponseEntity<String>("Comment Service is currently down", HttpStatus.FORBIDDEN);
-    }
+            }
+        }
 
 
 

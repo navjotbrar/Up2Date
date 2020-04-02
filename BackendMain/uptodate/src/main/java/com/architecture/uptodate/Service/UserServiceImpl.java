@@ -55,8 +55,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(UserDTO userDTO){
-
-
         // Delete All their comments
         commentService.deleteCommentForAuthor(userDTO.getUsername());
 
@@ -64,8 +62,7 @@ public class UserServiceImpl implements UserService {
         postsService.deletePostsForUser(userDTO.getUsername());
 
         //Delete User
-        userRepository.delete(convertToEntity(userDTO));
-
+        userRepository.deleteById(userRepository.findByUsername(userDTO.getUsername()).get().getId());
     }
 
 
