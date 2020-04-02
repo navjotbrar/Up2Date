@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Jumbotron, CardColumns } from "react-bootstrap";
+import { Jumbotron} from "react-bootstrap";
 import styled from "styled-components";
 import Posts from "./posts.jsx";
 import "./landingpage.css";
@@ -78,9 +78,7 @@ class SearchPostList extends React.Component {
                 return;
         
                 for(let word of res){
-                    console.log(word + "89898989");
                     if(post.props.info.title.toUpperCase().includes(word.toUpperCase()) || post.props.info.author.toUpperCase().includes(word.toUpperCase())){
-                        console.log("yuhhhh betch i got it");
                         const currentArticle = <Posts info={post.props.info} />;
                         articleRows.push(currentArticle);
                         break;

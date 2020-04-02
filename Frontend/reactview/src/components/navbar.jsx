@@ -74,12 +74,10 @@ class CustomNavbar extends React.Component{
     }
 
     handleOnClick = async () => {
-        console.log(this.state.search);
         const result = await this.props.updateSearch(this.state);
         this.props.history.push('./searchview');
     }
     handleOnSubmit = () => {
-        console.log(this.state.search + "90909090");
         this.handleOnClick();
     }
 
@@ -170,7 +168,7 @@ class CustomNavbar extends React.Component{
 const mapStateToProps = (state) => {
 
     if(Object.keys(state.userInfo).length === 0 && state.userInfo.constructor === Object){
-        console.log("in nulll");
+
         if(state.persistedState == null){
             return {
                 username: null
@@ -183,7 +181,7 @@ const mapStateToProps = (state) => {
             username: null
         };
     }
-    console.log(state.userInfo.username)
+
 
     return {
         username: state.userInfo.username,
