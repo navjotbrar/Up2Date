@@ -161,16 +161,18 @@ class NewPost extends React.Component {
 				</Modal.Header>
 				
 				<Modal.Header>
-					<Modal.Title>{this.state.preview.articleTitle}</Modal.Title>
+					<Modal.Title>{this.state.preview.articleDesc}</Modal.Title>
 				</Modal.Header>
 				
 				<Modal.Body>
 					<Image style = {{maxHeight: "150px"}} src = {this.state.preview.imageUrl} rounded/> 
 				</Modal.Body>
 
-				<Modal.Body>{this.state.preview.articleDesc} </Modal.Body>
+				<Modal.Body>{this.state.preview.articleTitle}</Modal.Body>
 				
-				<Modal.Body>{this.state.body[0]} </Modal.Body>
+				<hr></hr>
+
+				<Modal.Body> {this.props.username} : "{this.state.body[0]}" </Modal.Body>
 
 			</Modal>
 			</>

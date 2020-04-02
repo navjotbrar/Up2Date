@@ -40,6 +40,7 @@
     text-align: left;
 }
 .author{
+    display: flex;
     float: right;
     padding-right:10%;
 }
