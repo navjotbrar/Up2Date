@@ -1,7 +1,41 @@
 .fields{
+    padding-top: 0px;
     padding:5%;
 }
 
 .field{
     padding:0.5%;
 }
+
+.row {
+    width: 100%;
+    height: 100vh;
+    padding: 2%;
+  }
+  
+  .left {
+  /* The image used */
+    background-image: url("http://getwallpapers.com/wallpaper/full/6/4/8/502510.jpg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 45%;
+    height: 100%;
+    float: left;
+  }
+  .right {
+    background-color: whitesmoke;
+    width: 55%;
+    float: right;
+    height: 100%;
+  }
+  .title{
+      padding-top:50px;
+      padding-bottom: 0px;
+  }
+  

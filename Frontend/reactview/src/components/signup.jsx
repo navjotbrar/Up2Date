@@ -7,8 +7,8 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addnewuser } from "../actions";
 
-import UserInfo from './UserInfo'
-import LoginInfo from './LoginInfo'
+import UserInfo from "./UserInfo";
+import LoginInfo from "./LoginInfo";
 
 const FormDiv = styled.div`
   display: flex;
@@ -37,12 +37,13 @@ class SignUp extends React.Component {
     ) {
       console.log(JSON.stringify(this.state.username));
       console.log("invalid names");
+      alert("invalid or empty fields... please try again")
       return;
     }
 
     const result = await this.props.addnewuser(this.state);
     if (result) {
-		console.log("redirecting")
+      console.log("redirecting");
       this.props.history.push("./login");
     }
     // this.props.addUser(this.state.username,this.state.password,this.state.first_name,this.state.last_name,this.state.email);
@@ -55,7 +56,7 @@ class SignUp extends React.Component {
   };
 
   handleChange = e => {
-	console.log("called")
+    console.log("called");
     this.setState({
       [e.target.id]: e.target.value
     });
@@ -75,10 +76,19 @@ class SignUp extends React.Component {
   };
 
   nextStep = () => {
-    const { step } = this.state;
-    this.setState({
-      step: step + 1
-    });
+    console.log(this.state.step)
+    if ((this.state.first_name == "" ||this.state.last_name == "" ||this.state.email == "") && this.state.step == 1) {
+      alert("all field must be filled!");
+      return;
+    } else if ((this.state.username == "" || this.state.password == "") && this.state.step == 2) {
+      alert("all field must be filled");
+      return
+    } else {
+      const { step } = this.state;
+      this.setState({
+        step: step + 1
+      });
+    }
   };
 
   prevStep = () => {
@@ -88,109 +98,55 @@ class SignUp extends React.Component {
     });
   };
 
-	handleChange = input => e =>{
-		this.setState({[input]:e.target.value})
-	}	
-
+  handleChange = input => e => {
+    this.setState({ [input]: e.target.value });
+  };
 
   render() {
-	  const {step} = this.state
-		const {first_name,last_name,email,password,username} = this.state
-		const values = {first_name,last_name,email,password,username}
-		switch (step) {
-			case 1:
-				return(
-					<UserInfo
-					nextStep ={this.nextStep}
-					handleChange={this.handleChange}
-					values={values}
-					/>
-				)
-			case 2: 
-				return(
-					<LoginInfo
-					prevStep ={this.prevStep}
-					submit={this.action}
-					handleChange={this.handleChange}
-					values={values}
-					/>
-				)
-		}
+    const { step } = this.state;
+    const { first_name, last_name, email, password, username } = this.state;
+    const values = { first_name, last_name, email, password, username };
+    switch (step) {
+      case 1:
+        return (
+
+        <div className = "row">
+          <div className = "left">
+
+          </div>
+          <div className = "right">
+          <div className = "title">
+            <h1> Create an account</h1>
+          </div>
+            <UserInfo 
+              nextStep={this.nextStep}
+              handleChange={this.handleChange}
+              values={values}
+            />
+          </div>
+        </div>
+        );
+      case 2:
+        return (
+                  <div className = "row">
+          <div className = "left">
+
+          </div>
+          <div className = "right">
+          <div className = "title">
+            <h1> Create an account</h1>
+          </div>
+          <LoginInfo
+            prevStep={this.prevStep}
+            submit={this.action}
+            handleChange={this.handleChange}
+            values={values}
+          />
+          </div>
+        </div>
+        );
+    }
   }
 }
 
 export default connect(null, { addnewuser: addnewuser })(withRouter(SignUp));
-    //   <FormDiv>
-    //     <Form onSubmit={this.handleSubmit}>
-    //       <Container>
-    //         <SignUpJumbo>
-    //           <h1>Enter Details</h1>
-    //           <Form.Row>
-    //             <Form.Group as={Col} md="4">
-    //               <Form.Label>First name</Form.Label>
-    //               <Form.Control
-    //                 type="name"
-    //                 placeholder="First Name"
-    //                 id="first_name"
-    //                 onChange={this.handleChange}
-    //               />
-    //             </Form.Group>
-
-    //             <Form.Group as={Col} md="4">
-    //               <Form.Label>Last name</Form.Label>
-    //               <Form.Control
-    //                 type="name"
-    //                 placeholder="Last Name"
-    //                 id="last_name"
-    //                 onChange={this.handleChange}
-    //               />
-    //             </Form.Group>
-    //           </Form.Row>
-
-    //           <Form.Row>
-    //             <Form.Group as={Col} md="4" id="usernameOuter">
-    //               <Form.Label>Username</Form.Label>
-    //               <Form.Control
-    //                 placeholder="Username"
-    //                 id="username"
-    //                 onChange={this.handleChange}
-    //               />
-    //               <Form.Control.Feedback type="invalid">
-    //                 {" "}
-    //                 Please choose a username.{" "}
-    //               </Form.Control.Feedback>
-    //             </Form.Group>
-
-    //             <Form.Group as={Col} md="4" id="email">
-    //               <Form.Label>Email</Form.Label>
-    //               <Form.Control
-    //                 placeholder="Email"
-    //                 id="email"
-    //                 onChange={this.handleChange}
-    //               />
-    //               <Form.Control.Feedback type="invalid">
-    //                 {" "}
-    //                 Please enter an email
-    //               </Form.Control.Feedback>
-    //             </Form.Group>
-
-    //             <Form.Group as={Col} md="4" id="password">
-    //               <Form.Label>Password</Form.Label>
-    //               <Form.Control
-    //                 type="password"
-    //                 placeholder="Password"
-    //                 id="password"
-    //                 onChange={this.handleChange}
-    //               />
-    //             </Form.Group>
-    //           </Form.Row>
-
-    //           <div className="btnDiv">
-    //             <Button variant="primary" onClick={this.action}>
-    //               Submit
-    //             </Button>
-    //           </div>
-    //         </SignUpJumbo>
-    //       </Container>
-    //     </Form>
-    //   </FormDiv>
