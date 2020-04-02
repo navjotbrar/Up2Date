@@ -38,7 +38,6 @@ class SearchPostList extends React.Component {
 
     test = async () => {
         await this.props.fetchPosts();
-        
         this.getNews(await this.props.feed);
     }
     getNews(input) {
@@ -52,7 +51,7 @@ class SearchPostList extends React.Component {
             if(i >= +this.props.amount)
                 return;
             
-            if(typeof this.props.search != 'undefined'){
+            if(typeof this.props.search != 'undefined' && this.props.search != " "){
                 if(article.author.toUpperCase() == this.props.search.toUpperCase()){
                     const currentArticle = <Posts info={article} />;
                     articleRows.push(currentArticle);
@@ -70,7 +69,7 @@ class SearchPostList extends React.Component {
         });
 
         let x = 0;
-        if(typeof this.props.search != 'undefined'){
+        if(typeof this.props.search != 'undefined' && this.props.search != " " ){
         let res = this.props.search.split(" ");
         console.log(res);
         tirtiaryRows.forEach(post => {

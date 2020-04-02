@@ -22,6 +22,7 @@ const FormDiv = styled.div`
     align-content: center;
     justify-content: center;
     padding-top: 40px;
+      box-shadow: 5px 10px 10px #888888;
 `
 
 

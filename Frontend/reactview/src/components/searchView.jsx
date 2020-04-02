@@ -63,8 +63,8 @@ class SearchView extends React.Component{
     render(){
 
         return(
-            <MyDiv>
-            <SearchPostList search = {this.props.search} title = "Search Results"/>
+            <MyDiv key = {this.props.search}>
+                <SearchPostList search = {this.props.search} title = "Search Results"/>
             </MyDiv>
         )
     }
@@ -92,7 +92,6 @@ const mapStateToProps = (state) => {
     }
 
     console.log(state.userInfo.username)
-    
     return {
         search: state.searchInfo.search,
         username: state.userInfo.username,
