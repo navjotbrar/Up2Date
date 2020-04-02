@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { Button, Alert } from 'react-bootstrap';
 import Expand from "react-expand-animated";
 import globe from "./img/world.png";
 import Login from "./login.jsx";
@@ -8,7 +9,10 @@ import "bulma/css/bulma.css";
 import "./posts.css";
 
 class Posts extends Component {
-  state = { open: false };
+  state = { 
+    open: false,
+    alertMessage: false 
+  };
 
   toggle = () => {
     this.setState(prevState => ({ open: !prevState.open }));
@@ -64,6 +68,32 @@ class Posts extends Component {
     return day + ', ' +regTime;
   } 
 
+  deletePost = async (postid) => {
+    console.log("in delete post: " + postid);
+
+    const response = await fetch('http://localhost:8080/post/' + postid,{
+      method: 'DELETE',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+    });
+
+    console.log("response: ");
+    // const t = await response.text();
+    console.log(response.status);
+
+    if(response.status != 200){
+        alert("Unable to delete comment, server down");
+        return;
+    }
+
+    window.location.reload();
+  }
+  deletePostClick = async (postid) => {
+    console.log("deleting this one: " + postid);
+    this.setState({alertMessage: true});
+  }
+
   render() {
     const styles = {
       open: { background: "#ecf0f1" }
@@ -72,6 +102,18 @@ class Posts extends Component {
 
     return (
       <div class = "outside-container">
+        <Alert show={this.state.alertMessage} variant = "danger" style = {{marginTop: "30px"}}>
+          <Alert.Heading>Are you sure you want to delete this Post?</Alert.Heading>
+          <hr />
+          <div className="d-flex justify-content-end">
+          <Button onClick={() => this.setState({alertMessage: false})} variant="outline-danger">
+              No
+          </Button>
+          <Button onClick={() => this.deletePost(this.props.info.postid)} variant="outline-success" style = {{marginLeft: "10px"}}>
+              Yes
+          </Button>
+          </div>
+        </Alert>
         <div class="box" onClick={this.toggle}>
           <article class="media">
             <div className = "picture-div">
@@ -86,9 +128,17 @@ class Posts extends Component {
                   <br />
                   {this.props.info.body}
                 </p>
+
                 <div className="author">
-                  <p>- {this.props.info.author}</p>
+                  
+                  { this.props.deletable == 'true'
+                    ? <Button variant = "outline-danger" onClick = {() => this.deletePostClick(this.props.info.postid)} style = {{position: "relative", left: "30px", fontSize: "0.8rem"}}> Delete </Button>
+                    : <div>- {this.props.info.author} </div>
+                  }
+
                 </div>
+
+
               </div>
             </div>
           </article>

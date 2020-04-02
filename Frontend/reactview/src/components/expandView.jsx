@@ -14,9 +14,9 @@ class ExpandView extends Component {
   render() {
     return (
       <div className="articlePreview" onClick = {this.goToPost}>
-        <h3 >{this.props.info.articleTitle}  </h3> <br/>
+        <h3 >{this.props.info.desc}  </h3> <br/>
         <img class="expandPic" src={this.props.info.imageurl} /> <br />
-        <p>{this.props.info.desc}</p>
+        <p>{this.props.info.articleTitle}</p>
       </div>
     );
   }

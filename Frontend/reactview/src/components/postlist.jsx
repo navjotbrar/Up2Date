@@ -56,11 +56,11 @@ class PostList extends React.Component {
             
             if(typeof this.props.author != 'undefined'){
                 if(article.author == this.props.author){
-                    const currentArticle = <Posts info={article} />;
+                    const currentArticle = <Posts info={article} deletable = 'true' />;
                     articleRows.push(currentArticle);
                 } 
             } else{
-                const currentArticle = <Posts info={article} />;
+                const currentArticle = <Posts info={article} deletable = 'false' />;
                 articleRows.push(currentArticle);
             }
             i++;
