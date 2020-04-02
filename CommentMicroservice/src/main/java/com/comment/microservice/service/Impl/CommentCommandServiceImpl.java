@@ -11,7 +11,9 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -66,6 +68,21 @@ public class CommentCommandServiceImpl implements CommentCommandService {
         commandGateway.send(new DeleteCommentCommand(commentId));
     }
 
+    @Override
+    public void deleteCommentsForAuthor(String author){
+        List<Comment> comments = commentRepository.findCommentsByAuthor(author);
+        for(Comment comment: comments){
+            deleteComment(comment.getCommentId());
+        }
+    }
+
+    @Override
+    public void deleteCommentsForPost(int postId){
+        List<Comment> comments = commentRepository.findCommentsByPostId(postId);
+        for(Comment comment: comments){
+            deleteComment(comment.getCommentId());
+        }
+    }
 
 
     private Comment DtoToEntity(CommentDTO commentDTO){

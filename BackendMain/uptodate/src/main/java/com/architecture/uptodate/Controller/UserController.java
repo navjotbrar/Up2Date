@@ -59,6 +59,23 @@ public class UserController {
         return new ResponseEntity<UserDTO>(toReturn, HttpStatus.OK);
     }
 
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @DeleteMapping(value = "/user/deleteuser", consumes ="application/json")
+    public ResponseEntity deleteUser(@RequestBody UserDTO userDTO) {
+
+            try {
+                userService.deleteUser(userDTO);
+                return new ResponseEntity<String>("Successfully deleted user.", HttpStatus.OK);
+            } catch (Exception e){
+                e.printStackTrace();
+                return new ResponseEntity<String>("Error deleting user, something went wrong.", HttpStatus.FORBIDDEN);
+
+            }
+        }
+
+
+
 //    @ResponseBody
 //    public ResponseEntity<User> addUser(@PathVariable(name="username", required=true) String username,
 //                                        @PathVariable(name="password", required=true) String password,

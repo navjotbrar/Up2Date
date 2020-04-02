@@ -11,4 +11,6 @@ public interface CommentRepository extends CrudRepository<Comment, Integer> {
 
     Optional<Comment> findByCommentId(int commentId);
 
+    List<Comment> findCommentsByAuthor(String author);
+
 }

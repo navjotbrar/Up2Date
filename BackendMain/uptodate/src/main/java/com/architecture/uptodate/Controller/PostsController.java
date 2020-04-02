@@ -5,6 +5,7 @@ import com.architecture.uptodate.DTO.UserDTO;
 import com.architecture.uptodate.Entity.Posts;
 import com.architecture.uptodate.Entity.User;
 import com.architecture.uptodate.Repository.PostsRepository;
+import com.architecture.uptodate.Service.PostsServiceImpl;
 import com.architecture.uptodate.Service.UserServiceImpl;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class PostsController {
 
     @Autowired
     private PostsRepository postsRepository;
+
+    @Autowired
+    private PostsServiceImpl postsService;
 
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -133,6 +137,22 @@ public class PostsController {
         }
 
         return new ResponseEntity<Object>(entities, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @DeleteMapping("/post/{postid}")
+    @ResponseBody
+    public ResponseEntity deletePost(@PathVariable(name="postid", required=true) int postid) {
+
+        System.out.println(" in delete: ");
+
+        try{
+            postsService.deletePost(postid);
+            // Attempt to delete comment using pub sub
+            return new ResponseEntity<String>("post deleted!", HttpStatus.OK);
+        } catch(Exception e){
+            return new ResponseEntity<String>("Post could not be deleted. Error in service", HttpStatus.FORBIDDEN);
+        }
     }
 
 }
