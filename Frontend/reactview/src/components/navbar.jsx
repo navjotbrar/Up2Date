@@ -49,11 +49,15 @@ const Searchbar = styled.div`
 `
 const Searchform = styled(Form)`
     align-content: center;
-    width: 50%;
+    width: 40%;
+    position: fixed;
+    left: 27%;
+
 `
 const MyIcon = styled.div`
     align-content: center;
-    margin-right: 15%;
+    position: fixed;
+    left: 67%;
     margin-left: 5px;
 `
 class CustomNavbar extends React.Component{

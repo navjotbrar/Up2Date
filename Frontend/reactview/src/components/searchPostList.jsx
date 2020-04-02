@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Jumbotron } from "react-bootstrap";
+import { Jumbotron, CardColumns } from "react-bootstrap";
 import styled from "styled-components";
 import Posts from "./posts.jsx";
 import "./landingpage.css";
@@ -44,6 +44,7 @@ class SearchPostList extends React.Component {
     getNews(input) {
         const articles = input;     //articles = posts.postList
         let articleRows = [];
+        let tirtiaryRows = [];
         let i = 0;
         console.log(this.props.search + " yuh");
     
@@ -60,10 +61,34 @@ class SearchPostList extends React.Component {
                     const currentArticle = <Posts info={article} />;
                     articleRows.push(currentArticle);
                 }
+                else if(article.title.toUpperCase() != this.props.search.toUpperCase() && article.author.toUpperCase() != this.props.search.toUpperCase()){
+                    const currentArticle = <Posts info={article} />;
+                    tirtiaryRows.push(currentArticle);
+                }
             } 
             i++;
         });
 
+        let x = 0;
+        if(typeof this.props.search != 'undefined'){
+        let res = this.props.search.split(" ");
+        console.log(res);
+        tirtiaryRows.forEach(post => {
+            if(x >= +this.props.amount)
+                return;
+        
+                for(let word of res){
+                    console.log(word + "89898989");
+                    if(post.props.info.title.toUpperCase().includes(word.toUpperCase()) || post.props.info.author.toUpperCase().includes(word.toUpperCase())){
+                        console.log("yuhhhh betch i got it");
+                        const currentArticle = <Posts info={post.props.info} />;
+                        articleRows.push(currentArticle);
+                        break;
+                    } 
+                }
+            x++;
+        });
+    }
         this.setState({ 
             posts: articleRows 
         });
