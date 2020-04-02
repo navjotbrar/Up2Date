@@ -18,6 +18,10 @@ public class Receiver {
 
     private final String deleteCommentQueue="deleteCommentQueue";
 
+    private final String deleteCommentsForAuthorQueue ="deleteCommentsForAuthorQueue";
+
+    private final String deleteCommentsForPostQueue ="deleteCommentsForPostQueue";
+
     @Autowired
     CommentCommandServiceImpl commentCommandService;
 
@@ -30,9 +34,20 @@ public class Receiver {
 
 
     @JmsListener(destination = deleteCommentQueue, containerFactory = "myFactory")
-    public void fetchCommentsFromPost(int commentId) throws JSONException, IOException {
+    public void deleteComment(int commentId) throws JSONException, IOException {
         System.out.println("Value of the comment ID I would like to delete is" + commentId);
         commentCommandService.deleteComment(commentId);
     }
 
+    @JmsListener(destination = deleteCommentsForAuthorQueue, containerFactory = "myFactory")
+    public void deleteCommentForAuthor(String author) throws JSONException, IOException {
+        System.out.println("Value of the author I would like to delete comments for is" + author);
+        commentCommandService.deleteCommentsForAuthor(author);
+    }
+
+    @JmsListener(destination = deleteCommentsForPostQueue, containerFactory = "myFactory")
+    public void deleteCommentForPost(int postId) throws JSONException, IOException {
+        System.out.println("Value of the post id I would like to delete comments for is" + postId);
+        commentCommandService.deleteCommentsForPost(postId);
+    }
 }

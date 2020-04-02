@@ -18,6 +18,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PostsServiceImpl postsService;
+
+    @Autowired
+    private CommentService commentService;
+
     @Override
     public UserDTO signup(UserDTO userDto){
         User user = convertToEntity(userDto);
@@ -47,6 +53,23 @@ public class UserServiceImpl implements UserService {
         return new UserDTO();
     }
 
+    @Override
+    public void deleteUser(UserDTO userDTO){
+
+
+        // Delete All their comments
+        commentService.deleteCommentForAuthor(userDTO.getUsername());
+
+        //Delete All their Posts
+        postsService.deletePostsForUser(userDTO.getUsername());
+
+        //Delete User
+        userRepository.delete(convertToEntity(userDTO));
+
+    }
+
+
+
     private User convertToEntity(UserDTO userDTO){
         User user = new User(userDTO.getFirst_name(), userDTO.getLast_name(), userDTO.getPassword(), userDTO.getUsername(), userDTO.getEmail());
         return user;
@@ -59,4 +82,6 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = new UserDTO(user);
         return userDTO;
     }
+
+
 }

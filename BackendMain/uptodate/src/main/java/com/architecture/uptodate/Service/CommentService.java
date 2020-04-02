@@ -13,4 +13,8 @@ public interface CommentService {
 
 
     void deleteComment(int commentId);
+
+    void deleteCommentForAuthor(String author);
+
+    void deleteCommentForPost(int postId);
 }

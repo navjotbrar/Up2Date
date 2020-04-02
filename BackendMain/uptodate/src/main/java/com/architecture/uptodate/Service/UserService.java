@@ -9,4 +9,6 @@ public interface UserService {
     public UserDTO findbyEmail (String email);
     public UserDTO updateProfile(UserDTO userDTO);
     public UserDTO changePassword(UserDTO userDTO, String newPassword);
+
+    void deleteUser(UserDTO userDTO);
 }

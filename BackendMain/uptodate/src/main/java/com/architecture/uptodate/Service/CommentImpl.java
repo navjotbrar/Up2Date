@@ -20,6 +20,11 @@ public class CommentImpl implements CommentService{
 
     private final String deleteCommentQueue="deleteCommentQueue";
 
+    private final String deleteCommentsForAuthorQueue="deleteCommentsForAuthorQueue";
+
+    private final String deleteCommentsForPostQueue="deleteCommentsForPostQueue";
+
+
 
 
     @Autowired
@@ -52,10 +57,21 @@ public class CommentImpl implements CommentService{
         return new ArrayList<CommentDTO>();
     }
 
+    @Override
+    public void deleteCommentForPost(int postId){
+        template.convertAndSend(deleteCommentsForPostQueue, postId);
+
+    }
+
 
     @Override
     public void deleteComment(int commentId){
             template.convertAndSend(deleteCommentQueue, commentId);
+    }
+
+    @Override
+    public void deleteCommentForAuthor(String author){
+        template.convertAndSend(deleteCommentsForAuthorQueue, author);
     }
 
 

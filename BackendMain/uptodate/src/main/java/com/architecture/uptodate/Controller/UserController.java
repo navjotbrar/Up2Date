@@ -59,6 +59,19 @@ public class UserController {
         return new ResponseEntity<UserDTO>(toReturn, HttpStatus.OK);
     }
 
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @DeleteMapping(value = "/user/deleteuser", consumes ="application/json")
+    public ResponseEntity deleteUser(@RequestBody UserDTO userDTO) {
+            userService.deleteUser(userDTO);
+
+
+
+            return new ResponseEntity<String>("Comment Service is currently down", HttpStatus.FORBIDDEN);
+    }
+
+
+
 //    @ResponseBody
 //    public ResponseEntity<User> addUser(@PathVariable(name="username", required=true) String username,
 //                                        @PathVariable(name="password", required=true) String password,
