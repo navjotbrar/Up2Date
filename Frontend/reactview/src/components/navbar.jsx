@@ -77,8 +77,11 @@ class CustomNavbar extends React.Component{
         const result = await this.props.updateSearch(this.state);
         this.props.history.push('./searchview');
     }
-    handleOnSubmit = () => {
-        this.handleOnClick();
+
+    handleOnSubmit = async (e) => {
+        e.preventDefault();
+        const result = await this.props.updateSearch(this.state);
+        this.props.history.push('./searchview');
     }
 
     handleChange = (e) => {
@@ -171,6 +174,7 @@ const mapStateToProps = (state) => {
 
         if(state.persistedState == null){
             return {
+                search: state.searchInfo.search,
                 username: null
             };
         }
@@ -178,12 +182,14 @@ const mapStateToProps = (state) => {
     }
     if(state.userInfo.username === null){
         return {
+            search: state.searchInfo.search,
             username: null
         };
     }
 
 
     return {
+        search: state.searchInfo.search,
         username: state.userInfo.username,
         firstName: state.userInfo.firstName,
         loggedIn: 'true'
