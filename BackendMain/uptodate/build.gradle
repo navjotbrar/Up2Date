@@ -37,7 +37,6 @@ dependencies {
     compileOnly("org.springframework.boot:spring-boot-starter-activemq")
     compileOnly("org.apache.activemq:activemq-broker")
     compileOnly("com.fasterxml.jackson.core:jackson-databind")
-
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
