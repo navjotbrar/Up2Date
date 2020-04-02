@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Posts from "./posts.jsx";
 import { withRouter } from "react-router-dom";
 import { resolve } from "url";
-import { logOut} from '../actions';
+import { logOut, deleteUser} from '../actions';
 import {connect} from 'react-redux';
 import reader from "./img/reader.png";
 import view from "./img/view.png";
@@ -61,7 +61,12 @@ class HomePage extends React.Component{
           posts: []
         };
     }
-
+    handleOnDelete = async () => {
+        const result = await this.props.deleteUser(this.props.username);
+        if (result){
+            this.props.history.push('./');
+        }
+    }
     componentDidMount(){
         if(this.props.username == null){
             // this.props.history.push('./');
@@ -99,7 +104,7 @@ class HomePage extends React.Component{
                     <Col xs>
                         <ProfileDiv>
                             <Image src={remove} width="100" height="100" />
-                            <Button variant="light"><h2>Delete account</h2></Button>
+                            <Button variant="light" onClick = {this.handleOnDelete}><h2>Delete account</h2></Button>
                         </ProfileDiv>  
                     </Col>
                 </Row>
@@ -143,4 +148,4 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps, {logOut: logOut})(withRouter(HomePage));
+export default connect(mapStateToProps, {logOut: logOut, deleteUser: deleteUser})(withRouter(HomePage));
