@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
+// Database model for a comment
 @Entity
 @Getter @Setter
 @Table(name="comments")
