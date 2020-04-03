@@ -22,7 +22,7 @@ const Title = styled.h1`
     // padding: 10px;
 `
 const GridContainer = styled.div`
-    column-gap: 30px;
+    // column-gap: 30px;
     width: 90%;
     height: 90%;
     display: grid;

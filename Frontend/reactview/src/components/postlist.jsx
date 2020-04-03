@@ -10,8 +10,8 @@ import { withRouter } from "react-router-dom";
 const PostsJumbo = styled(Jumbotron)`
 	padding: 1rem 2rem;
 	// background-color: red;
-	width: 80%;
-    max-width: 1000px;
+	width: 110%;
+    max-width: 1250px;
     margin-top: 50px;
     text-align: center;
 `
@@ -77,7 +77,7 @@ class PostList extends React.Component {
                 <PostsJumbo>
                     <Title>
                         { typeof this.props.title == 'undefined'
-                            ? <>Posts</>
+                            ? <div style = {{marginTop: "-110px", color: "white"}}> _ </div>
                             : <>{this.props.title}</>
                         }
                     </Title>
