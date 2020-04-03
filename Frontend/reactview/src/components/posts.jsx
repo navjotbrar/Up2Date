@@ -67,7 +67,12 @@ class Posts extends Component {
     const regTime = this.milToStandard(militaryTime);
     return day + ', ' +regTime;
   } 
-
+  shortenString = (body) => {
+    if(body.length > 111){
+      return body.substring(0, 110) + '...';
+    }
+    return body;
+  }
   deletePost = async (postid) => {
 
     const response = await fetch('http://localhost:8080/post/' + postid,{
@@ -117,17 +122,20 @@ class Posts extends Component {
             </div>
             <div class="media-content">
               <div class="content">
-                <p>
+
+                <div>
                   <strong>{this.props.info.title}</strong> <small>{this.getDate(this.props.info.createDate)}</small>
                   <br />
-                  {this.props.info.body}
-                </p>
+                  <div style = {{maxWidth: "90%"}}>
+                    {this.shortenString(this.props.info.body)}
+                  </div>
+                </div >
 
-                <div className="author">
+                <div >
                   
                   { this.props.deletable == 'true'
-                    ? <Button variant = "outline-danger" onClick = {() => this.deletePostClick(this.props.info.postid)} style = {{position: "relative", left: "30px", fontSize: "0.8rem"}}> Delete </Button>
-                    : <div>- {this.props.info.author} </div>
+                    ? <Button variant = "outline-danger" onClick = {() => this.deletePostClick(this.props.info.postid)} style = {{position: "relative", left: "98%", top: "-60px", fontSize: "0.8rem"}}> X </Button>
+                    : <div className="author">- {this.props.info.author} </div>
                   }
 
                 </div>
