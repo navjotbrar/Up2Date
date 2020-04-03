@@ -19,12 +19,13 @@
 }
 
 .outside-container {
-    padding-left: 10%;
-    padding-right: 10%;
+    /* padding-left: 10%;
+    padding-right: 10%; */
     cursor: pointer;
 }
 .pic{
     width: 150px;
+    min-width: 150px;
     height:auto;
     border-radius: 10%;
 }

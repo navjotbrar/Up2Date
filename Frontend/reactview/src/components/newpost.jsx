@@ -50,6 +50,11 @@ class NewPost extends React.Component {
 			return false;
 		}
 
+		if(this.state.body[0].length > 1995){
+			alert("Your post is too long, maximum 2000 characters allowed");
+			return false;
+		}
+
 		if(this.props.username == null){
 			alert("Please login to post");
 			this.props.history.push('./login');
