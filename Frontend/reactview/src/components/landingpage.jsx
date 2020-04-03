@@ -51,11 +51,6 @@ class LandingPage extends React.Component {
               <p>The only way to stay up to date</p>
 
               <ButtonDiv>
-                <Link to="./signup">
-                  <Button className="btn" bsStyle="primary" variant="dark" style = {{margin: "5px"}}>
-                    Sign Up
-                  </Button>
-                </Link>
                 <Link to="./posts">
                   <Button className="btn" bsStyle="primary" style = {{margin: "5px"}}>
                     View Posts
