@@ -1,0 +1,55 @@
+.fields{
+  padding-top: 0px;
+  padding:5%;
+}
+
+.field{
+  padding:0.5%;
+}
+
+.content {
+  margin-right: 0px;
+  margin-left: 0px;
+  /* display:flex; */
+  justify-content: center;
+  width: 100%;
+  /* height: 90vh; */
+  padding: 2%;
+  margin-bottom: 100px;
+}
+
+.left {
+  
+  background-image: url("https://i.pinimg.com/originals/d8/23/e7/d823e79af14a86749cfa12ef113b6424.jpg");
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 50%;
+  height: 85%;
+  position:fixed;
+  left: 2%;
+  top: 10%;
+}
+
+.right {
+   
+  background-color: whitesmoke;
+  width: 50%;
+  height: 85%;
+  position: fixed;
+  left: 49%;
+  top: 10%;
+
+}
+
+.title{
+    font-size: 20px;
+    padding-top:50px;
+    padding-bottom: 0px;
+}
+
+.up2date{
+    font-size: 50px;
+    color: white;
+}
