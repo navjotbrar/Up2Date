@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { withRouter } from "react-router-dom";
 import {connect} from 'react-redux';
-import {fetchLogin, fetchPosts} from '../actions';
+import {fetchLogin, fetchPosts} from '../../actions';
 
 const ButtonDiv = styled.div`     
     display:flex;

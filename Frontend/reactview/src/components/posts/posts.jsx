@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { Button, Alert } from 'react-bootstrap';
 import Expand from "react-expand-animated";
-import globe from "./img/world.png";
-import Login from "./login.jsx";
-import ExpandView from "./expandView.jsx"
+import globe from "../img/world.png";
+import Login from "../login/login.jsx";
+import ExpandView from "../expandView/expandView.jsx"
 import { Table } from "reactstrap";
 import "bulma/css/bulma.css";
 import "./posts.css";

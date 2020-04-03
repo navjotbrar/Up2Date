@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { withRouter } from "react-router-dom";
 import { resolve } from "url";
 import {connect} from 'react-redux';
-import {newPost, logOut} from '../actions';
+import {newPost, logOut} from '../../actions';
 
 const FormDiv = styled.div`
 	display: flex;

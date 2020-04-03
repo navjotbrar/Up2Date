@@ -3,10 +3,10 @@ import { Jumbotron, Container, Row, Col, Image, Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import styled from "styled-components";
 import "./signup";
-import Login from "./login.jsx";
+import Login from "../login/login.jsx";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addnewuser } from "../actions";
+import { addnewuser } from "../../actions";
 
 import UserInfo from "./UserInfo";
 import LoginInfo from "./LoginInfo";
@@ -22,11 +22,6 @@ const SignUpJumbo = styled(Jumbotron)`
 `;
 
 class SignUp extends React.Component {
-  // dropListener = (e) => {
-  //     this.setState({
-  //         type: [e.target.value]
-  //     })
-  // }
 
   action = async () => {
     if (
@@ -47,13 +42,6 @@ class SignUp extends React.Component {
       console.log("redirecting");
       this.props.history.push("./login");
     }
-    // this.props.addUser(this.state.username,this.state.password,this.state.first_name,this.state.last_name,this.state.email);
-    // const userExists = await this.checkIfUserExists();
-    // 	//console.log(userExists + " hiii ");
-    // 	if(userExists == "taken"){
-    // 		alert("that username is taken");
-    // 		return;
-    // 	}
   };
 
   handleChange = e => {

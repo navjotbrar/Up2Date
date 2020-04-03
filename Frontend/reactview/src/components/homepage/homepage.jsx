@@ -2,17 +2,17 @@ import React from "react";
 import { Jumbotron, Container, Row, Col, Image, Button, Modal  } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import styled from 'styled-components';
-import Posts from "./posts.jsx";
+import Posts from "../posts/posts.jsx";
 import { withRouter } from "react-router-dom";
 import { resolve } from "url";
-import { logOut, deleteUser} from '../actions';
+import { logOut, deleteUser} from '../../actions';
 import {connect} from 'react-redux';
-import reader from "./img/reader.png";
-import view from "./img/view.png";
-import remove from "./img/remove.png";
-import write from "./img/notepad.png";
-import { fetchPosts } from "../actions";
-import PostList from './postlist';
+import reader from "../img/reader.png";
+import view from "../img/view.png";
+import remove from "../img/remove.png";
+import write from "../img/notepad.png";
+import { fetchPosts } from "../../actions";
+import PostList from '../posts/postlist';
 import "bulma/css/bulma.css";
 
 const BoxDiv = styled.div`
@@ -135,7 +135,7 @@ class HomePage extends React.Component{
                     </Modal.Header>
                 
                     <Modal.Footer>
-                        <Button variant="danger" onClick = {() => this.close()}>
+                        <Button variant="light" onClick = {() => this.close()}>
                             No
                         </Button>
                         <Button variant="danger" onClick = {() => this.handleOnDelete()}>

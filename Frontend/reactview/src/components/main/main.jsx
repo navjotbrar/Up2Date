@@ -1,13 +1,13 @@
 import React from 'react';
-import Login from './login';
-import LandingPage from './landingpage';
-import NewPostView from './newpost'
-import PostList from './postlist'
+import Login from '../login/login';
+import LandingPage from '../landingPage/landingpage';
+import NewPostView from '../posts/newpost'
+import PostList from '../posts/postlist'
 import { Router, Switch, Route } from 'react-router-dom';
-import Signup from './signup';
-import HomePage from './homepage';
-import FullPostView from './fullPostView';
-import SearchView from './searchView';
+import Signup from '../signUp/signup';
+import HomePage from '../homepage/homepage';
+import FullPostView from '../posts/fullPostView';
+import SearchView from '../search/searchView';
 const Main = () => (
     <Switch>
         <Route exact path = "/" component = {LandingPage} />

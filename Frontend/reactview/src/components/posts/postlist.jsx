@@ -2,8 +2,8 @@ import * as React from "react";
 import { Jumbotron } from "react-bootstrap";
 import styled from "styled-components";
 import Posts from "./posts.jsx";
-import "./landingpage.css";
-import { fetchPosts } from "../actions";
+import "../landingPage/landingpage.css";
+import { fetchPosts } from "../../actions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 

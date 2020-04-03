@@ -2,16 +2,16 @@ import React from "react";
 import { Jumbotron, Container, Row, Col, Image, Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import styled from 'styled-components';
-import Posts from "./posts.jsx";
+import Posts from "../posts/posts.jsx";
 import { withRouter } from "react-router-dom";
 import { resolve } from "url";
-import { logOut} from '../actions';
+import { logOut} from '../../actions';
 import {connect} from 'react-redux';
-import reader from "./img/reader.png";
-import view from "./img/view.png";
-import remove from "./img/remove.png";
-import write from "./img/notepad.png";
-import { fetchPosts } from "../actions";
+import reader from "../img/reader.png";
+import view from "../img/view.png";
+import remove from "../img/remove.png";
+import write from "../img/notepad.png";
+import { fetchPosts } from "../../actions";
 import SearchPostList from './searchPostList';
 
 const BoxDiv = styled.div`

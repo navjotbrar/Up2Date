@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
 import {connect} from 'react-redux';
-import {fetchLogin, logOut, updateSearch} from '../actions';
+import {fetchLogin, logOut, updateSearch} from '../../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faSearch } from '@fortawesome/free-solid-svg-icons'
 

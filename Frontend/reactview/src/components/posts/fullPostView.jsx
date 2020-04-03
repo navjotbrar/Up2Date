@@ -4,11 +4,11 @@ import {Link} from 'react-router-dom';
 import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
 import {connect} from 'react-redux';
-import {fetchLogin, logOut} from '../actions';
+import {fetchLogin, logOut} from '../../actions';
 import { ReactTinyLink } from 'react-tiny-link'
-import "./landingpage.css";
-import reply from "./img/reply-solid.svg"; 
-import replyWhite from "./img/reply-white.svg"; 
+import "../landingPage/landingpage.css";
+import reply from "../img/reply-solid.svg"; 
+import replyWhite from "../img/reply-white.svg"; 
 
 const Title = styled.h1`
     font-size: 28px;
