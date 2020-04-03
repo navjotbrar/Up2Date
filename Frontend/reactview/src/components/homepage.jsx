@@ -1,5 +1,5 @@
 import React from "react";
-import { Jumbotron, Container, Row, Col, Image, Button } from "react-bootstrap";
+import { Jumbotron, Container, Row, Col, Image, Button, Modal  } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import styled from 'styled-components';
 import Posts from "./posts.jsx";
@@ -13,6 +13,7 @@ import remove from "./img/remove.png";
 import write from "./img/notepad.png";
 import { fetchPosts } from "../actions";
 import PostList from './postlist';
+import "bulma/css/bulma.css";
 
 const BoxDiv = styled.div`
     justify-content: center;
@@ -48,31 +49,51 @@ const MySec = styled.section`
 
 class HomePage extends React.Component{
     
+    constructor(props) {
+        super(props);
+        this.state = {
+          posts: [],
+          alertMessage: false,
+          allowDelete: false,
+        };
+    }
+    
+
+  
     handleOnClick = (event) => {
         window.scrollBy(0, 555);
     }
     goToNewPostView = () => {
         this.props.history.push('./newpost')
     }
+    handleOnEnter = (event) =>{
+        this.setState({
+            alertMessage: true
+        })
+     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-          posts: []
-        };
-    }
+     close = () => {
+        this.setState({
+            alertMessage: false
+        })
+     }
+    
+  
+
     handleOnDelete = async () => {
-        const result = await this.props.deleteUser(this.props.username);
-        if (result){
-            this.props.history.push('./');
-        }
+            const result = await this.props.deleteUser(this.props.username);
+            if (result){
+                this.props.history.push('./');
+            }
     }
+    
     componentDidMount(){
         if(this.props.username == null){
             // this.props.history.push('./');
             window.location.href = './';
         }
     }
+   
 
     render(){
         return(
@@ -104,10 +125,25 @@ class HomePage extends React.Component{
                     <Col xs>
                         <ProfileDiv>
                             <Image src={remove} width="100" height="100" />
-                            <Button variant="light" onClick = {this.handleOnDelete}><h2>Delete account</h2></Button>
+                            <Button variant="light"onClick = {this.handleOnEnter}><h2>Delete account</h2></Button>
                         </ProfileDiv>  
                     </Col>
                 </Row>
+                <Modal show={this.state.alertMessage}>
+                    <Modal.Header closeButton onClick = {() => this.close()}>
+                        <Modal.Title>Are you sure you want to delete your account?</Modal.Title>
+                    </Modal.Header>
+                
+                    <Modal.Footer>
+                        <Button variant="danger" onClick = {() => this.close()}>
+                            No
+                        </Button>
+                        <Button variant="danger" onClick = {() => this.handleOnDelete()}>
+                            Yes
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
             </Container>
 
             <PostList author = {this.props.username} title = "My Posts"/>
