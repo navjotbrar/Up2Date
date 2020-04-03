@@ -61,9 +61,10 @@ public class UserController {
 
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @DeleteMapping(value = "/user/deleteuser", consumes ="application/json")
-    public ResponseEntity deleteUser(@RequestBody UserDTO userDTO) {
-
+    @DeleteMapping(value = "/user/deleteuser/{data}")
+    public ResponseEntity deleteUser(@PathVariable(name="data", required=true) String username) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUsername(username);
             try {
                 userService.deleteUser(userDTO);
                 return new ResponseEntity<String>("Successfully deleted user.", HttpStatus.OK);
@@ -75,29 +76,6 @@ public class UserController {
         }
 
 
-
-//    @ResponseBody
-//    public ResponseEntity<User> addUser(@PathVariable(name="username", required=true) String username,
-//                                        @PathVariable(name="password", required=true) String password,
-//                                        @PathVariable(name="first_name", required=true) String first_name,
-//                                        @PathVariable(name="last_name", required=true) String last_name,
-//                                        @PathVariable(name="email", required=true) String email){
-//
-////        return new ResponseEntity<User>(new User("shamin","rahman","1234","5678"),HttpStatus.OK);
-//        System.out.println(username + '/' + password  + '/' + first_name  + '/' +
-//                last_name  + '/' + email);
-//        Optional<User> userQuery = userRepository.findByUsername(username);
-//
-//        if(userQuery.isPresent()){
-//            return new ResponseEntity<User>(null,null, HttpStatus.OK);
-//        }
-//        else {
-//            User newUser = new User(first_name, last_name, password, username, email);
-//            userRepository.save(newUser);
-//            System.out.println(newUser);
-//            return new ResponseEntity<User>(newUser, HttpStatus.OK);
-//        }
-//    }
 
 
 

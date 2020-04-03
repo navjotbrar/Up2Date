@@ -100,7 +100,26 @@ export const addnewuser = (data) => async dispatch => {
     }
     return false;
 };
+export const deleteUser = (data) => async dispatch => {
+    console.log(data)
+    const response = await fetch('http://localhost:8080/user/deleteuser/' + data , {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
 
+    console.log("response: ");
+    console.log(response.status);
+
+    if(response.status != 200){
+        alert("Unable to delete user, server down");
+        return false;
+    }
+    alert("User deleted!");
+    dispatch({type: "LOGOUT"});
+    return true;
+}
 export const updateSearch = (data) => async dispatch => {
     dispatch({ type: "SEARCH",payload: data})
     return true;
