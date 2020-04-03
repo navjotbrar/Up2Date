@@ -33,7 +33,6 @@ class SearchPostList extends React.Component {
 
     async componentDidMount(){
         await this.test();
-        // console.log("in postList didMount")
     }
 
     test = async () => {
@@ -45,7 +44,6 @@ class SearchPostList extends React.Component {
         let articleRows = [];
         let tirtiaryRows = [];
         let i = 0;
-        console.log(this.props.search + " yuh");
     
         articles.forEach(article => {
             if(i >= +this.props.amount)
@@ -71,7 +69,6 @@ class SearchPostList extends React.Component {
         let x = 0;
         if(typeof this.props.search != 'undefined' && this.props.search != " " ){
         let res = this.props.search.split(" ");
-        console.log(res);
         tirtiaryRows.forEach(post => {
             if(x >= +this.props.amount)
                 return;
