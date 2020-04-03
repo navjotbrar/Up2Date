@@ -4,6 +4,7 @@ import com.comment.microservice.service.Commands.EditCommentCommand;
 
 import java.util.Date;
 
+// Event used for editing comments, is called after the CreateCommentCommand per axon
 public class EditCommentEvent extends BaseEvent<Integer>  {
     public String content;
 

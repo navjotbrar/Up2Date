@@ -1,10 +1,8 @@
 package com.architecture.uptodate.Controller;
 
 import com.architecture.uptodate.DTO.CommentDTO;
-import com.architecture.uptodate.Entity.Comment;
-import com.architecture.uptodate.Entity.CommentList;
 import com.architecture.uptodate.Repository.CommentRepository;
-import com.architecture.uptodate.Service.CommentImpl;
+import com.architecture.uptodate.Service.Impl.CommentImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

@@ -6,6 +6,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Testing entity for comments when we weren't using a microservice initally
+ */
 @Entity
 @Getter @Setter
 @Table(name="comments")

@@ -1,11 +1,10 @@
 package com.comment.microservice.service.Events;
 
 import com.comment.microservice.service.Commands.CreateCommentCommand;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Date;
 
+// Event used for creating comments, is called after the CreateCommentCommand per axon
 public class CreateCommentEvent extends BaseEvent<Integer> {
 
     public int parentCommentId;
