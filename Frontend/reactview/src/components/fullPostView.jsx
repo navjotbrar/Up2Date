@@ -148,8 +148,7 @@ class FullPostView extends React.Component {
         let postinfo = {};
         if(typeof this.props.location.state == 'undefined'){
             const localStore = JSON.parse(window.localStorage.getItem('post'));
-            console.log(localStore);
-            console.log("in undefined");
+
             if(localStore == null){
                 this.props.history.push('/');
                 return null;
@@ -159,24 +158,19 @@ class FullPostView extends React.Component {
             postinfo = this.props.location.state.postinfo;
             window.localStorage.setItem('post', JSON.stringify(this.props.location.state.postinfo));
         }
-        console.log(postinfo);
-        console.log(" in here !! ");
+
 
 
         try {
 
             let r = await fetch('http://localhost:8080/comment/post/' + postinfo.postid);
 
-            console.log(r.status);
             if(r.status == 403){
                 alert("Comments are currently unavailable");
                 return;
             }
 
             let result = await r.json();
-
-            console.log(result);
-
             this.setState({fullCommentList: result, postinfo: postinfo, commentCount: result.length});
 
             this.showComments(result);
@@ -187,7 +181,6 @@ class FullPostView extends React.Component {
         }
     }
     commentClick = (e) => {
-        console.log("clicked, id: " + e.commentId);
         if(this.props.username == null){
             alert("Please login to comment");
             return;
@@ -198,14 +191,11 @@ class FullPostView extends React.Component {
         });
     }
     editComment = async (commentInfo) => {
-        console.log("editing: ");
-        console.log(commentInfo.commentId);
 
         // this.setState({editing: commentInfo});
 
         const dateString = this.currentDate();
 
-        console.log(" edit date: " + dateString);
 
         const response = await fetch('http://localhost:8080/comment/post/',{
             method: 'POST',
@@ -215,10 +205,6 @@ class FullPostView extends React.Component {
             body: JSON.stringify({author: commentInfo.author, commentId: commentInfo.commentId, parentCommentId: +commentInfo.parentId, content: this.state.editText, postId: commentInfo.postId, createdDate: dateString, lastModifiedByDate: dateString})
         });
 
-        console.log("response: ");
-        // const t = await response.text();
-        console.log(response.status);
-
         if(response.status != 200){
             alert("Unable to edit comment, server down");
             return;
@@ -226,20 +212,16 @@ class FullPostView extends React.Component {
         this.componentDidMount();
     }
     editCommentClick = async (commentInfo) => {
-        console.log("edit click: ");
-        console.log(commentInfo.commentId);
 
         this.setState({editing: commentInfo, editModal: true});
     }
 
     deleteCommentClick = async (commentInfo) => {
-        console.log("Pressed delete: " + commentInfo.commentId);
         this.setState({alertMessage: true, deleteId: commentInfo.commentId});
         // await this.deleteComment(commentInfo);
         // window.location.reload();
     }
     deleteComment = async (commentId) => {
-        console.log(" in delete: " + commentId);
 
         const response = await fetch('http://localhost:8080/comment/' + commentId,{
             method: 'DELETE',
@@ -247,10 +229,6 @@ class FullPostView extends React.Component {
                 'Content-Type': 'application/json'
             },
         });
-
-        console.log("response: ");
-        // const t = await response.text();
-        console.log(response.status);
 
         if(response.status != 200){
             alert("Unable to delete comment, server down");
@@ -361,13 +339,10 @@ class FullPostView extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log("pressed submit");
     }
 
     action = async () => {
-        console.log("action pressed");
-        console.log(this.props.username);
-        console.log(this.state.newComment);
+
 
         if(this.props.username == null){
             alert("Please login to post a comment");
@@ -383,9 +358,7 @@ class FullPostView extends React.Component {
         window.location.reload();
     }
     replyAction = async () => {
-        console.log("replyAction pressed");
-        console.log(this.props.username);
-        console.log(this.state.newComment);
+
 
         if(this.props.username == null){
             alert("Please login to post a comment");
@@ -404,9 +377,7 @@ class FullPostView extends React.Component {
         window.location.reload();
     }
     editAction = async () => {
-        console.log("editAction pressed");
-        console.log(this.props.username);
-        console.log(this.state.editText);
+
 
         if(this.props.username == null){
             alert("Please login to edit a comment");
@@ -446,7 +417,6 @@ class FullPostView extends React.Component {
         
 
         const dateString = date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second;
-        console.log(dateString);
         return dateString;
     }
     postComment = async (parentId, content) => {
@@ -456,7 +426,6 @@ class FullPostView extends React.Component {
 
         let month = (date.getMonth() + 1).toString(); 
         month.length == 1 ? month = '0' + month : month = month; 
-        // console.log('month: ' + month);
         let day = date.getDate().toString(); 
         day.length == 1 ? day = '0' + day : day = day;
         
@@ -471,7 +440,6 @@ class FullPostView extends React.Component {
         
 
         const dateString = date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second;
-        console.log(" new comment date: " + dateString);
         
         const response = await fetch('http://localhost:8080/comment/post/',{
             method: 'POST',
@@ -481,9 +449,6 @@ class FullPostView extends React.Component {
             body: JSON.stringify({author: this.props.username, parentCommentId: +parentId, content: content, postId: this.state.postinfo.postid, createdDate: dateString, lastModifiedByDate: dateString})
         });
 
-        console.log("response: ");
-        // const t = await response.text();
-        console.log(response.status);
 
         if(response.status != 200){
             alert("Unable to post comment, server down");
@@ -654,7 +619,6 @@ class FullPostView extends React.Component {
 
 const mapStateToProps = (state) => {
     if(Object.keys(state.userInfo).length === 0 && state.userInfo.constructor === Object){
-        console.log("in nulll");
         if(state.persistedState == null){
             return {
                 username: null
@@ -667,7 +631,6 @@ const mapStateToProps = (state) => {
             username: null
         };
     }
-    console.log(state.userInfo.username)
 
     return {
         username: state.userInfo.username,

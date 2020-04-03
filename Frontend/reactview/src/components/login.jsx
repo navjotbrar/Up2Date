@@ -44,7 +44,6 @@ class Login extends React.Component{
             return;
         } 
         else{
-            console.log(this.state.type);
             this.verify();
         }
         // window.location.href = './homepage';
@@ -56,17 +55,14 @@ class Login extends React.Component{
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
     }
     async verify() {
         try {
             const result = await this.props.fetchLogin(this.state.username,this.state.password);
-            console.log(" ******************* result: " + result);
             if(!result){
                 return;
             }
             this.props.history.push('./homepage');
-            // console.log(" yuhh ");
         } catch (error) {
             console.log(error);
         }

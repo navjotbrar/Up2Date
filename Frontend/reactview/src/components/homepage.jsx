@@ -118,7 +118,6 @@ class HomePage extends React.Component{
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
     if(Object.keys(state.userInfo).length === 0 && state.userInfo.constructor === Object){
         console.log("in nulll");
         if(state.persistedState == null){
@@ -128,17 +127,13 @@ const mapStateToProps = (state) => {
         }
         state.userInfo = state.persistedState.userInfo;
     }
-    
-    console.log("nope in homepage")
     if(state.userInfo.username == null){
-        console.log("in null user homepage");
         // window.location.href = './login';
         return {
             username: null
         };
     }
 
-    console.log(state.userInfo.username)
     
     return {
         username: state.userInfo.username,

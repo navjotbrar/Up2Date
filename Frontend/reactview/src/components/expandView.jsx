@@ -5,9 +5,6 @@ import { withRouter } from "react-router-dom";
 class ExpandView extends Component {
 
   goToPost = () => {
-    console.log("in goto post in: ");
-    console.log(this.props.id); 
-
     this.props.history.push('/fullpost', { postinfo: this.props.info });
   }
 

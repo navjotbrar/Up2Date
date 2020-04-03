@@ -84,11 +84,6 @@ class NewPost extends React.Component {
 		});	
 		
 		let result = await response.json();
-		
-		console.log("result is: \n");
-		console.log(result.articledesc);
-		console.log(result.articletitle);
-		console.log(result.imageurl);
 
 		if(result.articledesc == 'Could not decode website'){
 			result.articledesc = 'No description available';
@@ -104,7 +99,7 @@ class NewPost extends React.Component {
 			modalVisibility: true
 		});
 
-		console.log("at end of preview");
+
 
 	}
 	closeModal = () => {

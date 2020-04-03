@@ -69,7 +69,6 @@ class Posts extends Component {
   } 
 
   deletePost = async (postid) => {
-    console.log("in delete post: " + postid);
 
     const response = await fetch('http://localhost:8080/post/' + postid,{
       method: 'DELETE',
@@ -77,10 +76,6 @@ class Posts extends Component {
           'Content-Type': 'application/json'
       },
     });
-
-    console.log("response: ");
-    // const t = await response.text();
-    console.log(response.status);
 
     if(response.status != 200){
         alert("Unable to delete comment, server down");
@@ -90,7 +85,6 @@ class Posts extends Component {
     window.location.reload();
   }
   deletePostClick = async (postid) => {
-    console.log("deleting this one: " + postid);
     this.setState({alertMessage: true});
   }
 
