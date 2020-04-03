@@ -42,6 +42,9 @@
 }
 .author{
     display: flex;
-    float: right;
+    /* float: right; */
     padding-right:10%;
+}
+.box{
+    max-height: 170px;
 }
