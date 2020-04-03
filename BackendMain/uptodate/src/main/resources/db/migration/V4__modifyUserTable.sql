@@ -1,3 +1,4 @@
+# Connor Britton did the flyaway database dseign and implementations for all our entities
 CREATE TABLE IF NOT EXISTS image (
     imageid int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     body varchar(1000) NOT NULL

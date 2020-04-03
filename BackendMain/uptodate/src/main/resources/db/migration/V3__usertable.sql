@@ -1,3 +1,4 @@
+# Connor Britton did the flyaway database dseign and implementations for all our entities
 CREATE TABLE IF NOT EXISTS user (
     id varchar(36) NOT NULL,
     username varchar(100) NOT NULL,

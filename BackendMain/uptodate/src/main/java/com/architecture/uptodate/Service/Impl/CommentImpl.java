@@ -1,18 +1,17 @@
-package com.architecture.uptodate.Service;
+package com.architecture.uptodate.Service.Impl;
 
 import com.architecture.uptodate.DTO.CommentDTO;
 import com.architecture.uptodate.Repository.PostsRepository;
+import com.architecture.uptodate.Service.CommentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
-public class CommentImpl implements CommentService{
+public class CommentImpl implements CommentService {
 
     private final String sendCommentQueue= "insertCommentQueue";
 
@@ -44,17 +43,6 @@ public class CommentImpl implements CommentService{
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-    }
-
-
-    @Override
-    public List<CommentDTO> recieveComments(int postId){
-        // Hit a endpoint on comment microservice to recieve the comments of a post
-
-
-        template.convertAndSend(fetchCommentQueue,postId);
-
-        return new ArrayList<CommentDTO>();
     }
 
     @Override

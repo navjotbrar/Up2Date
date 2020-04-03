@@ -9,13 +9,14 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.util.UUID;
 
+/**
+ * User entity representation
+ */
 @Entity
 @Getter @Setter
 @Table(name = "user")
 public class User {
 
-
-    //@Column(nullable = false, unique = true, updatable = false, columnDefinition="VARCHAR(36)")
     @Id
     @Column(name="id")
     @Type(type = "uuid-char")
@@ -49,7 +50,7 @@ public class User {
         this.id = UUID.randomUUID();
     }
 
-
+    // We use lombok but it was having issues on some team members so needed getters and setters sometimes
     public String getUsername() {
         return username;
     }
@@ -70,10 +71,5 @@ public class User {
         return lastName;
     }
 
-    //    private User convertToEntity(UserDTO userDTO) throws ParseException {
-//        User user = modelMapper.map(postDto, Post.class);
-//
-//        return user;
-//    }
 
 }

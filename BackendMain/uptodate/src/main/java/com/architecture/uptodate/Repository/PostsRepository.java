@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * DAO used for posts
+ */
 public interface PostsRepository extends CrudRepository<Posts,Integer>{
 
     Optional<Posts> findByAuthor(String author);

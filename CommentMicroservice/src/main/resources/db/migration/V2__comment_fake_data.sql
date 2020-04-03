@@ -1,3 +1,4 @@
+# Connor Britton did the flyaway database dseign and implementations for all our entitiess
 CREATE TABLE IF NOT EXISTS comments (
                                         commentId int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                         parentCommentId int(10),
