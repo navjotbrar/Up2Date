@@ -67,9 +67,13 @@ class Posts extends Component {
     const regTime = this.milToStandard(militaryTime);
     return day + ', ' +regTime;
   } 
-
+  shortenString = (body) => {
+    if(body.length > 111){
+      return body.substring(0, 110) + '...';
+    }
+    return body;
+  }
   deletePost = async (postid) => {
-    console.log("in delete post: " + postid);
 
     const response = await fetch('http://localhost:8080/post/' + postid,{
       method: 'DELETE',
@@ -77,10 +81,6 @@ class Posts extends Component {
           'Content-Type': 'application/json'
       },
     });
-
-    console.log("response: ");
-    // const t = await response.text();
-    console.log(response.status);
 
     if(response.status != 200){
         alert("Unable to delete comment, server down");
@@ -90,7 +90,6 @@ class Posts extends Component {
     window.location.reload();
   }
   deletePostClick = async (postid) => {
-    console.log("deleting this one: " + postid);
     this.setState({alertMessage: true});
   }
 
@@ -123,17 +122,20 @@ class Posts extends Component {
             </div>
             <div class="media-content">
               <div class="content">
-                <p>
+
+                <div>
                   <strong>{this.props.info.title}</strong> <small>{this.getDate(this.props.info.createDate)}</small>
                   <br />
-                  {this.props.info.body}
-                </p>
+                  <div style = {{maxWidth: "90%"}}>
+                    {this.shortenString(this.props.info.body)}
+                  </div>
+                </div >
 
-                <div className="author">
+                <div >
                   
                   { this.props.deletable == 'true'
-                    ? <Button variant = "outline-danger" onClick = {() => this.deletePostClick(this.props.info.postid)} style = {{position: "relative", left: "30px", fontSize: "0.8rem"}}> Delete </Button>
-                    : <div>- {this.props.info.author} </div>
+                    ? <Button variant = "outline-danger" onClick = {() => this.deletePostClick(this.props.info.postid)} style = {{position: "relative", left: "98%", top: "-60px", fontSize: "0.8rem"}}> X </Button>
+                    : <div className="author">- {this.props.info.author} </div>
                   }
 
                 </div>

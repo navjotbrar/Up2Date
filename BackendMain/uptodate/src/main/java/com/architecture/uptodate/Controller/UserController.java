@@ -3,18 +3,13 @@ package com.architecture.uptodate.Controller;
 import com.architecture.uptodate.DTO.UserDTO;
 import com.architecture.uptodate.Entity.User;
 import com.architecture.uptodate.Repository.UserRepository;
-import com.architecture.uptodate.Service.UserService;
-import com.architecture.uptodate.Service.UserServiceImpl;
+import com.architecture.uptodate.Service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+
 import java.util.Optional;
 
 

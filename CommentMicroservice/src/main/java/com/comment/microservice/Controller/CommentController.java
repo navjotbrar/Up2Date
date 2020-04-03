@@ -2,10 +2,7 @@ package com.comment.microservice.Controller;
 
 import com.comment.microservice.DTO.CommentDTO;
 import com.comment.microservice.entity.Comment;
-import com.comment.microservice.service.CommentQueryService;
-import com.comment.microservice.service.Impl.CommentCommandServiceImpl;
-import com.comment.microservice.service.Impl.CommentQueryServiceImpl;
-import com.comment.microservice.service.repository.CommentRepository;
+import com.comment.microservice.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,39 +13,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.ArrayList;
 import java.util.List;
 
+// Controller for accessing REST API for comment microservice. Used to retrieving comments for a post
 @Controller
 public class CommentController {
 
     @Autowired
-    CommentCommandServiceImpl commentCommandService;
-
-    @Autowired
-    CommentQueryServiceImpl commentQueryService;
-
-    @Autowired
     CommentRepository commentRepository;
 
-    @GetMapping("/comment/post/{postId}")
-    public ResponseEntity<List<CommentDTO>>fetchCommentsForPost(@PathVariable(name="postId", required=true) int postId) {
-
-        //commentService.recieveComments(postId);
-        System.out.println(" ------------- in heres ------------");
-
-        commentCommandService.createComment(new CommentDTO(2,"hi",1,"qasim"));
-        // Attempt to get all comments using pub sub
-        return new ResponseEntity<List<CommentDTO>>(new ArrayList<CommentDTO>(), HttpStatus.OK);
-
-    }
-
     @GetMapping("/comment/posts/{postId}")
-    public ResponseEntity<List<CommentDTO>>fetchCommentsForPosts(@PathVariable(name="postId", required=true) int postId) {
+    public ResponseEntity<List<CommentDTO>>fetchCommentsForPosts(@PathVariable(name="postId") int postId) {
 
         List<Comment> comments = commentRepository.findCommentsByPostId(postId);
         List<CommentDTO> commentDTOS = new ArrayList<>();
         for(Comment comment: comments){
             commentDTOS.add(EntityToDto(comment));
         }
-        return new ResponseEntity<List<CommentDTO>>(commentDTOS, HttpStatus.OK);
+        return new ResponseEntity<>(commentDTOS, HttpStatus.OK);
     }
 
     private CommentDTO EntityToDto(Comment comment){

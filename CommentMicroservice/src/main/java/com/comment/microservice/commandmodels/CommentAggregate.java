@@ -15,6 +15,8 @@ import org.axonframework.spring.stereotype.Aggregate;
 
 import java.util.Date;
 
+// Bases for event sourcing on the comment objects. The aggregate comment entity has mutiple actions and action handlers
+// Use regular int comment ids as the aggregate
 @Aggregate
 public class CommentAggregate {
 

@@ -1,3 +1,4 @@
+# Connor Britton did the flyaway database dseign and implementations for all our entities
 ALTER TABLE posts
     ADD COLUMN articledescription VARCHAR(81) NULL AFTER link,
     ADD COLUMN imageurl VARCHAR(2000) NULL AFTER articledescription,

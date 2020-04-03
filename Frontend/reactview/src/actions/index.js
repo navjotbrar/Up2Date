@@ -15,25 +15,15 @@ export const fetchLogin = (username, password) => async dispatch => {
         // window.location.href = './login';
         return false;
     }
-
-    console.log(result)
-    console.log("that was pure response")
-
-    // print it, and then change structure if needed, and dispatch an event
-    console.log("In action creator")
-    console.log(result)
     dispatch({ type: "LOGIN_USER",payload: result});
     return true;
 };
 
 export const logOut = () => async dispatch =>{
-    console.log("in log out action");
     dispatch({type: "LOGOUT"});
 };
 
 export const newPost = (title, link, body, username) => async dispatch => {
-    console.log("in new post action");
-
     const response = await fetch('http://localhost:8080/post/add/',{
         method: 'POST',
         headers: {
@@ -50,37 +40,22 @@ export const newPost = (title, link, body, username) => async dispatch => {
 };
 
 export const fetchPosts = () => async dispatch => {
-    console.log("in fetch Posts >>>   <<<< ");
     const response = await fetch('http://localhost:8080/posts/fetch');
-
-    console.log(response);
-
-    console.log("after response       >>");
-
     const result = await response.json();
-
-    console.log(result);
-    
-    console.log("after res          <<");
-
     dispatch({ type: "FETCH_POSTS",payload: result})
     
 };
 
 //function to check if a user exists 
 export const addUser = (username,password,first_name,last_name,email) => async dispatch => {
-    console.log(username,password,first_name,last_name,email);
     const response = await fetch('http://localhost:8080/user/addUser/'+ username + '/' + password  + '/' + first_name  + '/' + 
     last_name  + '/' + email)
     let result = await response.json();
 
-    // print it, and then change structure if needed, and dispatch an event
-    console.log(result)
      //dispatch({ type: "LOGIN_USER",payload: response.data});
 };
 
 export const addnewuser = (data) => async dispatch => {
-    console.log(data);
     const response = await fetch('http://localhost:8080/user/addnewuser', {
         method: 'POST',
         body: JSON.stringify(data),
@@ -89,7 +64,6 @@ export const addnewuser = (data) => async dispatch => {
         }
     });
     let result = await response.json();
-    console.log(result);
     if(result.first_name == null){
         alert("user not created, username already exists");
         return false;
@@ -101,17 +75,12 @@ export const addnewuser = (data) => async dispatch => {
     return false;
 };
 export const deleteUser = (data) => async dispatch => {
-    console.log(data)
     const response = await fetch('http://localhost:8080/user/deleteuser/' + data , {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         }
     });
-
-    console.log("response: ");
-    console.log(response.status);
-
     if(response.status != 200){
         alert("Unable to delete user, server down");
         return false;
@@ -126,7 +95,6 @@ export const updateSearch = (data) => async dispatch => {
 }
 
 export const fetchSearchResults = (data) => async dispatch => {
-    console.log(data);
     const response = await fetch('http://localhost:8080/post/returnSearchResults', {
         method: 'GET',
         body: JSON.stringify(data),
@@ -136,9 +104,6 @@ export const fetchSearchResults = (data) => async dispatch => {
     });
     
     let result = await response.json();
-
-
-    console.log(result)
 
     dispatch({ type: "FETCH_SEARCH_RESULTS",payload: result})
 

@@ -6,15 +6,13 @@ import com.comment.microservice.service.Commands.CreateCommentCommand;
 import com.comment.microservice.service.Commands.DeleteCommentCommand;
 import com.comment.microservice.service.Commands.EditCommentCommand;
 import com.comment.microservice.service.CommentCommandService;
-import com.comment.microservice.service.repository.CommentRepository;
+import com.comment.microservice.repository.CommentRepository;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Service

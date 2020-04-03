@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
+/**
+ * Entity used for posts
+ */
 @Entity
 @Getter @Setter
 @Table(name = "posts")

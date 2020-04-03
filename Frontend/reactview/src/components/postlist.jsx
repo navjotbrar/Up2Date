@@ -36,7 +36,6 @@ class PostList extends React.Component {
 
     async componentDidMount(){
         await this.test();
-        // console.log("in postList didMount")
     }
 
     test = async () => {
@@ -48,7 +47,6 @@ class PostList extends React.Component {
         const articles = input;     //articles = posts.postList
         let articleRows = [];
         let i = 0;
-        console.log(this.props.author + " yuh");
     
         articles.forEach(article => {
             if(i >= +this.props.amount)

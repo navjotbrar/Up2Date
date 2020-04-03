@@ -16,10 +16,7 @@ public class CommentQueryServiceImpl implements CommentQueryService {
 
 
     public List<Object> listCommentsForPost(int postId){
-
-
         return null;
-
     }
 
 

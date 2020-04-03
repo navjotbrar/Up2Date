@@ -1,13 +1,9 @@
 package com.architecture.uptodate.Controller;
 
-import com.architecture.uptodate.DTO.PostsDTO;
-import com.architecture.uptodate.DTO.UserDTO;
 import com.architecture.uptodate.Entity.Posts;
-import com.architecture.uptodate.Entity.User;
 import com.architecture.uptodate.Repository.PostsRepository;
 import com.architecture.uptodate.Service.PostsService;
 import com.architecture.uptodate.Service.PostsServiceImpl;
-import com.architecture.uptodate.Service.UserServiceImpl;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParser;
@@ -27,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+
 //Controller for uploading and deleting posts
 @Controller
 @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")

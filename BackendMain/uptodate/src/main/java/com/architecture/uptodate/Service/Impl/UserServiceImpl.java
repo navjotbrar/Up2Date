@@ -1,9 +1,12 @@
-package com.architecture.uptodate.Service;
+package com.architecture.uptodate.Service.Impl;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 import com.architecture.uptodate.DTO.UserDTO;
 import com.architecture.uptodate.Entity.User;
 import com.architecture.uptodate.Repository.UserRepository;
+import com.architecture.uptodate.Service.CommentService;
+import com.architecture.uptodate.Service.PostsServiceImpl;
+import com.architecture.uptodate.Service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,18 +37,6 @@ public class UserServiceImpl implements UserService {
             return convertToDTO(user);
         }
         return convertToDTO(new User());
-    }
-
-    @Override
-    public UserDTO findbyEmail (String email){
-        return new UserDTO();
-
-    }
-
-    @Override
-    public UserDTO updateProfile(UserDTO userDTO){
-        return new UserDTO();
-
     }
 
     @Override

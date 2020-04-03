@@ -4,6 +4,7 @@ import lombok.Setter;
 
 import java.util.Date;
 
+// The DTO for a comment transferred between main service and microservice
 @Getter @Setter
 public class CommentDTO {
 

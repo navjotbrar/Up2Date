@@ -2,6 +2,7 @@ package com.comment.microservice.service.Commands;
 
 import java.util.Date;
 
+// Command used for editing a comment command
 public class EditCommentCommand extends BaseCommand<Integer>{
     public String content;
 
